@@ -1,0 +1,25 @@
+# Programming languages
+language: cpp
+
+# OS env
+dist: trusty
+sudo: required
+
+# Compiler
+compiler: gcc
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc
+      - g++
+      - cmake
+
+script:
+  - export CC=gcc
+  - export CXX=g++
+  - cmake --version
+  - cmake CMaleLists.txt
+  - cmake --build . --target neat
