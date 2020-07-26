@@ -5,7 +5,7 @@ language: cpp
 dist: trusty
 
 # Compiler
-compiler: gcc`
+compiler: gcc
 
 os:
   - linux
