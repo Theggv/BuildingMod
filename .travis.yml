@@ -22,4 +22,4 @@ script:
   - export CXX=g++
   - cmake --version
   - cmake CMakeLists.txt
-  - cmake --build . --target neat
+  - cmake --build
