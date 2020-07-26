@@ -1,6 +1,8 @@
 .vs
+.vscode
 .git
 out
+build
 
 # Build results
 [Dd]ebug/

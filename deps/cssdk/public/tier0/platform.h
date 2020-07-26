@@ -103,7 +103,7 @@ typedef void * HINSTANCE;
 #endif
 
 // Used to step into the debugger
-#define  DebuggerBreak()  __asm { int 3 }
+#define  DebuggerBreak()  asm ( "int 3" )
 
 // C functions for external declarations that call the appropriate C++ methods
 #ifndef EXPORT

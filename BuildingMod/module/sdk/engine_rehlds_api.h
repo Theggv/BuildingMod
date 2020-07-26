@@ -3,6 +3,9 @@
 
 #pragma once
 
+class IRehldsApi;
+class IRehldsHookchains;
+
 extern IRehldsApi* g_RehldsApi;
 extern IRehldsHookchains* g_RehldsHookchains;
 extern bool RehldsApi_Init();
