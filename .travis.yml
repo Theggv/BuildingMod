@@ -3,10 +3,12 @@ language: cpp
 
 # OS env
 dist: trusty
-sudo: required
 
 # Compiler
 compiler: gcc`
+
+os:
+  - linux
 
 addons:
   apt:
@@ -35,7 +37,9 @@ before_deploy:
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
-  file: "build/building_amxx.so"
+  file:
+    - building_amxx.so 
   skip_cleanup: true
   on:
+    tags: true
     branch: master
