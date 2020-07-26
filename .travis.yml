@@ -6,7 +6,7 @@ dist: trusty
 sudo: required
 
 # Compiler
-compiler: gcc
+compiler: gcc`
 
 addons:
   apt:
@@ -16,6 +16,7 @@ addons:
       - gcc-5-multilib
       - g++-5-multilib
       - cmake
+      - linux-libc-dev:i386
 
 script:
   - export CC=gcc-5
