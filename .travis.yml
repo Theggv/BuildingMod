@@ -34,9 +34,9 @@ before_deploy:
 
 deploy:
   provider: releases
-  api_key:
-    - secure: "1b2227ce2d1ff2cd82e61a10d08bf49cac7d8235"
+  api_key: $GITHUB_TOKEN
   file: "build/building_amxx.so"
   skip_cleanup: true
   on:
     branch: master
+    tags: true
