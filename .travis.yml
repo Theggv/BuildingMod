@@ -22,4 +22,4 @@ script:
   - export CXX=g++
   - cmake --version
   - cmake CMakeLists.txt
-  - cmake --build
+  - cmake --build . --target building_amxx
