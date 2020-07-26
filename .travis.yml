@@ -31,7 +31,7 @@ deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
   file:
-    - building_amxx.so 
+    - build/BuildingMod/building_amxx.so 
   skip_cleanup: true
   on:
     tags: true
