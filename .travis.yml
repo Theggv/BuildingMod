@@ -26,6 +26,9 @@ script:
   - cmake --version
   - cmake CMakeLists.txt
   - cmake --build . --target building_amxx
+  - ls
+  - cd build
+  - ls
 
 deploy:
   provider: releases
