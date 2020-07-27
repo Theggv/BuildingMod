@@ -171,9 +171,6 @@ C_DLLEXPORT int AMXX_Detach()
 
 C_DLLEXPORT int AMXX_PluginsLoaded()
 {
-	int iFwd = g_amxxapi.RegisterForward("__reapi_version_check", ET_IGNORE, FP_CELL, FP_CELL, FP_DONE);
-	g_amxxapi.ExecuteForward(iFwd, 1.0, 1.0);
-
 	return AMXX_OK;
 }
 

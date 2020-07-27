@@ -34,6 +34,8 @@ struct amxx_module_info_s
 	const char *libclass;	// added in version 4
 };
 
+#define USE_METAMOD
+
 // return values from functions called by amxx
 #define AMXX_OK					0			/* no error */
 #define AMXX_IFVERS				1			/* interface version */

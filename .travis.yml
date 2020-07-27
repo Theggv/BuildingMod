@@ -19,6 +19,7 @@ addons:
       - g++-5-multilib
       - cmake
       - linux-libc-dev:i386
+      - zip
 
 script:
   - export CC=gcc-5
@@ -27,11 +28,16 @@ script:
   - cmake CMakeLists.txt
   - cmake --build . --target building_amxx
 
+before-deploy:
+  - mkdir dist/modules
+  - cp BuildingMod/building_amxx_i386.so dist/modules/building_amxx_i386.so
+  - zip -r -9 ${TRAVIS_BUILD_DIR}-${TRAVIS_TAG}.zip ./dist
+
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
   file:
-    - BuildingMod/building_amxx.so 
+    - ${TRAVIS_BUILD_DIR}-${TRAVIS_TAG}.zip
   skip_cleanup: true
   on:
     tags: true

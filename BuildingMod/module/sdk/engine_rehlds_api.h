@@ -3,13 +3,6 @@
 
 #pragma once
 
-class IRehldsApi;
-class IRehldsHookchains;
-
-extern IRehldsApi* g_RehldsApi;
-extern IRehldsHookchains* g_RehldsHookchains;
-extern bool RehldsApi_Init();
-
 typedef enum sv_delta_s {
 	sv_packet_nodelta,
 	sv_packet_delta
@@ -18,7 +11,13 @@ typedef enum sv_delta_s {
 typedef struct packet_entities_s {
 	int num_entities;
 	unsigned char flags[32];
-	entity_state_t *entities;
+	entity_state_t* entities;
 } packet_entities_t;
+
+#include <rehlds_api.h>
+
+extern IRehldsApi* g_RehldsApi;
+extern IRehldsHookchains* g_RehldsHookchains;
+extern bool RehldsApi_Init();
 
 #endif //_INCLUDE_REHLDS_API_H_
