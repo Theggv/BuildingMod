@@ -26,7 +26,12 @@ script:
   - cmake --version
   - cmake CMakeLists.txt
   - cmake --build . --target building_amxx
-  - cp build/BuilingMod/building_amxx_i386.so dist/modules/building_amxx_i386.so
+  - echo "[Debug info]"
+  - ls
+  - ls BuilingMod/
+  - ls dist/
+  - echo "[Debug info]"
+  - cp BuilingMod/building_amxx_i386.so dist/modules/building_amxx_i386.so
 
 deploy:
   provider: releases
