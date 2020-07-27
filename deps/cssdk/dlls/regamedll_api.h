@@ -38,6 +38,17 @@
 #define REGAMEDLL_API_VERSION_MAJOR 5
 #define REGAMEDLL_API_VERSION_MINOR 1
 
+typedef enum sv_delta_s {
+	sv_packet_nodelta,
+	sv_packet_delta
+} sv_delta_t;
+
+typedef struct packet_entities_s {
+	int num_entities;
+	unsigned char flags[32];
+	entity_state_t* entities;
+} packet_entities_t;
+
 // CBasePlayer::Spawn hook
 typedef IVoidHookChainClass<class CBasePlayer> IReGameHook_CBasePlayer_Spawn;
 typedef IVoidHookChainRegistryClass<class CBasePlayer> IReGameHookRegistry_CBasePlayer_Spawn;
