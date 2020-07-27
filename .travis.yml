@@ -28,9 +28,10 @@ script:
   - cmake --build . --target building_amxx
   - echo "[Debug info]"
   - ls
-  - ls BuilingMod/
+  - ls BuildingMod/
   - ls dist/
   - echo "[Debug info]"
+  - mkdir dist/modules
   - cp BuilingMod/building_amxx_i386.so dist/modules/building_amxx_i386.so
 
 deploy:
