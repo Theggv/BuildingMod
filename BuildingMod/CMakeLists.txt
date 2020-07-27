@@ -70,4 +70,5 @@ if(UNIX)
 
 	set_target_properties(${PROJECT} PROPERTIES PREFIX "" COMPILE_FLAGS "-m32" LINK_FLAGS "-m32" POSITION_INDEPENDENT_CODE ON)
 	target_link_libraries(${PROJECT} dl)
+
 endif()
