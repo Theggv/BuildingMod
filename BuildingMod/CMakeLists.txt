@@ -74,4 +74,6 @@ if(UNIX)
 		-D_access=access
 		-D_vsnwprintf=vswprintf
 	)
+
+	target_link_libraries(${PROJECT} dl)
 endif()
