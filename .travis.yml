@@ -26,11 +26,6 @@ script:
   - cmake --version
   - cmake CMakeLists.txt
   - cmake --build . --target building_amxx
-  - echo "[Debug info]"
-  - ls
-  - ls BuildingMod/
-  - ls dist/
-  - echo "[Debug info]"
   - mkdir dist/modules
   - cp BuildingMod/building_amxx_i386.so dist/modules/building_amxx_i386.so
 
@@ -38,7 +33,7 @@ deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
   file:
-    - ../dist
+    - dist
   skip_cleanup: true
   on:
     tags: true
