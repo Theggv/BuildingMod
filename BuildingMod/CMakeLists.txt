@@ -6,12 +6,6 @@ file (GLOB COMMON_SRC
 	"module/sdk/*.cpp"
 )
 
-file (GLOB COMMON_HEADERS
-	"*.h"
-	"module/*.h"
-	"module/sdk/*h"
-)
-
 set (SRC ${COMMON_SRC})
 
 set (SRC_DIRS

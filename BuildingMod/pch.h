@@ -30,9 +30,8 @@
 // cssdk
 #include <cssdk/common/entity_state.h>
 #include <cssdk/dlls/cbase.h>
-#include <cssdk/dlls/regamedll_api.h>
 #include <module/sdk/engine_rehlds_api.h>
-#include <cssdk/engine/rehlds_api.h>
+#include <cssdk/dlls/regamedll_api.h>
 #include <cssdk/pm_shared/pm_defs.h>
 #include <cssdk/public/interface.h>
 
