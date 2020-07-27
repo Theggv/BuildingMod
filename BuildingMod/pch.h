@@ -42,4 +42,8 @@
 // Entry point
 #include <module/main.h>
 
+// Natives
+#include <natives/natives_helper.h>
+#include <natives/natives_ping.h>
+
 #endif //PCH_H

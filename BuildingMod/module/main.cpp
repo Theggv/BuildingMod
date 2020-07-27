@@ -1,13 +1,15 @@
-#include "../pch.h"
+#include <pch.h>
 
 void OnAmxxAttach()
 {
-	SERVER_PRINT("[Building Mod] Module loaded.");
+	SEM_PRINT("[Building Mod] Module loaded.");
+
+	RegisterNatives_Ping();
 }
 
 bool OnMetaAttach()
 {
-	SERVER_PRINT("[Building Mod] Attached to metamod");
+	SEM_PRINT("[Building Mod] Attached to metamod");
 	return true;
 }
 

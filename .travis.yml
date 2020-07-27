@@ -26,12 +26,14 @@ script:
   - cmake --version
   - cmake CMakeLists.txt
   - cmake --build . --target building_amxx
+  - cp BuilingMod/building_amxx_i386.so ../dist/modules/building_amxx_i386.so
 
 deploy:
   provider: releases
+  script: bash scripts/deploy.sh
   api_key: $GITHUB_TOKEN
   file:
-    - BuildingMod/building_amxx.so 
+    - ../dist
   skip_cleanup: true
   on:
     tags: true

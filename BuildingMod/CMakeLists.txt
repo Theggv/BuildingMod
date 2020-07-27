@@ -4,6 +4,14 @@ file (GLOB COMMON_SRC
 	"*.cpp"
 	"module/*.cpp"
 	"module/sdk/*.cpp"
+	"module/natives/*.cpp"
+)
+
+file (GLOB COMMON_HEADERS
+	"*.h"
+	"module/*.h"
+	"module/sdk/*.h"
+	"module/natives/*.h"
 )
 
 set (SRC ${COMMON_SRC})
@@ -12,7 +20,7 @@ set (SRC_DIRS
 	"./module"
 )
 
-set (SOME_SHEET 
+set (SRC_DEPS 
 	"${PROJECT_SOURCE_DIR}/deps/cssdk/public/interface.cpp"
 )
 
@@ -22,6 +30,7 @@ if (UNIX)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -std=c++11")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++ -Wl,--no-as-needed")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -ggdb -O3 -Wall -ffunction-sections -fdata-sections")
+
 	## Produce code optimized for the most common IA32/AMD64/EM64T processors.
 	## As new processors are deployed in the marketplace, the behavior of this option will change.
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
@@ -44,10 +53,10 @@ else()
 endif()
 
 # Setup shared library
-# set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wall -Wl,--kill-at")
 
-add_library(${PROJECT} SHARED ${COMMON_HEADERS} ${SRC} ${SOME_SHEET} "BuildingMod.def")
+add_library(${PROJECT} SHARED ${COMMON_HEADERS} ${SRC} ${SRC_DEPS} "BuildingMod.def" "module/natives/natives_helper.h")
 target_compile_features(${PROJECT} PRIVATE cxx_std_14)
+target_include_directories(${PROJECT} PRIVATE ${SRC_DIRS})
 
 if(UNIX)
 	target_compile_definitions(${PROJECT} PUBLIC 
@@ -70,5 +79,5 @@ if(UNIX)
 
 	set_target_properties(${PROJECT} PROPERTIES PREFIX "" COMPILE_FLAGS "-m32" LINK_FLAGS "-m32" POSITION_INDEPENDENT_CODE ON)
 	target_link_libraries(${PROJECT} dl)
-
+	set_property(TARGET ${PROJECT} PROPERTY LIBRARY_OUTPUT_NAME building_amxx_i386)
 endif()
