@@ -48,7 +48,6 @@ endif()
 
 add_library(${PROJECT} SHARED ${COMMON_HEADERS} ${SRC} ${SOME_SHEET} "BuildingMod.def")
 target_compile_features(${PROJECT} PRIVATE cxx_std_14)
-set_target_properties(${PROJECT} PROPERTIES PREFIX "" COMPILE_FLAGS "-m32" LINK_FLAGS "-m32" POSITION_INDEPENDENT_CODE ON)
 
 if(UNIX)
 	target_compile_definitions(${PROJECT} PUBLIC 
@@ -69,5 +68,6 @@ if(UNIX)
 		-D_vsnwprintf=vswprintf
 	)
 
+	set_target_properties(${PROJECT} PROPERTIES PREFIX "" COMPILE_FLAGS "-m32" LINK_FLAGS "-m32" POSITION_INDEPENDENT_CODE ON)
 	target_link_libraries(${PROJECT} dl)
 endif()
