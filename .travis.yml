@@ -33,10 +33,10 @@ script:
   - ./vcpkg/vcpkg install boost-test boost-smart-ptr
   - ./vcpkg/vcpkg integrate install
   - cmake -DCMAKE_TOOLCHAIN_FILE=/home/travis/build/Theggv/BuildingMod/vcpkg/scripts/buildsystems/vcpkg.cmake CMakeLists.txt
-  - cmake --build . --target ../building_amxx
-  - cd BuildingMod
-  - ctest -j6 -C Debug -T test --output-on-failure
-  - cd ..
+  - cmake --build .
+  - ls
+  - ls BuildingMod
+  - ctest --output-on-failure
 
 before-deploy:
   - mkdir dist/modules
