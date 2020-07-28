@@ -35,3 +35,5 @@ private:
 	TransformObserver* m_Observer;
 	list<IObserver*> m_ListObservers;
 };
+
+typedef Transform transform_t;

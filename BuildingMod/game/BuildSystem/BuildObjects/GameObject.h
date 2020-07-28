@@ -14,5 +14,5 @@ public:
 	/// </summary>
 	const int Id;
 
-	const Transform* Transform;
+	const transform_t* Transform;
 };
