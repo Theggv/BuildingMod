@@ -12,6 +12,6 @@ set(test1_source main.cpp)
 
 add_executable(test1 ${SRC} ${test1_source})
 
-target_link_libraries(test1 ${Boost_LIBRARIES} building_amxx)
+target_link_libraries(test1 ${Boost_LIBRARIES} building_amxx_static)
 
 add_test(NAME test1 COMMAND test1)

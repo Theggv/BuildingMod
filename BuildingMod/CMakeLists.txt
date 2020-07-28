@@ -64,7 +64,7 @@ endif()
 
 # Setup shared library
 
-add_library(${PROJECT} STATIC ${COMMON_HEADERS} ${SRC} ${SRC_DEPS} "BuildingMod.def")
+add_library(${PROJECT} SHARED ${COMMON_HEADERS} ${SRC} ${SRC_DEPS} "BuildingMod.def")
 target_include_directories(${PROJECT} PUBLIC ${SRC_DIRS})
 
 if(UNIX)
@@ -89,4 +89,32 @@ if(UNIX)
 	set_target_properties(${PROJECT} PROPERTIES PREFIX "" COMPILE_FLAGS "-m32" LINK_FLAGS "-m32" POSITION_INDEPENDENT_CODE ON)
 	target_link_libraries(${PROJECT} dl)
 	set_property(TARGET ${PROJECT} PROPERTY LIBRARY_OUTPUT_NAME building_amxx_i386)
+endif()
+
+#Setup static library
+
+add_library(building_amxx_static STATIC ${COMMON_HEADERS} ${SRC} ${SRC_DEPS} "BuildingMod.def")
+target_include_directories(building_amxx_static PUBLIC ${SRC_DIRS})
+
+if(UNIX)
+	target_compile_definitions(building_amxx_static PUBLIC 
+		-DUNICODE_FIXES
+		-DUSE_QSTRING
+		-DGNUC
+		-DPOSIX
+		-D_LINUX
+		-DLINUX
+		-D_stricmp=strcasecmp
+		-D_strnicmp=strncasecmp
+		-D_strdup=strdup
+		-D_unlink=unlink
+		-D_vsnprintf=vsnprintf
+		-D_write=write
+		-D_close=close
+		-D_access=access
+		-D_vsnwprintf=vswprintf
+	)
+
+	set_target_properties(building_amxx_static PROPERTIES PREFIX "" COMPILE_FLAGS "-m32" LINK_FLAGS "-m32" POSITION_INDEPENDENT_CODE ON)
+	set_property(TARGET building_amxx_static PROPERTY LIBRARY_OUTPUT_NAME building_amxx_i386_static)
 endif()
