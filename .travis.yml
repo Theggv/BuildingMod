@@ -31,8 +31,8 @@ script:
   - ./vcpkg/vcpkg install boost-test boost-smart-ptr
   - ./vcpkg/vcpkg integrate install
   - cmake --version
-  - cmake CMakeLists.txt
-  - cmake --build . --target building_amxx . -DCMAKE_TOOLCHAIN_FILE=/home/travis/build/Theggv/BuildingMod/vcpkg/scripts/buildsystems/vcpkg.cmake
+  - cmake -DCMAKE_TOOLCHAIN_FILE=/home/travis/build/Theggv/BuildingMod/vcpkg/scripts/buildsystems/vcpkg.cmake CMakeLists.txt
+  - cmake --build . --target building_amxx
 
 before-deploy:
   - mkdir dist/modules
