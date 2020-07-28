@@ -41,6 +41,8 @@ add_definitions(
 
 find_package(Boost REQUIRED)
 
+message(Boost dirs: ${Boost_LIBRARY_DIRS})
+
 include_directories(
 	${CMAKE_INCLUDE_PATH}
 	${Boost_INCLUDE_DIRS}
