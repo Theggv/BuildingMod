@@ -39,7 +39,7 @@ if (UNIX)
 	
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -std=c++11")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++ -Wl,--no-as-needed")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -ggdb -O3 -Wall -ffunction-sections -fdata-sections")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -ggdb -O3 -ffunction-sections -fdata-sections")
 
 	## Produce code optimized for the most common IA32/AMD64/EM64T processors.
 	## As new processors are deployed in the marketplace, the behavior of this option will change.
