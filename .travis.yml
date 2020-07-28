@@ -32,8 +32,8 @@ script:
   - vcpkg/bootstrap-vcpkg.sh
   - ./vcpkg/vcpkg install boost-test boost-smart-ptr
   - ./vcpkg/vcpkg integrate install
-  - cmake -DCMAKE_TOOLCHAIN_FILE=/home/travis/build/Theggv/BuildingMod/vcpkg/scripts/buildsystems/vcpkg.cmake CMakeLists.txt
-  - cmake --build . -G "Ninja"
+  - cmake -DCMAKE_TOOLCHAIN_FILE=/home/travis/build/Theggv/BuildingMod/vcpkg/scripts/buildsystems/vcpkg.cmake -G "Ninja" CMakeLists.txt
+  - cmake --build .
   - ctest -C Debug --output-on-failure
 
 before-deploy:
