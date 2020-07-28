@@ -8,10 +8,16 @@ else()
 	include_directories(${Boost_INCLUDE_DIRS})
 endif()
 
-set(test1_source main.cpp)
+file(GLOB TESTS_SOURCE "*.cpp")
 
-add_executable(test1 ${SRC} ${test1_source})
+message("Tests source: ${TESTS_SOURCE}")
 
-target_link_libraries(test1 ${Boost_LIBRARIES} building_amxx_static)
+foreach(test ${TESTS_SOURCE})
+	get_filename_component(test_name ${test} NAME_WE)
+	message("Current test: ${test_name}")
 
-add_test(NAME test1 COMMAND test1)
+	add_executable(${test_name} ${test})
+	target_link_libraries(${test_name} ${Boost_LIBRARIES} building_amxx_static)
+	add_test(NAME ${test_name} COMMAND ${test_name})
+endforeach()
+

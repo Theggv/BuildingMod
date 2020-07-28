@@ -6,11 +6,13 @@
 class GameObject
 {
 public:
+	GameObject();
+	~GameObject();
 
 	/// <summary>
 	/// Unique id of object
 	/// </summary>
 	const int Id;
 
-	const Transform Transform;
+	const Transform* Transform;
 };
