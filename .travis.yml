@@ -25,6 +25,7 @@ addons:
 script:
   - export CC=gcc-5
   - export CXX=g++-5
+  - vcpkg integrate install
   - cmake --version
   - cmake CMakeLists.txt
   - cmake --build . --target building_amxx
