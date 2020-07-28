@@ -20,6 +20,7 @@ addons:
       - cmake
       - linux-libc-dev:i386
       - zip
+      - vcpkg
 
 script:
   - export CC=gcc-5
