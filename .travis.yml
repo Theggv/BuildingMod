@@ -15,7 +15,6 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - gcc-7
       - g++-7
       - g++-7-multilib
       - cmake
@@ -24,11 +23,11 @@ addons:
       - git
 
 script:
+  - export CC=gcc-7
+  - export CXX=g++-7
   - git clone https://github.com/microsoft/vcpkg.git
   - vcpkg/bootstrap-vcpkg.sh
   - vcpkg integrate install
-  - export CC=gcc-7
-  - export CXX=g++-7
   - cmake --version
   - cmake CMakeLists.txt
   - cmake --build . --target building_amxx
