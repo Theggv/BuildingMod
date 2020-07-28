@@ -20,12 +20,14 @@ addons:
       - cmake
       - linux-libc-dev:i386
       - zip
-      - vcpkg
+      - git
 
 script:
+  - git clone https://github.com/microsoft/vcpkg.git
+  - bootstrap-vcpkg.sh
+  - vcpkg integrate install
   - export CC=gcc-5
   - export CXX=g++-5
-  - vcpkg integrate install
   - cmake --version
   - cmake CMakeLists.txt
   - cmake --build . --target building_amxx
