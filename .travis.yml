@@ -15,6 +15,8 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
+      - gcc-7-multilib
+      - g++-7-multilib
       - build-essential
       - tar 
       - curl
