@@ -24,6 +24,7 @@ addons:
       - unzip
       - linux-libc-dev:i386
       - git
+      - ninja-build
 
 script:
   - export CC=gcc-7
