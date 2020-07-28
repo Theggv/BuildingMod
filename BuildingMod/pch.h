@@ -44,8 +44,8 @@
 #include <module/main.h>
 
 // Natives
-#include <natives/natives_helper.h>
-#include <natives/natives_ping.h>
+#include <module/natives/natives_helper.h>
+#include <module/natives/natives_ping.h>
 
 // Utility
 #include <game/Utility/IObserver.h>

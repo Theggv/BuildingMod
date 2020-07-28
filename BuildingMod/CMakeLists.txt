@@ -1,4 +1,3 @@
-
 # Get all cpp files in current directory
 file (GLOB COMMON_SRC
 	"*.cpp"
@@ -65,9 +64,8 @@ endif()
 
 # Setup shared library
 
-add_library(${PROJECT} SHARED ${COMMON_HEADERS} ${SRC} ${SRC_DEPS} "BuildingMod.def" "module/natives/natives_helper.h")
-target_compile_features(${PROJECT} PRIVATE cxx_std_14)
-target_include_directories(${PROJECT} PRIVATE ${SRC_DIRS})
+add_library(${PROJECT} STATIC ${COMMON_HEADERS} ${SRC} ${SRC_DEPS} "BuildingMod.def")
+target_include_directories(${PROJECT} PUBLIC ${SRC_DIRS})
 
 if(UNIX)
 	target_compile_definitions(${PROJECT} PUBLIC 
@@ -92,7 +90,3 @@ if(UNIX)
 	target_link_libraries(${PROJECT} dl)
 	set_property(TARGET ${PROJECT} PROPERTY LIBRARY_OUTPUT_NAME building_amxx_i386)
 endif()
-
-#################################
-# Tests							#
-#################################
