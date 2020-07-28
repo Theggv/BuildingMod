@@ -48,7 +48,7 @@ if (UNIX)
 		-Wno-write-strings -Wno-invalid-offsetof\
 		-Wno-unused-variable -Wno-unused-function\
 		-Wno-unused-result -Wno-invalid-offsetof\
-		-fpermissive -Wno-switch -Wno-enum-compare\
+		-Wno-switch -Wno-enum-compare\
 		-Wno-unknown-pragmas -Wno-unused-value")
 	
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
