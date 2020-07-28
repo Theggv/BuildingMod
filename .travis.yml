@@ -5,7 +5,7 @@ language: cpp
 dist: trusty
 
 # Compiler
-compiler: g++-8
+compiler: gcc
 
 os:
   - linux
@@ -15,16 +15,15 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - gcc-8-multilib
-      - g++-8-multilib
+      - gcc-toolset-7
       - cmake
       - linux-libc-dev:i386
       - zip
       - git
 
 script:
-  - export CC=gcc-8
-  - export CXX=g++-8
+  - export CC=gcc-7
+  - export CXX=g++-7
   - git clone https://github.com/microsoft/vcpkg.git
   - vcpkg/bootstrap-vcpkg.sh
   - vcpkg integrate install
