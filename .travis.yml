@@ -35,6 +35,7 @@ script:
   - cmake --version
   - cmake -DCMAKE_TOOLCHAIN_FILE=/home/travis/build/Theggv/BuildingMod/vcpkg/scripts/buildsystems/vcpkg.cmake CMakeLists.txt
   - cmake --build . --target building_amxx
+  - ctest
 
 before-deploy:
   - mkdir dist/modules
