@@ -39,24 +39,24 @@ if (UNIX)
 	
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -std=c++11")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++ -Wl,--no-as-needed")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -ggdb -O3 -ffunction-sections -fdata-sections")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -ggdb -O3 -Wall -ffunction-sections -fdata-sections")
 
 	## Produce code optimized for the most common IA32/AMD64/EM64T processors.
 	## As new processors are deployed in the marketplace, the behavior of this option will change.
-	# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
-	#	-mtune=generic -msse3\
-	#	-Wno-write-strings -Wno-invalid-offsetof\
-	#	-Wno-unused-variable -Wno-unused-function\
-	#	-Wno-unused-result -Wno-invalid-offsetof\
-	#	-fpermissive -Wno-switch -Wno-enum-compare\
-	#	-Wno-unknown-pragmas -Wno-unused-value")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
+		-mtune=generic -msse3\
+		-Wno-write-strings -Wno-invalid-offsetof\
+		-Wno-unused-variable -Wno-unused-function\
+		-Wno-unused-result -Wno-invalid-offsetof\
+		-fpermissive -Wno-switch -Wno-enum-compare\
+		-Wno-unknown-pragmas -Wno-unused-value")
 	
-	# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
-	#	-Wno-unused-local-typedefs\
-	#	-Wno-sign-compare\
-	#	-Wno-strict-aliasing\
-	#	-Wno-unused-but-set-variable\
-	#	-fno-devirtualize")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
+		-Wno-unused-local-typedefs\
+		-Wno-sign-compare\
+		-Wno-strict-aliasing\
+		-Wno-unused-but-set-variable\
+		-fno-devirtualize")
 
 else()
 	message("Platform: Windows")
