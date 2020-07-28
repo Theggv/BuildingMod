@@ -5,7 +5,7 @@ language: cpp
 dist: trusty
 
 # Compiler
-compiler: gcc
+compiler: g++-7
 
 os:
   - linux
@@ -15,7 +15,7 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - gcc
+      - gcc-7
       - g++-7
       - g++-7-multilib
       - cmake
@@ -27,7 +27,7 @@ script:
   - git clone https://github.com/microsoft/vcpkg.git
   - vcpkg/bootstrap-vcpkg.sh
   - vcpkg integrate install
-  - export CC=gcc
+  - export CC=gcc-7
   - export CXX=g++-7
   - cmake --version
   - cmake CMakeLists.txt
