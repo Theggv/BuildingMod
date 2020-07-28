@@ -5,6 +5,11 @@ file (GLOB COMMON_SRC
 	"module/*.cpp"
 	"module/sdk/*.cpp"
 	"module/natives/*.cpp"
+
+	"game/*.cpp"
+	"game/BuildSystem/*.cpp"
+	"game/BuildSystem/BuildObjects/*.cpp"
+	"game/Utility/*.cpp"
 )
 
 file (GLOB COMMON_HEADERS
@@ -12,12 +17,18 @@ file (GLOB COMMON_HEADERS
 	"module/*.h"
 	"module/sdk/*.h"
 	"module/natives/*.h"
+
+	"game/*.h"
+	"game/BuildSystem/*.h"
+	"game/BuildSystem/BuildObjects/*.h"
+	"game/Utility/*.h"
 )
 
 set (SRC ${COMMON_SRC})
 
 set (SRC_DIRS
 	"./module"
+	"./game"
 )
 
 set (SRC_DEPS 
@@ -81,3 +92,7 @@ if(UNIX)
 	target_link_libraries(${PROJECT} dl)
 	set_property(TARGET ${PROJECT} PROPERTY LIBRARY_OUTPUT_NAME building_amxx_i386)
 endif()
+
+#################################
+# Tests							#
+#################################

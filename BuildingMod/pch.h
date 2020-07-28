@@ -17,6 +17,7 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <list>
 
 // boost
 #include <boost/shared_ptr.hpp>
@@ -45,5 +46,18 @@
 // Natives
 #include <natives/natives_helper.h>
 #include <natives/natives_ping.h>
+
+// Utility
+#include <game/Utility/IObserver.h>
+#include <game/Utility/IObservable.h>
+#include <game/Utility/ObservableVector.h>
+
+// Components
+#include <game/BuildSystem/BuildObjects/Components/Transform.h>
+#include <game/BuildSystem/BuildObjects/Components/IComponent.h>
+
+// game
+#include <game/BuildSystem/BuildObjects/GameObject.h>
+#include <game/BuildSystem/ObjectManager.h>
 
 #endif //PCH_H

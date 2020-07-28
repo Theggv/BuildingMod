@@ -2,14 +2,11 @@
 
 void OnAmxxAttach()
 {
-	SEM_PRINT("[Building Mod] Module loaded.");
-
 	RegisterNatives_Ping();
 }
 
 bool OnMetaAttach()
 {
-	SEM_PRINT("[Building Mod] Attached to metamod");
 	return true;
 }
 
