@@ -2,7 +2,7 @@
 language: cpp
 
 # OS env
-dist: trusty
+dist: bionic
 
 # Compiler
 compiler: gcc
