@@ -34,9 +34,7 @@ script:
   - ./vcpkg/vcpkg integrate install
   - cmake -DCMAKE_TOOLCHAIN_FILE=/home/travis/build/Theggv/BuildingMod/vcpkg/scripts/buildsystems/vcpkg.cmake CMakeLists.txt
   - cmake --build .
-  - ls
-  - ls BuildingMod
-  - ctest --output-on-failure
+  - ctest -C Debug --output-on-failure
 
 before-deploy:
   - mkdir dist/modules
