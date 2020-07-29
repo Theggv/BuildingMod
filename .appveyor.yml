@@ -1,0 +1,38 @@
+image: Visual Studio 2019
+
+init:
+    - git config --global core.autocrlf input
+
+platform:
+    - x86
+
+configuration:
+    - Debug
+
+matrix:
+    fast_finish: false
+
+# install:
+    #- cd C:\Tools\vcpkg
+    #- git pull
+    #- .\bootstrap-vcpkg.bat
+    #- vcpkg list
+    #- vcpkg install boost
+    #- vcpkg integrate install
+
+build_script:
+    - cd %APPVEYOR_BUILD_FOLDER%
+    - cmake -DUSE_CUSTOM_BOOST_PATH:BOOL=ON -DCUSTOM_BOOST_PATH=C:\Libraries\boost_1_73_0 -G "Visual Studio 16 2019" -T host=x86 -A win32 CMakeLists.txt
+    - cmake --build .
+
+test_script:
+    - ctest -C %CONFIGURATION% --output-on-failure
+
+deploy:
+    provider: GitHub
+    description: '$(APPVEYOR_REPO_TAG_NAME)'
+    auth_token:
+        secure: <secret-github-token
+    force_update: true
+    on:
+        appveyor_repo_tag: true

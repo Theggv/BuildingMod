@@ -8,6 +8,8 @@ file (GLOB COMMON_SRC
 	"game/*.cpp"
 	"game/BuildSystem/*.cpp"
 	"game/BuildSystem/BuildObjects/*.cpp"
+	"game/BuildSystem/BuildObjects/Components/*.cpp"
+	"game/BuildSystem/BuildObjects/Foundation/*.cpp"
 	"game/Utility/*.cpp"
 )
 
@@ -20,6 +22,8 @@ file (GLOB COMMON_HEADERS
 	"game/*.h"
 	"game/BuildSystem/*.h"
 	"game/BuildSystem/BuildObjects/*.h"
+	"game/BuildSystem/BuildObjects/Components/*.h"
+	"game/BuildSystem/BuildObjects/Foundation/*.h"
 	"game/Utility/*.h"
 )
 

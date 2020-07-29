@@ -1,19 +1,25 @@
 #include "Transform.h"
 
-Transform::Transform(): Rotation(), Position()
+Transform::Transform()
 {
 	m_Observer = new TransformObserver(this);
 
-	Position.Attach(m_Observer);
-	Rotation.Attach(m_Observer);
+	m_Position = new ObservableVector;
+	m_Rotation = new ObservableVector;
+
+	m_Position->Attach(m_Observer);
+	m_Rotation->Attach(m_Observer);
 }
 
 Transform::~Transform()
 {
-	Position.Detach(m_Observer);
-	Rotation.Detach(m_Observer);
+	m_Position->Detach(m_Observer);
+	m_Rotation->Detach(m_Observer);
 
 	delete m_Observer;
+
+	delete m_Position;
+	delete m_Rotation;
 }
 
 void Transform::Attach(IObserver* observer)
@@ -30,16 +36,22 @@ void Transform::Notify()
 {
 	auto it = m_ListObservers.begin();
 
-	while (it !+ m_ListObservers.end())
+	while (it != m_ListObservers.end())
 	{
 		(*it)->Update();
 		++it;
 	}
 }
 
-Transform::TransformObserver::TransformObserver(Transform* transform) : m_Transform(transform) {}
+Transform::TransformObserver::TransformObserver(Transform* transform)
+{
+	m_Transform = transform;
+}
 
-Transform::TransformObserver::~TransformObserver() {}
+Transform::TransformObserver::~TransformObserver()
+{
+	
+}
 
 void Transform::TransformObserver::Update()
 {

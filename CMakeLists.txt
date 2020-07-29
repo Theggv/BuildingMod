@@ -39,13 +39,23 @@ add_definitions(
 	-D_MBCS
 )
 
-# find_package(Boost REQUIRED)
+if(WIN32 AND NOT USE_CUSTOM_BOOST_PATH)
+	find_package(Boost REQUIRED)
+	include_directories(${Boost_INCLUDE_DIRS})
+elseif(USE_CUSTOM_BOOST_PATH)
+	include_directories(${CUSTOM_BOOST_PATH})
+endif()
 
 # message(Boost dirs: ${Boost_LIBRARY_DIRS})
 
+find_path(boost_dir boost/shared_ptr.hpp)
+set(${CMAKE_INCLUDE_PATH}
+	${CMAKE_INCLUDE_PATH}
+	$boost_dir
+)
+
 include_directories(
 	${CMAKE_INCLUDE_PATH}
-	# ${Boost_INCLUDE_DIRS}
 )
 
 include(CTest)
