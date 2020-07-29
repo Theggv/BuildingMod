@@ -5,11 +5,9 @@ init:
 
 platform:
     - x86
-    - x64
 
 configuration:
     - Debug
-    - Release
 
 matrix:
     fast_finish: false
@@ -24,7 +22,7 @@ matrix:
 
 build_script:
     - cd %APPVEYOR_BUILD_FOLDER%
-    - cmake -DUSE_CUSTOM_BOOST_PATH:BOOL=ON -DCUSTOM_BOOST_PATH=C:\Libraries\boost_1_73_0\boost -G "Visual Studio 16 2019" -T host=x86 -A win32 CMakeLists.txt
+    - cmake -DUSE_CUSTOM_BOOST_PATH:BOOL=ON -DCUSTOM_BOOST_PATH=C:\Libraries\boost_1_73_0 -G "Visual Studio 16 2019" -T host=x86 -A win32 CMakeLists.txt
     - cmake --build .
 
 test_script:
