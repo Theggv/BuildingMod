@@ -1,14 +1,9 @@
 project(tests)
 
-# find_package (Boost COMPONENTS unit_test_framework REQUIRED)
-
-# string(APPEND Boost_ARCHITECTURE "-x86")
-
-#if(NOT ${Boost_FOUND})
-#	message("Boost was not found" FATAL_ERROR)
-#else()
-#	include_directories(${Boost_INCLUDE_DIRS})
-#endif()
+if(WIN32)
+	find_package (Boost COMPONENTS unit_test_framework REQUIRED)
+	include_directories(${Boost_INCLUDE_DIRS})
+endif()
 
 file(GLOB TESTS_SOURCE "*.cpp")
 

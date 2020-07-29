@@ -24,18 +24,4 @@ public:
 
 protected:
 	GameObject* m_parent;
-	
-	class ComponentObserver: public IObserver
-	{
-	public:
-		ComponentObserver(IComponent*);
-		~ComponentObserver();
-
-		virtual void Update() override;
-
-	private:
-		IComponent* m_IComponent;
-	};
-
-	ComponentObserver* m_ComponentObserver;
 };

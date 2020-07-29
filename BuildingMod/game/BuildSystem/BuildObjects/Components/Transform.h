@@ -1,6 +1,7 @@
 #pragma once
 
 #include <pch.h>
+#include <utility/IObservable.h>
 
 using namespace std;
 
@@ -12,9 +13,9 @@ public:
 	Transform();
 	~Transform();
 
-	virtual void Attach(IObserver* observer);
-	virtual void Detach(IObserver* observer);
-	virtual void Notify();
+	virtual void Attach(IObserver* observer) override;
+	virtual void Detach(IObserver* observer) override;
+	virtual void Notify() override;
 
 	ObservableVector* Position;
 	// Uses only y axis
@@ -32,8 +33,6 @@ private:
 		Transform* m_Transform;
 	};
 
-	TransformObserver* m_Observer;
+	IObserver* m_Observer;
 	list<IObserver*> m_ListObservers;
 };
-
-typedef Transform transform_t;

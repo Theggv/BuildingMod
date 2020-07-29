@@ -39,7 +39,10 @@ void Transform::Notify()
 
 Transform::TransformObserver::TransformObserver(Transform* transform) : m_Transform(transform) {}
 
-Transform::TransformObserver::~TransformObserver() {}
+Transform::TransformObserver::~TransformObserver()
+{
+	m_ListObservers.clear();
+}
 
 void Transform::TransformObserver::Update()
 {

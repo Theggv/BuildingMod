@@ -39,13 +39,15 @@ add_definitions(
 	-D_MBCS
 )
 
-# find_package(Boost REQUIRED)
+if(WIN32)
+	find_package(Boost REQUIRED)
+	include_directories(${Boost_INCLUDE_DIRS})
+endif()
 
 # message(Boost dirs: ${Boost_LIBRARY_DIRS})
 
 include_directories(
 	${CMAKE_INCLUDE_PATH}
-	# ${Boost_INCLUDE_DIRS}
 )
 
 include(CTest)

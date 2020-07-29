@@ -1,17 +1,14 @@
+#include "..\GameObject.h"
 #include "IComponent.h"
 
 IComponent::IComponent()
 {
-	m_ComponentObserver = new ComponentObserver(this);
+
 }
 
 IComponent::~IComponent()
 {
-	// Detach observer from previous parent if it exists
-	if (m_parent)
-		m_parent->Transform.Detach(m_ComponentObserver);
 
-	delete m_ComponentObserver;
 }
 
 void IComponent::Start()
@@ -49,13 +46,4 @@ void IComponent::SetParent(GameObject* parent)
 GameObject* IComponent::GetParent()
 {
 	return m_parent;
-}
-
-IComponent::ComponentObserver::ComponentObserver(IComponent* component) : m_IComponent(component) {}
-
-IComponent::ComponentObserver::~ComponentObserver() {}
-
-void IComponent::ComponentObserver::Update()
-{
-	m_IComponent->UpdateTransform();
 }
