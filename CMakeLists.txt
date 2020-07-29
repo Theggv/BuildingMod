@@ -11,6 +11,8 @@ cmake_minimum_required (VERSION 3.8)
 project (building_amxx VERSION 1.0.0 LANGUAGES CXX)
 set(PROJECT building_amxx)
 
+set(CMAKE_CXX_STANDARD 17)
+
 # Include default stuff
 include(GNUInstallDirs)
 
@@ -37,13 +39,13 @@ add_definitions(
 	-D_MBCS
 )
 
-find_package(Boost REQUIRED)
+# find_package(Boost REQUIRED)
 
-message(Boost dirs: ${Boost_LIBRARY_DIRS})
+# message(Boost dirs: ${Boost_LIBRARY_DIRS})
 
 include_directories(
 	${CMAKE_INCLUDE_PATH}
-	${Boost_INCLUDE_DIRS}
+	# ${Boost_INCLUDE_DIRS}
 )
 
 include(CTest)

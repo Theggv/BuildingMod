@@ -29,11 +29,7 @@ addons:
 script:
   - export CC=gcc-7
   - export CXX=g++-7
-  - git clone https://github.com/microsoft/vcpkg.git
-  - vcpkg/bootstrap-vcpkg.sh
-  - ./vcpkg/vcpkg install boost-test boost-smart-ptr
-  - ./vcpkg/vcpkg integrate install
-  - cmake -DCMAKE_TOOLCHAIN_FILE=/home/travis/build/Theggv/BuildingMod/vcpkg/scripts/buildsystems/vcpkg.cmake -G "Ninja" CMakeLists.txt
+  - cmake -G "Ninja" CMakeLists.txt
   - cmake --build .
   - ctest -C Debug --output-on-failure
 
