@@ -36,8 +36,6 @@ artifacts:
     - path: building_amxx-win-x86.zip
       name: building_amxx
 
-    - type: zip
-
 deploy:
     provider: GitHub
     description: '$(APPVEYOR_REPO_TAG_NAME)'
