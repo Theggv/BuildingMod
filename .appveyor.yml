@@ -29,8 +29,8 @@ test_script:
     - ctest -C %CONFIGURATION% --output-on-failure
 
 after_build:
-    - cp --help
-    - cp BuildingMod\%CONFIGURATION%\building_amxx.dll dist\modules\building_amxx.dll
+    - mkdir dist/modules
+    - cp BuildingMod/%CONFIGURATION%/building_amxx.dll dist/modules/building_amxx.dll
     - 7z a building_amxx-win-x86.zip dist
 
 artifacts:
