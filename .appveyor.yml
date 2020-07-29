@@ -28,11 +28,21 @@ build_script:
 test_script:
     - ctest -C %CONFIGURATION% --output-on-failure
 
+after_build:
+    - cp %CONFIGURATION%/building_amxx.dll dist/modules/building_amxx.dll
+    - 7z a building_amxx-win-x86.zip dist
+
+artifacts:
+    - path: building_amxx-win-x86.zip
+      name: building_amxx
+
+    - type: zip
+
 deploy:
     provider: GitHub
     description: '$(APPVEYOR_REPO_TAG_NAME)'
     auth_token:
-        secure: <secret-github-token
+        secure: <secret-github-token>
     force_update: true
     on:
         appveyor_repo_tag: true
