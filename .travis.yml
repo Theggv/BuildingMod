@@ -24,12 +24,11 @@ addons:
       - unzip
       - linux-libc-dev:i386
       - git
-      - ninja-build
 
 script:
   - export CC=gcc-7
   - export CXX=g++-7
-  - cmake -G "Ninja" CMakeLists.txt
+  - cmake CMakeLists.txt
   - cmake --build .
   - ctest -C Debug --output-on-failure
 

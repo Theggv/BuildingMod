@@ -1,7 +1,7 @@
 #define BOOST_TEST_MODULE GameObject
-#include <boost/test/included/unit_test.hpp>
 
 #include <pch.h>
+#include <boost/test/included/unit_test.hpp>
 
 BOOST_AUTO_TEST_CASE(GameObjectDestructTest)
 {

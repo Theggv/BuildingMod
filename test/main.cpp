@@ -1,7 +1,7 @@
 #define BOOST_TEST_MODULE ObservableVector
-#include <boost/test/included/unit_test.hpp>
 
 #include <pch.h>
+#include <boost/test/included/unit_test.hpp>
 
 class Observer : public IObserver
 {
