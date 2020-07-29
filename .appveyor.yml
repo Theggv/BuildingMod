@@ -1,15 +1,19 @@
 os: Visual Studio 19
 
 install:
-	- cd C:\Tools\vcpkg
-	- git pull
-	- .\bootstrap-vcpkg.bat
-	- vcpkg install boost-smart-ptr
-	- vcpkg install boost-test
-	- vcpkg integrate install
-	- cd %APPVEYOR_BUILD_FOLDER%
-	- cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake CMakeLists.txt
-	- cmake --build .
-	- ctest -C Debug --output-on-failure
+    # install vcpkg
+    - cd C:\Tools\vcpkg
+    - git pull
+    - .\bootstrap-vcpkg.bat
+    # install packages
+    - vcpkg install boost-smart-ptr
+    - vcpkg install boost-test
+    - vcpkg integrate install
+    # run cmake
+    - cd %APPVEYOR_BUILD_FOLDER%
+    - cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake CMakeLists.txt
+    - cmake --build .
+    # run tests
+    - ctest -C Debug --output-on-failure
 
 cache: c:\tools\vcpkg\installed\
