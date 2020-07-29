@@ -1,9 +1,9 @@
 project(tests)
 
-if(WIN32 AND NOT ${CUSTOM_BOOST_PATH})
+if(WIN32 AND NOT ${USE_CUSTOM_BOOST_PATH})
 	find_package (Boost COMPONENTS unit_test_framework REQUIRED)
 	include_directories(${Boost_INCLUDE_DIRS})
-elseif(${CUSTOM_BOOST_PATH})
+elseif(${USE_CUSTOM_BOOST_PATH})
 	include_directories(${CUSTOM_BOOST_PATH})
 endif()
 
