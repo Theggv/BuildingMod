@@ -9,6 +9,9 @@ platform:
 configuration:
     - Debug
 
+cache:
+    - c:\tools\vcpkg\installed\ -> restore.ps1, build.ps1
+
 install:
     - cd C:\Tools\vcpkg
     - git pull
@@ -16,9 +19,6 @@ install:
     - vcpkg list
     - vcpkg install boost
     - vcpkg integrate install
-
-cache:
-    - c:\tools\vcpkg\installed\
 
 build_script:
     - cd %APPVEYOR_BUILD_FOLDER%
