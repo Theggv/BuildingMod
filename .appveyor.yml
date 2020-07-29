@@ -13,8 +13,7 @@ install:
     - cd C:\Tools\vcpkg
     - git pull
     - .\bootstrap-vcpkg.bat
-    - vcpkg install boost-smart-ptr
-    - vcpkg install boost-test
+    - vcpkg install boost
     - vcpkg integrate install
 
 cache:
