@@ -42,6 +42,8 @@ add_definitions(
 if(WIN32 AND NOT ${CUSTOM_BOOST_PATH})
 	find_package(Boost REQUIRED)
 	include_directories(${Boost_INCLUDE_DIRS})
+elseif(${CUSTOM_BOOST_PATH})
+	include_directories(${CUSTOM_BOOST_PATH})
 endif()
 
 # message(Boost dirs: ${Boost_LIBRARY_DIRS})
