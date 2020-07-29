@@ -17,23 +17,15 @@ addons:
     packages:
       - gcc-7-multilib
       - g++-7-multilib
-      - build-essential
-      - tar 
-      - curl
       - zip 
-      - unzip
       - linux-libc-dev:i386
-      - git
+      - cmake-data
+      - cmake
 
 script:
-  - export CC=gcc-7
-  - export CXX=g++-7
-  - mkdir build
-  - cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -B./build -H.
-  - cmake --build ./build
-  - cd ./build
+  - cmake CMakeLists.txt
+  - cmake --build .
   - ctest -C Debug --output-on-failure
-  - cd ..
 
 before-deploy:
   - mkdir dist/modules
