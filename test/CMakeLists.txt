@@ -12,14 +12,11 @@ project(tests)
 
 file(GLOB TESTS_SOURCE "*.cpp")
 
-message("Tests source: ${TESTS_SOURCE}")
-
 foreach(test ${TESTS_SOURCE})
 	get_filename_component(test_name ${test} NAME_WE)
 
 	add_executable(${test_name} ${test})
 	set_target_properties(${test_name} PROPERTIES PREFIX "" COMPILE_FLAGS "-m32" LINK_FLAGS "-m32" POSITION_INDEPENDENT_CODE ON)
-	target_compile_definitions(${test_name} PUBLIC -DBOOST_TEST_NO_LIB)
 	target_link_libraries(${test_name} building_amxx_static)
 
 	add_test(NAME ${test_name} COMMAND ${test_name})
