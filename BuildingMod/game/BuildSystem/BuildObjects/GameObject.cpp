@@ -2,11 +2,12 @@
 
 static int m_IdGenerator;
 
-GameObject::GameObject(): Id(m_IdGenerator), m_Transform()
+GameObject::GameObject(): Id(m_IdGenerator)
 {
 	m_IdGenerator++;
 
 	m_Components = set<IComponent*>();
+	m_Transform = new Transform();
 	m_TransformObserver = new GameObjectObserver(this);
 }
 
@@ -14,8 +15,8 @@ GameObject::~GameObject()
 {
 	m_Components.clear();
 
-	delete this->m_Transform;
 	delete this->m_TransformObserver;
+	delete this->m_Transform;
 }
 
 void GameObject::Start()
@@ -67,7 +68,8 @@ GameObject::GameObjectObserver::GameObjectObserver(GameObject* object) : m_GameO
 
 GameObject::GameObjectObserver::~GameObjectObserver()
 {
-	m_GameObject->GetTransform()->Detach(this);
+	if (m_GameObject->GetTransform() != nullptr)
+		m_GameObject->GetTransform()->Detach(this);
 }
 
 void GameObject::GameObjectObserver::Update()

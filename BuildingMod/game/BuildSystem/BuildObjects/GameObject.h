@@ -1,10 +1,13 @@
 #pragma once
 
 #include <pch.h>
-#include "Components/IComponent.h"
-#include "Components/Transform.h"
+#include <BuildSystem/BuildObjects/Components/IComponent.h>
+#include <BuildSystem/BuildObjects/Components/Transform.h>
 
 using namespace std;
+
+class IComponent;
+class Transform;
 
 class GameObject
 {
@@ -36,8 +39,6 @@ protected:
 	set<IComponent*> m_Components;
 
 private:
-	Transform* m_Transform;
-
 	class GameObjectObserver : public IObserver
 	{
 	public:
@@ -50,5 +51,6 @@ private:
 		GameObject* m_GameObject;
 	};
 
+	Transform* m_Transform;
 	IObserver* m_TransformObserver;
 };

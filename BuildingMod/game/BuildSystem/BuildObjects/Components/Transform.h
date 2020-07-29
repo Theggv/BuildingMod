@@ -17,21 +17,25 @@ public:
 	virtual void Detach(IObserver* observer) override;
 	virtual void Notify() override;
 
-	ObservableVector* Position;
+	ObservableVector* GetPosition();
+	
 	// Uses only y axis
-	ObservableVector* Rotation;
+	ObservableVector* GetRotation();
 
 private:
 	class TransformObserver : public IObserver
 	{
 	public:
-		TransformObserver(Transform*);
+		TransformObserver(Transform* transform);
 		~TransformObserver();
 
 		void Update() override;
 	private:
 		Transform* m_Transform;
 	};
+
+	ObservableVector* m_Position;
+	ObservableVector* m_Rotation;
 
 	IObserver* m_Observer;
 	list<IObserver*> m_ListObservers;
