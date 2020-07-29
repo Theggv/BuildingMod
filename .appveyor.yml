@@ -10,19 +10,19 @@ configuration:
     - Debug
 
 cache:
-    - c:\tools\vcpkg\installed\ -> restore.ps1, build.ps1
+    - c:\tools\vcpkg\installed\ -> appveyor.yml
 
 install:
-    - cd C:\Tools\vcpkg
-    - git pull
-    - .\bootstrap-vcpkg.bat
-    - vcpkg list
-    - vcpkg install boost
-    - vcpkg integrate install
+    #- cd C:\Tools\vcpkg
+    #- git pull
+    #- .\bootstrap-vcpkg.bat
+    #- vcpkg list
+    #- vcpkg install boost
+    #- vcpkg integrate install
 
 build_script:
     - cd %APPVEYOR_BUILD_FOLDER%
-    - cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake CMakeLists.txt
+    - cmake -DCUSTOM_BOOST_PATH=C:\Libraries\boost_1_73_0\boost CMakeLists.txt
     - cmake --build .
 
 test_script:

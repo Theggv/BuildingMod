@@ -39,7 +39,7 @@ add_definitions(
 	-D_MBCS
 )
 
-if(WIN32)
+if(WIN32 AND NOT ${CUSTOM_BOOST_PATH})
 	find_package(Boost REQUIRED)
 	include_directories(${Boost_INCLUDE_DIRS})
 endif()
