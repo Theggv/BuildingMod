@@ -43,6 +43,16 @@ void Transform::Notify()
 	}
 }
 
+ObservableVector* Transform::GetPosition()
+{
+	return m_Position;
+}
+
+ObservableVector* Transform::GetRotation()
+{
+	return m_Rotation;
+}
+
 Transform::TransformObserver::TransformObserver(Transform* transform)
 {
 	m_Transform = transform;
