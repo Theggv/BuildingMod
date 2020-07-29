@@ -21,9 +21,6 @@ addons:
       - linux-libc-dev:i386
       - libboost-test-dev
 
-cache:
-  - apt-get
-
 script:
   - cmake CMakeLists.txt
   - cmake --build .
