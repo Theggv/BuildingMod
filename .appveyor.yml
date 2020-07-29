@@ -1,4 +1,4 @@
-os: Visual Studio 19
+os: Visual Studio 17
 
 install:
     # install vcpkg
