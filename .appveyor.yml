@@ -1,19 +1,38 @@
-os: Visual Studio 17
+image: Visual Studio 2019
+
+init:
+    - git config --global core.autocrlf input
+
+platform:
+    - x86
+
+configuration:
+    - Debug
 
 install:
-    # install vcpkg
     - cd C:\Tools\vcpkg
     - git pull
     - .\bootstrap-vcpkg.bat
-    # install packages
     - vcpkg install boost-smart-ptr
     - vcpkg install boost-test
     - vcpkg integrate install
-    # run cmake
+
+cache:
+    - c:\tools\vcpkg\installed\
+
+build_script:
     - cd %APPVEYOR_BUILD_FOLDER%
     - cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake CMakeLists.txt
     - cmake --build .
-    # run tests
-    - ctest -C Debug --output-on-failure
 
-cache: c:\tools\vcpkg\installed\
+test_script:
+    - ctest -C %CONFIGURATION% --output-on-failure
+
+deploy:
+    provider: GitHub
+    description: '$(APPVEYOR_REPO_TAG_NAME)'
+    auth_token:
+        secure: <secret-github-token
+    force_update: true
+    on:
+        appveyor_repo_tag: true
