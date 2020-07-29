@@ -13,6 +13,7 @@ install:
     - cd C:\Tools\vcpkg
     - git pull
     - .\bootstrap-vcpkg.bat
+    - vcpkg list
     - vcpkg install boost
     - vcpkg integrate install
 
