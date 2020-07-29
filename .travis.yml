@@ -28,7 +28,8 @@ addons:
 script:
   - export CC=gcc-7
   - export CXX=g++-7
-  - cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -B ./build
+  - mkdir build
+  - cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -B./build -H.
   - cmake --build ./build --target ALL_BUILD
   - cd ./build
   - ctest -C Debug --output-on-failure
