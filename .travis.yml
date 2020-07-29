@@ -28,9 +28,11 @@ addons:
 script:
   - export CC=gcc-7
   - export CXX=g++-7
-  - cmake CMakeLists.txt
-  - cmake --build . --target building_amxx
+  - cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -B ./build
+  - cmake --build ./build --target ALL_BUILD
+  - cd ./build
   - ctest -C Debug --output-on-failure
+  - cd ..
 
 before-deploy:
   - mkdir dist/modules
