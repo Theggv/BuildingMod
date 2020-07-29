@@ -20,7 +20,6 @@ BOOST_AUTO_TEST_CASE(GameObjectIdGeneratorTest)
 		if (i > 0)
 		{
 			BOOST_CHECK_EQUAL(vec[i]->Id, vec[i - 1]->Id + 1);
-
 		}
 	}
 
