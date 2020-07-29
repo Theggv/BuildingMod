@@ -19,8 +19,7 @@ addons:
       - g++-7-multilib
       - zip 
       - linux-libc-dev:i386
-      - cmake-data
-      - cmake
+      - libboost-test-dev
 
 script:
   - cmake CMakeLists.txt
