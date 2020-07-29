@@ -24,7 +24,7 @@ addons:
 
 script:
   - cmake CMakeLists.txt
-  - cmake .
+  - cmake --build .
   - ctest -C Debug --output-on-failure
 
 before-deploy:
