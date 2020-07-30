@@ -31,10 +31,10 @@ test_script:
 after_build:
     - mkdir dist\modules
     - cp BuildingMod\%CONFIGURATION%\building_amxx.dll dist\modules\building_amxx.dll
-    - 7z a ${APPVEYOR_PROJECT_NAME}-${APPVEYOR_REPO_TAG_NAME}-win.zip dist
+    - 7z a %APPVEYOR_PROJECT_NAME%-%APPVEYOR_REPO_TAG_NAME%-win.zip dist
 
 artifacts:
-    - path: ${APPVEYOR_PROJECT_NAME}-${APPVEYOR_REPO_TAG_NAME}-win.zip
+    - path: %APPVEYOR_PROJECT_NAME%-%APPVEYOR_REPO_TAG_NAME%-win.zip
       name: building_amxx
 
 deploy:
