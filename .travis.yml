@@ -29,13 +29,13 @@ script:
 before-deploy:
   - mkdir dist/modules
   - cp BuildingMod/building_amxx_i386.so dist/modules/building_amxx_i386.so
-  - zip -r -9 ${TRAVIS_BUILD_DIR}-${TRAVIS_TAG}.zip ./dist
+  - zip -r -9 ${TRAVIS_BUILD_DIR}-${TRAVIS_TAG}-linux.zip ./dist
 
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
   file:
-    - ${TRAVIS_BUILD_DIR}-${TRAVIS_TAG}.zip
+    - ${TRAVIS_BUILD_DIR}-${TRAVIS_TAG}-linux.zip
   skip_cleanup: true
   on:
     tags: true
