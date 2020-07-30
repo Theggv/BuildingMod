@@ -34,7 +34,7 @@ after_build:
     - 7z a %APPVEYOR_PROJECT_NAME%-%APPVEYOR_REPO_TAG_NAME%-win.zip dist
 
 artifacts:
-    - path: %APPVEYOR_PROJECT_NAME%-%APPVEYOR_REPO_TAG_NAME%-win.zip
+    - path: '*.zip'
       name: building_amxx
 
 deploy:
