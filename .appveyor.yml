@@ -38,14 +38,14 @@ artifacts:
       name: building_amxx
 
 deploy:
-    provider: GitHub
+  - provider: GitHub
     description: '$(APPVEYOR_REPO_TAG_NAME)'
     auth_token:
-        secure: E8RPa4jiZzegokFlfCgIiCdXuXVB5o+TjYaB//eIfKrvP9IbeJ7f7Xl9F6Y+Ld8w
+      secure: E8RPa4jiZzegokFlfCgIiCdXuXVB5o+TjYaB//eIfKrvP9IbeJ7f7Xl9F6Y+Ld8w
     force_update: true
     artifact: building_amxx
     draft: false
     prerelease: false
     on:
-        branch: master
-        appveyor_repo_tag: true
+      branch: master
+      appveyor_repo_tag: true
