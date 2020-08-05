@@ -41,6 +41,10 @@ void GameObject::Update()
 	}
 }
 
+void GameObject::UpdateFullPack(bool isPost)
+{
+}
+
 void GameObject::UpdateTransform()
 {
 	auto it = m_Components.begin();

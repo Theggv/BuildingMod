@@ -30,7 +30,7 @@ C_DLLEXPORT int GetEntityAPI2(DLL_FUNCTIONS *pFunctionTable, int *)
 
 	//gpFunctionTable.pfnSpawn = pfnSpawn;
 	//gpFunctionTable.pfnClientCommand = pfnClientCommand;
-	//gpFunctionTable.pfnAddToFullPack = pfnAddToFullPack_Pre;
+	gpFunctionTable.pfnAddToFullPack = pfnAddToFullPack_Pre;
 
 	memcpy(pFunctionTable, &gpFunctionTable, sizeof(DLL_FUNCTIONS));
 
@@ -45,7 +45,7 @@ C_DLLEXPORT int GetEntityAPI2_Post(DLL_FUNCTIONS *pFunctionTable, int *)
 
 	//gpFunctionTable_Post.pfnServerActivate = ServerActivate_Post;
 	//gpFunctionTable_Post.pfnServerDeactivate = ServerDeactivate_Post;
-	//gpFunctionTable_Post.pfnAddToFullPack = pfnAddToFullPack_Post;
+	gpFunctionTable_Post.pfnAddToFullPack = pfnAddToFullPack_Post;
 
 	memcpy(pFunctionTable, &gpFunctionTable_Post, sizeof(DLL_FUNCTIONS));
 

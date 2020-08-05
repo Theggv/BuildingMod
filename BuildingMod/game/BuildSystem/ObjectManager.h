@@ -14,10 +14,15 @@ public:
 
 	void Add(GameObject* object);
 	void Remove(GameObject* object);
+
 	bool Has(int id);
+	bool HasEdict(edict_t* edict);
+	
 	void Clear();
 	GameObject* Get(int id);
 	p_GameObjectWeak_t GetPtr(int id);
+
+	p_GameObjectWeak_t GetPtrByEdict(edict_t* edict);
 
 private:
 	// Map of pointers to objects by object index

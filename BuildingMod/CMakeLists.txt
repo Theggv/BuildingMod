@@ -11,6 +11,7 @@ file (GLOB COMMON_SRC
 	"game/BuildSystem/BuildObjects/Components/*.cpp"
 	"game/BuildSystem/BuildObjects/Foundation/*.cpp"
 	"game/Utility/*.cpp"
+	"game/Server/*.cpp"
 )
 
 file (GLOB COMMON_HEADERS
@@ -25,6 +26,7 @@ file (GLOB COMMON_HEADERS
 	"game/BuildSystem/BuildObjects/Components/*.h"
 	"game/BuildSystem/BuildObjects/Foundation/*.h"
 	"game/Utility/*.h"
+	"game/Server/*.h"
 )
 
 set (SRC ${COMMON_SRC})

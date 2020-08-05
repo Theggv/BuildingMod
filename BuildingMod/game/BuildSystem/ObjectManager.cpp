@@ -26,6 +26,11 @@ bool ObjectManager::Has(int id)
 	return m_Objects.find(id) != m_Objects.end();
 }
 
+bool ObjectManager::HasEdict(edict_t* edict)
+{
+	return m_ObjectsEdictIndex.find(ENTINDEX(edict)) != m_ObjectsEdictIndex.end();
+}
+
 void ObjectManager::Clear()
 {
 	auto it = m_Objects.begin();
@@ -46,6 +51,14 @@ GameObject* ObjectManager::Get(int id)
 p_GameObjectWeak_t ObjectManager::GetPtr(int id)
 {
 	return p_GameObjectWeak_t();
+}
+
+p_GameObjectWeak_t ObjectManager::GetPtrByEdict(edict_t* edict)
+{
+	if (!HasEdict(edict))
+		return p_GameObjectWeak_t();
+
+	return m_ObjectsEdictIndex.at(ENTINDEX(edict));
 }
 
 ObjectManager::ObjectManager()

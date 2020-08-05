@@ -1,8 +1,8 @@
 #pragma once
 
 #include <pch.h>
+#include <BuildSystem/BuildObjects/Transform.h>
 #include <BuildSystem/BuildObjects/Components/IComponent.h>
-#include <BuildSystem/BuildObjects/Components/Transform.h>
 
 using namespace std;
 
@@ -24,6 +24,8 @@ public:
 	virtual void Start();
 	// Unity-like Update
 	virtual void Update();
+	// Called from AddToFullPack
+	virtual void UpdateFullPack(bool isPost);
 	// Called when parent's transform was updated
 	virtual void UpdateTransform();
 	// Dispose

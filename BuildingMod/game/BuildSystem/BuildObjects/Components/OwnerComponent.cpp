@@ -9,7 +9,7 @@ OwnerComponent::~OwnerComponent()
 {
 }
 
-edict_t* OwnerComponent::GetOwner(edict_t* owner)
+edict_t* OwnerComponent::GetOwner()
 {
 	return m_Owner;
 }

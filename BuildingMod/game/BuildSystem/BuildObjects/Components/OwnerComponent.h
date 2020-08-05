@@ -12,9 +12,8 @@ public:
 	/// <summary>
 	/// Get current owner
 	/// </summary>
-	/// <param name="owner"></param>
 	/// <returns></returns>
-	edict_t* GetOwner(edict_t* owner);
+	edict_t* GetOwner();
 
 	/// <summary>
 	/// Set new owner

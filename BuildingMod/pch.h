@@ -52,8 +52,13 @@
 #include <game/Utility/IObservable.h>
 #include <game/Utility/ObservableVector.h>
 
+// Server
+#include <game/Server/FrameState.h>
+#include <game/Server/PrecacheManager.h>
+#include <game/Server/ServerHooks.h>
+
 // Components
-#include <game/BuildSystem/BuildObjects/Components/Transform.h>
+#include <game/BuildSystem/BuildObjects/Transform.h>
 #include <game/BuildSystem/BuildObjects/Components/IComponent.h>
 
 // game
