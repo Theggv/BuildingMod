@@ -24,6 +24,7 @@ public:
 
 	p_GameObjectWeak_t GetPtrByEdict(edict_t* edict);
 
+	static unsigned long CalculateWorldPosition(float x, float y);
 private:
 	// Map of pointers to objects by object index
 	map<int, p_GameObject_t> m_Objects;

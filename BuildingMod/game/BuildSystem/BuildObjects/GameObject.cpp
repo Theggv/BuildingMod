@@ -13,6 +13,9 @@ GameObject::GameObject(): Id(m_IdGenerator)
 
 GameObject::~GameObject()
 {
+	for (auto component : m_Components)
+		delete component;
+
 	m_Components.clear();
 
 	delete this->m_TransformObserver;
@@ -41,12 +44,15 @@ void GameObject::Update()
 	}
 }
 
-void GameObject::UpdateFullPack(bool isPost)
+int GameObject::UpdateFullPack(bool isPost)
 {
+	return 0;
 }
 
 void GameObject::UpdateTransform()
 {
+	UpdateWorldPosition();
+
 	auto it = m_Components.begin();
 
 	while (it != m_Components.end())
@@ -63,6 +69,19 @@ void GameObject::Dispose()
 Transform* GameObject::GetTransform()
 {
 	return m_Transform;
+}
+
+unsigned long GameObject::GetWorldPositionFlags()
+{
+	return m_WorldPosition;
+}
+
+void GameObject::UpdateWorldPosition()
+{
+	m_WorldPosition = ObjectManager::CalculateWorldPosition(
+		m_Transform->GetPosition()->x(),
+		m_Transform->GetPosition()->y()
+	);
 }
 
 GameObject::GameObjectObserver::GameObjectObserver(GameObject* object) : m_GameObject(object)

@@ -60,6 +60,9 @@
 // Components
 #include <game/BuildSystem/BuildObjects/Transform.h>
 #include <game/BuildSystem/BuildObjects/Components/IComponent.h>
+#include <game/BuildSystem/BuildObjects/Components/OwnerComponent.h>
+#include <game/BuildSystem/BuildObjects/Components/RendererComponent.h>
+#include <game/BuildSystem/BuildObjects/Components/IColliderComponent.h>
 
 // game
 #include <game/BuildSystem/BuildObjects/GameObject.h>

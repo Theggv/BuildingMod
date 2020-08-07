@@ -58,6 +58,7 @@ bool RehldsApi_TryInit(CSysModule* engineModule, char* failureReason)
 	g_RehldsHookchains = g_RehldsApi->GetHookchains();
 
 	// UserHooks.h
+	g_RehldsHookchains->SV_CreatePacketEntities()->registerHook(&SV_CreatePacketEntities);
 	//g_RehldsHookchains->ClientConnected()->registerHook(&ClientConnected);
 	//g_RehldsHookchains->SV_DropClient()->registerHook(&SV_DropClient);
 

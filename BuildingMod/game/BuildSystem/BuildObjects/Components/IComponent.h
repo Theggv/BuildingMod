@@ -16,8 +16,6 @@ public:
 	virtual void Update();
 	// Called when parent's transform was updated
 	virtual void UpdateTransform();
-	// Dispose
-	virtual void Dispose();
 
 	void SetParent(GameObject* parent);
 	GameObject* GetParent();

@@ -61,6 +61,34 @@ p_GameObjectWeak_t ObjectManager::GetPtrByEdict(edict_t* edict)
 	return m_ObjectsEdictIndex.at(ENTINDEX(edict));
 }
 
+unsigned long ObjectManager::CalculateWorldPosition(float x, float y)
+{
+	auto _x = (unsigned int)(x + 4096);
+	auto _y = (unsigned int)(y + 4096);
+
+	unsigned long position = 0;
+
+	unsigned int flags = 0;
+	unsigned int gridSize = 4096;
+
+	for (int i = 0; i < 7; ++i)
+	{
+		flags = ((_x >= gridSize) << 1) | (_y >= gridSize);
+
+		position |= flags << (i * 2);
+
+		if (_x >= gridSize)
+			_x -= gridSize;
+
+		if (_y >= gridSize)
+			_y -= gridSize;
+
+		gridSize /= 2;
+	}
+
+	return position;
+}
+
 ObjectManager::ObjectManager()
 {
 

@@ -6,8 +6,10 @@
 class Foundation : public GameObject
 {
 public:
-	Foundation();
+	Foundation(edict_t* owner);
 	~Foundation();
+
+	static string FoundationModel;
 private:
 };
 
