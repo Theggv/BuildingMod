@@ -5,7 +5,7 @@
 - [ ] Сделать чтение с конфига
 - [ ] Написать вспомогательные функции функции (UTIL_GetAimOrigin, UTIL_GetAimEdict)
 - [ ] Доработать GameObject
-	- [ ] Добавить состояния (can build, can't build, solid)
+	- [x] Добавить состояния (can build, can't build, solid)
 - [ ] Добавить для RenderComponent метод для задания и получения модели
 - [ ] Реализовать IColliderComponent
 	- [x] Должен хранить все edict

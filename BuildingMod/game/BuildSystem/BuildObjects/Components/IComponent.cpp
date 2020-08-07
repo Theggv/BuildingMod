@@ -22,14 +22,11 @@ void IComponent::UpdateTransform()
 {
 }
 
-void IComponent::Dispose()
+void IComponent::StateUpdated()
 {
+
 }
 
-/// <summary>
-/// Set parent of component. 
-/// </summary>
-/// <param name="parent"></param>
 void IComponent::SetParent(GameObject* parent)
 {
 	m_parent = parent;

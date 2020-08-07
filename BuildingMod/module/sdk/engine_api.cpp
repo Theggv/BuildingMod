@@ -187,7 +187,7 @@ C_DLLEXPORT int GetEngineFunctions_Post(enginefuncs_t *pengfuncsFromEngine, int 
 		return FALSE;
 	}
 
-	//meta_engfuncs_post.pfnRegUserMsg = &pfnRegUserMsg_Post;
+	meta_engfuncs_post.pfnRegUserMsg = &pfnRegUserMsg_Post;
 
 	memcpy(pengfuncsFromEngine, &meta_engfuncs_post, sizeof(enginefuncs_t));
 	return TRUE;

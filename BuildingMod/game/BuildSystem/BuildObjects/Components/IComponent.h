@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _BUILDOBJECTS_COMPONENTS_ICOMPONENT_
+#define _BUILDOBJECTS_COMPONENTS_ICOMPONENT_
 
 #include <pch.h>
 
@@ -16,10 +17,18 @@ public:
 	virtual void Update();
 	// Called when parent's transform was updated
 	virtual void UpdateTransform();
+	// State updated
+	virtual void StateUpdated();
 
+	/// <summary>
+	/// Set parent of component. 
+	/// </summary>
+	/// <param name="parent"></param>
 	void SetParent(GameObject* parent);
 	GameObject* GetParent();
 
 protected:
 	GameObject* m_parent;
 };
+
+#endif // !_BUILDOBJECTS_COMPONENTS_ICOMPONENT_

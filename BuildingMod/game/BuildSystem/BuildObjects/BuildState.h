@@ -1,0 +1,13 @@
+#ifndef _BUILDOBJECTS_BUILDSTATE_
+#define _BUILDOBJECTS_BUILDSTATE_
+
+#include <pch.h>
+
+enum class BuildState
+{
+	STATE_SOLID,
+	STATE_CAN_BUILD,
+	STATE_CANNOT_BUILD,
+};
+
+#endif // !_BUILDOBJECTS_BUILDSTATE_

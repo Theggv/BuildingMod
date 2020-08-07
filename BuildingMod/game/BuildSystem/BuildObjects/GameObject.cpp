@@ -6,9 +6,11 @@ GameObject::GameObject(): Id(m_IdGenerator)
 {
 	m_IdGenerator++;
 
+	m_State = BuildState::STATE_SOLID;
 	m_Components = set<IComponent*>();
 	m_Transform = new Transform();
 	m_TransformObserver = new GameObjectObserver(this);
+
 }
 
 GameObject::~GameObject()
@@ -24,24 +26,14 @@ GameObject::~GameObject()
 
 void GameObject::Start()
 {
-	auto it = m_Components.begin();
-
-	while (it != m_Components.end())
-	{
-		(*it)->Start();
-		++it;
-	}
+	for (auto component : m_Components)
+		component->Start();
 }
 
 void GameObject::Update()
 {
-	auto it = m_Components.begin();
-
-	while (it != m_Components.end())
-	{
-		(*it)->Update();
-		++it;
-	}
+	for (auto component : m_Components)
+		component->Update();
 }
 
 int GameObject::UpdateFullPack(bool isPost)
@@ -53,17 +45,14 @@ void GameObject::UpdateTransform()
 {
 	UpdateWorldPosition();
 
-	auto it = m_Components.begin();
-
-	while (it != m_Components.end())
-	{
-		(*it)->UpdateTransform();
-		++it;
-	}
+	for (auto component : m_Components)
+		component->UpdateTransform();
 }
 
-void GameObject::Dispose()
+void GameObject::StateUpdated()
 {
+	for (auto component : m_Components)
+		component->StateUpdated();
 }
 
 Transform* GameObject::GetTransform()
@@ -74,6 +63,17 @@ Transform* GameObject::GetTransform()
 unsigned long GameObject::GetWorldPositionFlags()
 {
 	return m_WorldPosition;
+}
+
+BuildState GameObject::GetState()
+{
+	return m_State;
+}
+
+void GameObject::SetState(BuildState state)
+{
+	m_State = state;
+	StateUpdated();
 }
 
 void GameObject::UpdateWorldPosition()

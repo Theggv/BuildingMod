@@ -1,13 +1,13 @@
-#pragma once
+#ifndef _BUILDOBJECTS_GAMEOBJECT_
+#define _BUILDOBJECTS_GAMEOBJECT_
 
 #include <pch.h>
-#include <BuildSystem/BuildObjects/Transform.h>
-#include <BuildSystem/BuildObjects/Components/IComponent.h>
 
 using namespace std;
 
 class IComponent;
 class Transform;
+enum class BuildState;
 
 class GameObject
 {
@@ -34,12 +34,14 @@ public:
 	// Called when parent's transform was updated
 	virtual void UpdateTransform();
 
+	virtual void StateUpdated();
+
 	/// <summary>
 	/// Get transform of the object
 	/// </summary>
 	/// <returns></returns>
 	Transform* GetTransform();
-	
+
 	unsigned long GetWorldPositionFlags();
 
 	/// <summary>
@@ -58,8 +60,12 @@ public:
 	/// <returns>Returns true if added successfully</returns>
 	template <class T>
 	bool AddComponent(const T component);
+
+	BuildState GetState();
+	void SetState(BuildState state);
 protected:
 	set<IComponent*> m_Components;
+	BuildState m_State;
 
 private:
 	class GameObjectObserver : public IObserver
@@ -113,3 +119,5 @@ inline bool GameObject::AddComponent(const T component)
 
 	return true;
 }
+
+#endif // !_BUILDOBJECTS_GAMEOBJECT_

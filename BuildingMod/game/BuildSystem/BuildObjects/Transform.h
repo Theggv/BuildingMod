@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _BUILDOBJECTS_TRANSFORM_
+#define _BUILDOBJECTS_TRANSFORM_
 
 #include <pch.h>
 #include <game/Utility/IObservable.h>
@@ -40,3 +41,5 @@ private:
 	IObserver* m_Observer;
 	list<IObserver*> m_ListObservers;
 };
+
+#endif // !_BUILDOBJECTS_TRANSFORM_

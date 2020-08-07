@@ -3,6 +3,8 @@
 
 #include <pch.h>
 
+using namespace std;
+
 class PrecacheManager
 {
 public:
