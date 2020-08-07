@@ -3,6 +3,8 @@
 
 #include <pch.h>
 #include <game/Utility/IObservable.h>
+#include <game/Utility/IObserver.h>
+#include <game/Utility/ObservableVector.h>
 
 using namespace std;
 

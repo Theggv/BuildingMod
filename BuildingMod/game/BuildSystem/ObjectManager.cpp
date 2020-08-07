@@ -91,7 +91,8 @@ unsigned long ObjectManager::CalculateWorldPosition(float x, float y)
 
 ObjectManager::ObjectManager()
 {
-
+	m_Objects = map<int, p_GameObject_t>();
+	m_ObjectsEdictIndex = map<int, p_GameObjectWeak_t>();
 }
 
 ObjectManager::~ObjectManager()

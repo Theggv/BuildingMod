@@ -2,13 +2,12 @@
 #define _BUILDSYSTEM_OBJECTMANAGER_
 
 #include <pch.h>
-
-using namespace std;
-
-class GameObject;
+#include <game/BuildSystem/BuildObjects/GameObject.h>
 
 typedef boost::shared_ptr<GameObject*> p_GameObject_t;
 typedef boost::weak_ptr<GameObject*> p_GameObjectWeak_t;
+
+using namespace std;
 
 class ObjectManager
 {

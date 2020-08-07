@@ -1,4 +1,6 @@
 #include "ServerHooks.h"
+#include <game/BuildSystem/ObjectManager.h>
+#include <game/Server/FrameState.h>
 
 int pfnAddToFullPack_Pre(struct entity_state_s* state, int e, edict_t* ent, edict_t* host, int hostflags, int player, unsigned char* pSet)
 {

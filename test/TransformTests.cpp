@@ -2,6 +2,7 @@
 
 #include <pch.h>
 #include <boost/test/included/unit_test.hpp>
+#include <game/BuildSystem/BuildObjects/Transform.h>
 
 BOOST_AUTO_TEST_CASE(TransformCreateTest)
 {

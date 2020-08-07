@@ -1,6 +1,11 @@
 # Get all cpp files in current directory
+
+file (GLOB PCH
+	"pch.h"
+	"pch.cpp"
+)
+
 file (GLOB COMMON_SRC
-	"*.cpp"
 	"module/*.cpp"
 	"module/sdk/*.cpp"
 	"module/natives/*.cpp"
@@ -15,7 +20,6 @@ file (GLOB COMMON_SRC
 )
 
 file (GLOB COMMON_HEADERS
-	"*.h"
 	"module/*.h"
 	"module/sdk/*.h"
 	"module/natives/*.h"
@@ -70,7 +74,7 @@ endif()
 
 # Setup shared library
 
-add_library(${PROJECT} SHARED ${COMMON_HEADERS} ${SRC} ${SRC_DEPS} "BuildingMod.def")
+add_library(${PROJECT} SHARED ${PCH} ${COMMON_HEADERS} ${SRC} ${SRC_DEPS} "BuildingMod.def")
 target_include_directories(${PROJECT} PUBLIC ${SRC_DIRS})
 
 if(UNIX)
@@ -99,7 +103,7 @@ endif()
 
 #Setup static library
 
-add_library(building_amxx_static STATIC ${COMMON_HEADERS} ${SRC} ${SRC_DEPS} "BuildingMod.def")
+add_library(building_amxx_static STATIC ${PCH} ${COMMON_HEADERS} ${SRC} ${SRC_DEPS} "BuildingMod.def")
 target_include_directories(building_amxx_static PUBLIC ${SRC_DIRS})
 
 if(UNIX)

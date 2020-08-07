@@ -2,7 +2,11 @@
 #define _BUILDOBJECTS_COMPONENTS_RENDERERCOMPONENT_
 
 #include <pch.h>
-#include <game/BuildSystem/BuildObjects/Materials/Material.h>
+#include "IComponent.h"
+
+class Material;
+
+using namespace std;
 
 class RendererComponent : public IComponent
 {

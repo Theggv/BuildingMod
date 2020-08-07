@@ -1,4 +1,5 @@
-#include "pch.h"
+#include <pch.h>
+#include <game/Server/ServerHooks.h>
 
 IRehldsApi* g_RehldsApi;
 IRehldsHookchains* g_RehldsHookchains;

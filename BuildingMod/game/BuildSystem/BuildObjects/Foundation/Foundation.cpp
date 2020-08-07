@@ -1,4 +1,6 @@
 #include "Foundation.h"
+#include <game/BuildSystem/BuildObjects/Components/OwnerComponent.h>
+#include <game/BuildSystem/BuildObjects/Components/RendererComponent.h>
 
 Foundation::Foundation(edict_t* owner)
 {

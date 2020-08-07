@@ -1,4 +1,5 @@
 #include "Utility.h"
+#include "Messages.h"
 
 char* STRING_TO_CHAR(string str) { return (char*)STRING(ALLOC_STRING(str.c_str())); }
 

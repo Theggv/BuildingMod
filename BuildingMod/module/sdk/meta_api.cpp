@@ -1,4 +1,5 @@
-#include "pch.h"
+#include <pch.h>
+#include <game/Server/ServerHooks.h>
 
 plugin_info_t Plugin_info = {
 	META_INTERFACE_VERSION,

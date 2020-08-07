@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef PCH_H
 #define PCH_H
 
@@ -42,33 +40,5 @@
 
 // Entry point
 #include <module/main.h>
-
-// Natives
-#include <module/natives/natives_helper.h>
-#include <module/natives/natives_ping.h>
-
-// Utility
-#include <game/Utility/IObserver.h>
-#include <game/Utility/IObservable.h>
-#include <game/Utility/ObservableVector.h>
-
-// Server
-#include <game/Server/FrameState.h>
-#include <game/Server/PrecacheManager.h>
-#include <game/Server/ServerHooks.h>
-
-// Components
-#include <game/BuildSystem/BuildObjects/BuildState.h>
-#include <game/BuildSystem/BuildObjects/Transform.h>
-#include <game/BuildSystem/BuildObjects/Components/IComponent.h>
-#include <game/BuildSystem/BuildObjects/Components/OwnerComponent.h>
-#include <game/BuildSystem/BuildObjects/Components/RendererComponent.h>
-#include <game/BuildSystem/BuildObjects/Components/IColliderComponent.h>
-
-// game
-#include <game/BuildSystem/BuildObjects/GameObject.h>
-#include <game/BuildSystem/ObjectManager.h>
-#include <game/Utility/Messages.h>
-#include <game/Utility/Utility.h>
 
 #endif //PCH_H

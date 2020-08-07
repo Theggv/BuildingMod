@@ -2,6 +2,8 @@
 
 #include <pch.h>
 #include <boost/test/included/unit_test.hpp>
+#include <game/Utility/IObserver.h>
+#include <game/Utility/ObservableVector.h>
 
 class Observer : public IObserver
 {

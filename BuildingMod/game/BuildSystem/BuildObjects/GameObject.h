@@ -2,12 +2,11 @@
 #define _BUILDOBJECTS_GAMEOBJECT_
 
 #include <pch.h>
+#include <game/BuildSystem/BuildObjects/Transform.h>
+#include <game/BuildSystem/BuildObjects/Components/IComponent.h>
+#include <game/BuildSystem/BuildObjects/BuildState.h>
 
 using namespace std;
-
-class IComponent;
-class Transform;
-enum class BuildState;
 
 class GameObject
 {

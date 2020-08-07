@@ -2,8 +2,11 @@
 #define _BUILDOBJECTS_COMPONENTS_ICOLLIDERCOMPONENT_
 
 #include <pch.h>
+#include "IComponent.h"
 
 using namespace std;
+
+class IComponent;
 
 class IColliderComponent : public IComponent
 {

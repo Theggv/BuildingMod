@@ -1,4 +1,5 @@
 #include <pch.h>
+#include <module/natives/natives_ping.h>
 
 void OnAmxxAttach()
 {

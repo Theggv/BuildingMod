@@ -2,6 +2,7 @@
 #define _BUILDOBJECTS_COMPONENTS_OWNERCOMPONENT_
 
 #include <pch.h>
+#include "IComponent.h"
 
 class OwnerComponent : public IComponent
 {

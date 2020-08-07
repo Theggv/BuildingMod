@@ -1,6 +1,9 @@
-#pragma once
+#ifndef _UTILITY_OBSERVABLEVECTOR_
+#define _UTILITY_OBSERVABLEVECTOR_
 
 #include <pch.h>
+#include "IObserver.h"
+#include "IObservable.h"
 
 using namespace std;
 
@@ -72,3 +75,5 @@ private:
 
 	list<IObserver*> m_Observers;
 };
+
+#endif // !_UTILITY_OBSERVABLEVECTOR_

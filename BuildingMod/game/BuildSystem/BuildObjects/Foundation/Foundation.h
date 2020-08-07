@@ -2,6 +2,7 @@
 #define _BUILDOBJECTS_FOUNDATION_FOUNDATION_
 
 #include <pch.h>
+#include "game/BuildSystem/BuildObjects/GameObject.h"
 
 class Foundation : public GameObject
 {

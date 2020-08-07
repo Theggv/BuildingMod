@@ -1,7 +1,7 @@
 ﻿# CMakeList.txt: проект CMake для BuildingMod; включите исходный код и определения,
 # укажите здесь логику для конкретного проекта.
 #
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.16)
 
 # THIS HAS TO COME BEFORE THE PROJECT LINE
 # set(CMAKE_C_COMPILER "/usr/lib/gcc")

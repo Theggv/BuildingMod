@@ -1,8 +1,6 @@
 #ifndef _BUILDOBJECTS_COMPONENTS_ICOMPONENT_
 #define _BUILDOBJECTS_COMPONENTS_ICOMPONENT_
 
-#include <pch.h>
-
 class GameObject;
 
 class IComponent

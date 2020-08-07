@@ -4,6 +4,8 @@
 #include <pch.h>
 #include <game/BuildSystem/ObjectManager.h>
 
+using namespace std;
+
 extern char* STRING_TO_CHAR(string str);
 
 int IsEntValid(int index);

@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include <game/BuildSystem/ObjectManager.h>
 
 static int m_IdGenerator;
 
@@ -10,7 +11,6 @@ GameObject::GameObject(): Id(m_IdGenerator)
 	m_Components = set<IComponent*>();
 	m_Transform = new Transform();
 	m_TransformObserver = new GameObjectObserver(this);
-
 }
 
 GameObject::~GameObject()
