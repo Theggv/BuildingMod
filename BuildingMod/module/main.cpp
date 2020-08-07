@@ -1,4 +1,6 @@
 #include <pch.h>
+#include <game/Server/PrecacheManager.h>
+#include <game/Utility/Utility.h>
 #include <module/natives/natives_ping.h>
 
 void OnAmxxAttach()
@@ -13,23 +15,23 @@ bool OnMetaAttach()
 
 void OnMetaDetach()
 {
-	//ObjectManager::Instance().Clear();
+	ObjectManager::Instance().Clear();
+	UTIL_ClearAllocStrings();
 }
 
 void ServerDeactivate_Post()
 {
-	//ObjectManager::Instance().Clear();
+	ObjectManager::Instance().Clear();
 }
 
 int	pfnSpawn(edict_t* pent)
 {
-	/*auto mngr = PrecacheManager::Instance();
+	auto &mngr = PrecacheManager::Instance();
 
 	if (mngr.IsInit())
 		RETURN_META_VALUE(MRES_IGNORED, 0);
 
-	mngr.SetInit();
-	mngr.PrecacheResources();*/
+	mngr.PrecacheResources();
 
 	RETURN_META_VALUE(MRES_IGNORED, 0);
 }

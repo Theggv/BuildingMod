@@ -25,6 +25,7 @@
 // Metamod
 #include <cssdk/dlls/extdll.h>
 #include <metamod/meta_api.h>
+// #include <metamod/osdep.h>
 
 // cssdk
 #include <cssdk/common/entity_state.h>
@@ -37,6 +38,7 @@
 // Amxmodx
 #include <module/sdk/amxxmodule.h>
 #include <module/sdk/gamedll_api.h>
+#include <amxmodx/HLTypeConversion.h>
 
 // Entry point
 #include <module/main.h>

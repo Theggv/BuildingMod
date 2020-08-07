@@ -1,7 +1,7 @@
 #include "GameObject.h"
 #include <game/BuildSystem/ObjectManager.h>
 
-static int m_IdGenerator;
+static int m_IdGenerator = 1024;
 
 GameObject::GameObject(): Id(m_IdGenerator)
 {
@@ -70,10 +70,15 @@ BuildState GameObject::GetState()
 	return m_State;
 }
 
-void GameObject::SetState(BuildState state)
+bool GameObject::TrySetState(BuildState state)
 {
+	if (state == BuildState::STATE_SOLID && m_State == BuildState::STATE_CANNOT_BUILD)
+		return false;
+
 	m_State = state;
 	StateUpdated();
+
+	return true;
 }
 
 void GameObject::UpdateWorldPosition()

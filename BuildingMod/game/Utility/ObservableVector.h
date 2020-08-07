@@ -37,6 +37,7 @@ public:
 
 	operator float* () { return &_x; }				// Vectors will now automatically convert to float * when needed
 	operator const float* () const { return &_x; }	// Vectors will now automatically convert to float * when needed
+	operator Vector () { return Vector(_x, _y, _z); }
 
 	inline ObservableVector Normalize()
 	{

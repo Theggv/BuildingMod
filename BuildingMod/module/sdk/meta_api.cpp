@@ -29,7 +29,7 @@ C_DLLEXPORT int GetEntityAPI2(DLL_FUNCTIONS *pFunctionTable, int *)
 {
 	memset(&gpFunctionTable, 0, sizeof(DLL_FUNCTIONS));
 
-	//gpFunctionTable.pfnSpawn = pfnSpawn;
+	gpFunctionTable.pfnSpawn = pfnSpawn;
 	//gpFunctionTable.pfnClientCommand = pfnClientCommand;
 	gpFunctionTable.pfnAddToFullPack = pfnAddToFullPack_Pre;
 

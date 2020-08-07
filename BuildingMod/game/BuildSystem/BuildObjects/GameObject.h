@@ -8,6 +8,8 @@
 
 using namespace std;
 
+class IComponent;
+
 class GameObject
 {
 public:
@@ -61,7 +63,7 @@ public:
 	bool AddComponent(const T component);
 
 	BuildState GetState();
-	void SetState(BuildState state);
+	bool TrySetState(BuildState state);
 protected:
 	set<IComponent*> m_Components;
 	BuildState m_State;

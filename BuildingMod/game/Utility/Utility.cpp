@@ -1,7 +1,7 @@
 #include "Utility.h"
 #include "Messages.h"
 
-char* STRING_TO_CHAR(string str) { return (char*)STRING(ALLOC_STRING(str.c_str())); }
+map<string, string_t> m_AllocatedStrings = map<string, string_t>();
 
 int IsEntValid(int index)
 {
@@ -19,7 +19,7 @@ int IsEntValid(edict_t* pEntity)
 	return 1;
 }
 
-edict_s* UTIL_GetAimingEntity(int index, float triggerDistance)
+edict_t* UTIL_GetAimingEntity(int index, float triggerDistance)
 {
 	auto pEntity = INDEXENT(index);
 
@@ -84,6 +84,47 @@ Vector UTIL_GetEndPoint(int index, float triggerDistance)
 		roundf(vSrc.y + vDest.y * multiplier),
 		roundf(vSrc.z + vDest.z * multiplier)
 	);
+}
+
+edict_t* UTIL_CreateEdict(string className)
+{
+	auto pEntity = CREATE_NAMED_ENTITY(UTIL_AllocString("info_target"));
+
+	if (!IsEntValid(pEntity))
+	{
+		SEM_PRINT("[GameObject] Can't create entity.");
+		return nullptr;
+	}
+
+	// Set classname
+	pEntity->v.classname = UTIL_AllocString(className);
+
+	// Set size
+	SET_SIZE(pEntity, Vector(-1, -1, 0), Vector(1, 1, 1));
+	pEntity->v.solid = SOLID_BBOX;
+
+	pEntity->v.nextthink = gpGlobals->time + 0.1f;
+
+	return pEntity;
+}
+
+string_t UTIL_AllocString(string str)
+{
+	auto it = m_AllocatedStrings.find(str);
+
+	if (it != m_AllocatedStrings.end())
+		return (*it).second;
+	
+	auto alloc = ALLOC_STRING(str.c_str());
+
+	m_AllocatedStrings.insert(pair<string, string_t>(str, alloc));
+
+	return alloc;
+}
+
+void UTIL_ClearAllocStrings()
+{
+	m_AllocatedStrings.clear();
 }
 
 void UTIL_ClientPrint(edict_t* pEntity, MessageDest msg_dest, char* msg)

@@ -12,6 +12,9 @@ class RendererComponent : public IComponent
 {
 public:
 	Material* GetMaterial();
+
+	string GetModel();
+	void SetModel(string model);
 private:
 	string m_Model;
 	Material* m_Material;

@@ -1,6 +1,8 @@
 #ifndef _BUILDOBJECTS_COMPONENTS_ICOMPONENT_
 #define _BUILDOBJECTS_COMPONENTS_ICOMPONENT_
 
+#include <game/BuildSystem/BuildObjects/GameObject.h>
+
 class GameObject;
 
 class IComponent

@@ -16,6 +16,8 @@ public:
 
 	void AddEdict(edict_t* edict, bool isVisible);
 	set<edict_t*> GetEdicts(bool isVisible);
+
+	virtual void UpdateTransform() override;
 private:
 	set<edict_t*> m_VisibleEdicts;
 	set<edict_t*> m_InvisibleEdicts;

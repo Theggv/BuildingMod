@@ -428,8 +428,6 @@ mBOOL os_safe_call(REG_CMD_FN pfn);
 
 	#include <io.h>
 
-	#define open _open
-
 	#define read _read
 
 	#define write _write

@@ -30,3 +30,18 @@ set<edict_t*> IColliderComponent::GetEdicts(bool isVisible)
 {
 	return isVisible ? m_VisibleEdicts : m_InvisibleEdicts;
 }
+
+void IColliderComponent::UpdateTransform()
+{
+	for (auto pEntity : m_VisibleEdicts)
+	{
+		pEntity->v.origin = *GetParent()->GetTransform()->GetPosition();
+		pEntity->v.angles = *GetParent()->GetTransform()->GetRotation();
+	}
+
+	for (auto pEntity : m_InvisibleEdicts)
+	{
+		pEntity->v.origin = *GetParent()->GetTransform()->GetPosition();
+		pEntity->v.angles = *GetParent()->GetTransform()->GetRotation();
+	}
+}

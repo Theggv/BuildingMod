@@ -122,14 +122,6 @@
 
 // shouldn't.
 
-inline  int ENTINDEX(const edict_t *pEdict) { 
-
-	return (*g_engfuncs.pfnIndexOfEdict)(pEdict);
-
-}
-
-
-
 
 
 // Also, create some nice inlines for engine callback combos.

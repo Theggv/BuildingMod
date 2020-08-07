@@ -8,9 +8,9 @@ class Foundation : public GameObject
 {
 public:
 	Foundation(edict_t* owner);
-	~Foundation();
 
-	static string FoundationModel;
+	virtual void Start() override;
+	virtual void Update() override;
 private:
 };
 

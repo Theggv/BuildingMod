@@ -1,4 +1,4 @@
-#include <pch.h>
+#include "natives_ping.h"
 
 cell AMX_NATIVE_CALL Building_Ping(AMX* amx, cell* params)
 {
