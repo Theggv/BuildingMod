@@ -2,6 +2,7 @@
 
 #include <game/BuildSystem/BuildObjects/GameObject.h>
 #include <game/BuildSystem/BuildObjects/Foundation/Foundation.h>
+#include <game/BuildSystem/BuildObjects/Foundation/FoundationTriangle.h>
 
 #include <game/BuildSystem/ObjectManager.h>
 
@@ -16,6 +17,7 @@ cell AMX_NATIVE_CALL Building_CreateObject(AMX* amx, cell* params)
 	enum class objectType_e
 	{
 		OBJECT_FOUNDATION,
+		OBJECT_FOUNDATIONTRIANGLE,
 	};
 
 	// int len;
@@ -29,18 +31,24 @@ cell AMX_NATIVE_CALL Building_CreateObject(AMX* amx, cell* params)
 	edict_t* player = typeConversion.id_to_edict(id);
 	GameObject* object = nullptr;
 
-
 	switch ((objectType_e)objectType)
 	{
 	case objectType_e::OBJECT_FOUNDATION:
 		object = new Foundation(player);
+		break;
+	case objectType_e::OBJECT_FOUNDATIONTRIANGLE:
+		object = new FoundationTriangle(player);
 		break;
 	default:
 		break;
 	}
 
 	if (object != nullptr)
+	{
 		ObjectManager::Instance().Add(object);
+		EdictFlags::SetPlayerSelectedObject(player, object->Id);
+		object->Update();
+	}
 
 	return 0;
 }
@@ -75,5 +83,6 @@ AMX_NATIVE_INFO GameObject_Natives[] =
 
 void RegisterNatives_GameObject()
 {
+	typeConversion.init();
 	g_amxxapi.AddNatives(GameObject_Natives);
 }

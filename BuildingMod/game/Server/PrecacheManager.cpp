@@ -1,11 +1,18 @@
 #include "PrecacheManager.h"
+#include <boost/algorithm/string.hpp>
+#include <game/Utility/Utility.h>
 
 PrecacheManager::PrecacheManager()
 {
 	m_IsInit = false;
 
-	m_ConfigPath = string(LOCALINFO("amxx_datadir")) + "/BuildingMod/config.ini";
+	char temp[FILENAME_MAX];
+	g_amxxapi.BuildPathnameR(temp, sizeof(temp), "%s/BuildingMod/config.ini", LOCALINFO("amxx_datadir"));
+
+	m_ConfigPath = temp;
+
 	m_FoundationModel = "";
+	m_FoundationTriangleModel = "";
 }
 
 PrecacheManager& PrecacheManager::Instance()
@@ -22,9 +29,18 @@ bool PrecacheManager::IsInit()
 
 void PrecacheManager::PrecacheResources()
 {
-	LoadConfig(m_ConfigPath);
+	if (!LoadConfig(m_ConfigPath))
+	{
+		SEM_PRINT("[Building Mod] Can't load config file.");
+		return;
+	}
+
+	PRECACHE_MODEL((char*)STRING(UTIL_AllocString(m_FoundationModel)));
+	PRECACHE_MODEL((char*)STRING(UTIL_AllocString(m_FoundationTriangleModel)));
 
 	m_IsInit = true;
+
+	SEM_PRINT("[Building Mod] Resources precached.");
 }
 
 string PrecacheManager::GetFoundationModel()
@@ -32,12 +48,21 @@ string PrecacheManager::GetFoundationModel()
 	return m_FoundationModel;
 }
 
+string PrecacheManager::GetFoundationTriangleModel()
+{
+	return m_FoundationTriangleModel;
+}
+
 bool PrecacheManager::Parse_Settings(const char* str, const char* value)
 {
 	if (!_stricmp(str, "FOUNDATION_MODEL"))
 		m_FoundationModel = value;
+	else if (!_stricmp(str, "FOUNDATION_TRIANGLE_MODEL"))
+		m_FoundationTriangleModel = value;
 	else
+	{
 		return false;
+	}
 
 	return true;
 }
@@ -49,31 +74,32 @@ bool PrecacheManager::LoadConfig(string path)
 	if (!fp)
 		return false;
 
-	char* value;
-	char buf[256];
+	char str[256];
+
+	vector<string> parsed(2);
+	string key, value;
 
 	while (!feof(fp))
 	{
-		if (!fgets(buf, sizeof(buf) - 1, fp))
+		if (!fgets(str, sizeof(str) - 1, fp))
 			break;
 
-		value = strchr(buf, '=');
+		boost::algorithm::split(parsed, string(str), boost::is_any_of("="));
 
-		if (value == nullptr) {
+		if (parsed.size() != 2)
 			continue;
-		}
 
-		*(value++) = '\0';
+		key = parsed[0];
+		value = parsed[1];
 
-		TrimSpace(buf);
-		TrimSpace(value);
+		boost::algorithm::trim(key);
+		boost::algorithm::trim(value);
+		boost::algorithm::erase_all(value, "\"");
 
-		if (*buf == '\0' || *value == '\0' || Parse_Settings(buf, value)) {
-			continue;
-		}
+		Parse_Settings(key.c_str(), value.c_str());
 	}
 
-	return false;
+	return true;
 }
 
 static inline int IsCharSpecial(char j)

@@ -14,6 +14,7 @@ public:
 	void PrecacheResources();
 
 	string GetFoundationModel();
+	string GetFoundationTriangleModel();
 private:
 	PrecacheManager();
 
@@ -27,6 +28,7 @@ private:
 	// models region
 
 	string m_FoundationModel;
+	string m_FoundationTriangleModel;
 };
 
 #endif // !_SERVER_PRECACHEMANAGER_

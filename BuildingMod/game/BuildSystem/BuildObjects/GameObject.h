@@ -5,6 +5,7 @@
 #include <game/BuildSystem/BuildObjects/Transform.h>
 #include <game/BuildSystem/BuildObjects/Components/IComponent.h>
 #include <game/BuildSystem/BuildObjects/BuildState.h>
+#include <game/Geometry/Geometry.h>
 
 using namespace std;
 
@@ -14,7 +15,7 @@ class GameObject
 {
 public:
 	GameObject();
-	~GameObject();
+	virtual ~GameObject();
 
 	/// <summary>
 	/// Unique id of object
@@ -67,7 +68,8 @@ public:
 protected:
 	set<IComponent*> m_Components;
 	BuildState m_State;
-
+	CPolygon* m_Shape;
+	
 private:
 	class GameObjectObserver : public IObserver
 	{

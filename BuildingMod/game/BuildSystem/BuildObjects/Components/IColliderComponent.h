@@ -14,11 +14,12 @@ public:
 	IColliderComponent();
 	~IColliderComponent();
 
-	void AddEdict(edict_t* edict, bool isVisible);
-	set<edict_t*> GetEdicts(bool isVisible);
+	virtual void AddEdict(edict_t* edict, bool isVisible);
+	virtual set<edict_t*> GetEdicts(bool isVisible);
 
 	virtual void UpdateTransform() override;
-private:
+	virtual void StateUpdated() override;
+protected:
 	set<edict_t*> m_VisibleEdicts;
 	set<edict_t*> m_InvisibleEdicts;
 };

@@ -9,7 +9,7 @@ class IComponent
 {
 public:
 	IComponent();
-	~IComponent();
+	virtual ~IComponent();
 
 	// Unity-like Start
 	virtual void Start();

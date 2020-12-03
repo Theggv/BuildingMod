@@ -15,6 +15,7 @@ file (GLOB COMMON_SRC
 	"game/BuildSystem/BuildObjects/*.cpp"
 	"game/BuildSystem/BuildObjects/Components/*.cpp"
 	"game/BuildSystem/BuildObjects/Foundation/*.cpp"
+	"game/Geometry/*.cpp"
 	"game/Utility/*.cpp"
 	"game/Server/*.cpp"
 )
@@ -29,6 +30,7 @@ file (GLOB COMMON_HEADERS
 	"game/BuildSystem/BuildObjects/*.h"
 	"game/BuildSystem/BuildObjects/Components/*.h"
 	"game/BuildSystem/BuildObjects/Foundation/*.h"
+	"game/Geometry/*.h"
 	"game/Utility/*.h"
 	"game/Server/*.h"
 )

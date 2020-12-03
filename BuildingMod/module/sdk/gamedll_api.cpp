@@ -1,4 +1,5 @@
-#include "pch.h"
+#include <pch.h>
+#include <game/Server/ServerHooks.h>
 
 IReGameApi *g_ReGameApi;
 IReGameHookchains *g_ReGameHookchains;
@@ -69,9 +70,9 @@ bool RegamedllApi_Init()
 	g_ReGameHookchains->InstallGameRules()->registerHook(&InstallGameRules, HC_PRIORITY_DEFAULT);
 
 	// UserHooks.h
-	/*g_ReGameHookchains->CBasePlayer_PreThink()->registerHook(&CBasePlayer_PreThink, HC_PRIORITY_DEFAULT);
+	g_ReGameHookchains->CBasePlayer_PreThink()->registerHook(&CBasePlayer_PreThink, HC_PRIORITY_DEFAULT);
 	g_ReGameHookchains->CBasePlayer_PostThink()->registerHook(&CBasePlayer_PostThink, HC_PRIORITY_DEFAULT);
-	g_ReGameHookchains->CBasePlayer_RoundRespawn()->registerHook(&CBasePlayer_RoundRespawn, HC_PRIORITY_DEFAULT);*/
+	// g_ReGameHookchains->CBasePlayer_RoundRespawn()->registerHook(&CBasePlayer_RoundRespawn, HC_PRIORITY_DEFAULT);
 
 	return true;
 }

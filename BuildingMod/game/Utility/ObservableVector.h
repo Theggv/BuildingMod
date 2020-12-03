@@ -39,6 +39,15 @@ public:
 	operator const float* () const { return &_x; }	// Vectors will now automatically convert to float * when needed
 	operator Vector () { return Vector(_x, _y, _z); }
 
+	inline Vector ToRound()
+	{
+		return Vector(
+			roundf(_x),
+			roundf(_y),
+			roundf(_z)
+		);
+	}
+
 	inline ObservableVector Normalize()
 	{
 		float flLen = Length();

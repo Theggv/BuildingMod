@@ -31,4 +31,6 @@ void UTIL_ClearAllocStrings();
 
 void UTIL_ClientPrint(edict_t* pEntity, MessageDest msg_dest, char* msg);
 
+Vector UTIL_Rotate(Vector vec, float angle);
+
 #endif // !_UTILITY_UTILITY_

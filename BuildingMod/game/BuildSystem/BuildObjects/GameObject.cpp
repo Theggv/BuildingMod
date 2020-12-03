@@ -7,7 +7,7 @@ GameObject::GameObject(): Id(m_IdGenerator)
 {
 	m_IdGenerator++;
 
-	m_State = BuildState::STATE_SOLID;
+	m_State = BuildState::STATE_CANNOT_BUILD;
 	m_Components = set<IComponent*>();
 	m_Transform = new Transform();
 	m_TransformObserver = new GameObjectObserver(this);

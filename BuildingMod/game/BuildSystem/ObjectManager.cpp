@@ -48,12 +48,18 @@ void ObjectManager::Clear()
 
 GameObject* ObjectManager::Get(int id)
 {
-	return nullptr;
+	if (!Has(id))
+		return nullptr;
+
+	return *m_Objects.at(id);
 }
 
 p_GameObjectWeak_t ObjectManager::GetPtr(int id)
 {
-	return p_GameObjectWeak_t();
+	if (!Has(id))
+		return p_GameObjectWeak_t();
+
+	return p_GameObjectWeak_t(m_Objects.at(id));
 }
 
 p_GameObjectWeak_t ObjectManager::GetPtrByEdict(edict_t* edict)

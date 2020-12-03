@@ -2,10 +2,12 @@
 #include <game/Server/PrecacheManager.h>
 #include <game/Utility/Utility.h>
 #include <module/natives/natives_ping.h>
+#include <module/natives/natives_gameobject.h>
 
 void OnAmxxAttach()
 {
 	RegisterNatives_Ping();
+	RegisterNatives_GameObject();
 }
 
 bool OnMetaAttach()

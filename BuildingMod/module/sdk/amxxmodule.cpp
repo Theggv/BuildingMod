@@ -40,7 +40,7 @@ static struct funcreq_t
 	DECLARE_REQ(AddNatives),
 	//DECLARE_REQ(AddNewNatives),
 	//DECLARE_REQ(BuildPathname),
-	//DECLARE_REQ(BuildPathnameR),
+	DECLARE_REQ(BuildPathnameR),
 	DECLARE_REQ(GetAmxAddr),
 	//DECLARE_REQ(GetAmxVectorNull),			// AMXX 1.8.3-dev
 	//DECLARE_REQ(PrintSrvConsole),

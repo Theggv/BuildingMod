@@ -35,13 +35,69 @@ void IColliderComponent::UpdateTransform()
 {
 	for (auto pEntity : m_VisibleEdicts)
 	{
-		pEntity->v.origin = *GetParent()->GetTransform()->GetPosition();
+		SET_ORIGIN(pEntity, GetParent()->GetTransform()->GetPosition()->ToRound());
 		pEntity->v.angles = *GetParent()->GetTransform()->GetRotation();
 	}
 
 	for (auto pEntity : m_InvisibleEdicts)
 	{
-		pEntity->v.origin = *GetParent()->GetTransform()->GetPosition();
+		SET_ORIGIN(pEntity, GetParent()->GetTransform()->GetPosition()->ToRound());
 		pEntity->v.angles = *GetParent()->GetTransform()->GetRotation();
+	}
+}
+
+void IColliderComponent::StateUpdated()
+{
+	auto state = m_parent->GetState();
+
+	switch (state)
+	{
+	case BuildState::STATE_SOLID:
+		for (auto pEntity : m_VisibleEdicts)
+		{
+			pEntity->v.solid = SOLID_BBOX;
+			SET_SIZE(pEntity, Vector(-64, -64, 0), Vector(64, 64, 128));
+
+			pEntity->v.rendermode = kRenderNormal;
+			pEntity->v.renderfx = kRenderFxNone;
+		}
+
+		for (auto pEntity : m_InvisibleEdicts)
+		{
+			pEntity->v.solid = SOLID_BBOX;
+			SET_SIZE(pEntity, Vector(-64, -64, 0), Vector(64, 64, 128));
+		}
+
+		break;
+	case BuildState::STATE_CANNOT_BUILD:
+		for (auto pEntity : m_VisibleEdicts)
+		{
+			pEntity->v.solid = SOLID_NOT;
+
+			pEntity->v.rendermode = kRenderTransAlpha;
+			pEntity->v.renderamt = 150.0f;
+			pEntity->v.rendercolor = Vector(255, 0, 0);
+			pEntity->v.renderfx = kRenderFxGlowShell;
+		}
+
+		for (auto pEntity : m_InvisibleEdicts)
+			pEntity->v.solid = SOLID_NOT;
+
+		break;
+	case BuildState::STATE_CAN_BUILD:
+		for (auto pEntity : m_VisibleEdicts)
+		{
+			pEntity->v.solid = SOLID_NOT;
+
+			pEntity->v.rendermode = kRenderTransAlpha;
+			pEntity->v.renderamt = 150.0f;
+			pEntity->v.rendercolor = Vector(50, 50, 255);
+			pEntity->v.renderfx = kRenderFxGlowShell;
+		}
+
+		for (auto pEntity : m_InvisibleEdicts)
+			pEntity->v.solid = SOLID_NOT;
+
+		break;
 	}
 }

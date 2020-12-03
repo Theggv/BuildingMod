@@ -88,7 +88,7 @@ Vector UTIL_GetEndPoint(int index, float triggerDistance)
 
 edict_t* UTIL_CreateEdict(string className)
 {
-	auto pEntity = CREATE_NAMED_ENTITY(UTIL_AllocString("info_target"));
+	auto pEntity = CREATE_NAMED_ENTITY(UTIL_AllocString(className));
 
 	if (!IsEntValid(pEntity))
 	{
@@ -100,7 +100,7 @@ edict_t* UTIL_CreateEdict(string className)
 	pEntity->v.classname = UTIL_AllocString(className);
 
 	// Set size
-	SET_SIZE(pEntity, Vector(-1, -1, 0), Vector(1, 1, 1));
+	SET_SIZE(pEntity, Vector(-4, -4, 0), Vector(4, 4, 8));
 	pEntity->v.solid = SOLID_BBOX;
 
 	pEntity->v.nextthink = gpGlobals->time + 0.1f;
@@ -110,6 +110,7 @@ edict_t* UTIL_CreateEdict(string className)
 
 string_t UTIL_AllocString(string str)
 {
+	return ALLOC_STRING(str.c_str());
 	auto it = m_AllocatedStrings.find(str);
 
 	if (it != m_AllocatedStrings.end())
@@ -144,4 +145,16 @@ void UTIL_ClientPrint(edict_t* pEntity, MessageDest msg_dest, char* msg)
 	WRITE_STRING(STRING(ALLOC_STRING(msg)));
 	MESSAGE_END();
 	msg[190] = c;
+}
+
+Vector UTIL_Rotate(Vector vec, float angle)
+{
+	float angle_sin = sin(angle * M_PI / 180);
+	float angle_cos = cos(angle * M_PI / 180);
+
+	return Vector(
+		vec.x * angle_cos + vec.y * angle_sin,
+		- vec.x * angle_sin + vec.y * angle_cos,
+		vec.z
+	);
 }
