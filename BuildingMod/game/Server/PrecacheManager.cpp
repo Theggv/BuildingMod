@@ -84,7 +84,7 @@ bool PrecacheManager::LoadConfig(string path)
 		if (!fgets(str, sizeof(str) - 1, fp))
 			break;
 
-		boost::algorithm::split(parsed, string(str), boost::is_any_of("="));
+		boost::algorithm::split(parsed, str, boost::is_any_of("="));
 
 		if (parsed.size() != 2)
 			continue;
