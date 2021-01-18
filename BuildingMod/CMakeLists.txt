@@ -49,8 +49,7 @@ set (SRC_DEPS
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -std=c++17")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++ -Wl,--no-as-needed")
-	## todo: remove -w, add -Wall
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -ggdb -O3 -w -ffunction-sections -fdata-sections")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -ggdb -O3 -Wall -ffunction-sections -fdata-sections")
 
 	## Produce code optimized for the most common IA32/AMD64/EM64T processors.
 	## As new processors are deployed in the marketplace, the behavior of this option will change.
