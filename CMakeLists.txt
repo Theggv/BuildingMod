@@ -16,10 +16,21 @@ set(CMAKE_CXX_STANDARD 17)
 # Include default stuff
 include(GNUInstallDirs)
 
+# Boost setup
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+set(BOOST_REQUESTED_VERSION 1.74.0)
+set(BOOST_ROOT_DIR E:/Workspace/Boost)
+
+set(BOOST_INCLUDE_DIR ${BOOST_ROOT_DIR}/include/boost-1_74)
+set(BOOST_LIBRARY ${BOOST_ROOT_DIR}/lib)
+
+find_package(Boost COMPONENTS system test REQUIRED)
+
+
 # Dependencies
 set(CMAKE_INCLUDE_PATH
 	"./deps"
-	"./deps/boost"
 	"./deps/metamod"
 	"./deps/cssdk/common"
 	"./deps/cssdk/dlls"
@@ -39,23 +50,9 @@ add_definitions(
 	-D_MBCS
 )
 
-if(WIN32 AND NOT USE_CUSTOM_BOOST_PATH)
-	find_package(Boost REQUIRED)
-	include_directories(${Boost_INCLUDE_DIRS})
-elseif(USE_CUSTOM_BOOST_PATH)
-	include_directories(${CUSTOM_BOOST_PATH})
-endif()
-
-# message(Boost dirs: ${Boost_LIBRARY_DIRS})
-
-find_path(boost_dir boost/shared_ptr.hpp)
-set(${CMAKE_INCLUDE_PATH}
-	${CMAKE_INCLUDE_PATH}
-	$boost_dir
-)
-
 include_directories(
 	${CMAKE_INCLUDE_PATH}
+	${BOOST_INCLUDE_DIR}
 )
 
 include(CTest)

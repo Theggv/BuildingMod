@@ -22,8 +22,8 @@ void FrameState::SetState(AddToFullPackArgs args, bool isPost)
 
 FrameState::FrameState()
 {
-	m_ArgsPre = &AddToFullPackArgs();
-	m_ArgsPost = &AddToFullPackArgs();
+	m_ArgsPre = new AddToFullPackArgs;
+	m_ArgsPost = new AddToFullPackArgs;
 }
 
 FrameState::~FrameState()

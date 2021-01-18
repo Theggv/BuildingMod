@@ -11,12 +11,12 @@ Foundation::Foundation(edict_t* owner)
 {
 	AddComponent(new OwnerComponent(owner));
 
-	m_Shape = new CPolygon({
-		Point(-64,-64),
-		Point(-64, 64),
-		Point(64, 64),
-		Point(64, -64)
-		});
+	// m_Shape = new CPolygon({
+	// 	Point(-64,-64),
+	// 	Point(-64, 64),
+	// 	Point(64, 64),
+	// 	Point(64, -64)
+	// 	});
 }
 
 void Foundation::Start()

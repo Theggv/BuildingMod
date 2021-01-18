@@ -1,30 +1,16 @@
-#ifndef _UTILITY_GEOMETRY_EDGE_H_
-#define _UTILITY_GEOMETRY_EDGE_H_
+#ifndef _GAME_GEOMETRY_EDGE_H_
+#define _GAME_GEOMETRY_EDGE_H_
 
 #include <pch.h>
-#include "Point.h"
-
-double dotProduct(Point& p, Point& q);
+#include "vec2.h"
 
 class Edge
 {
 public:
-	Point org;
-	Point dest;
+	vec2 org;
+	vec2 dest;
 
-	Edge(Point& _org, Point& _dest);
-	Edge(void);
-
-	Edge& rot(void);
-	Edge& flip(void);
-
-	Point point(double);
-
-	int intersect(Edge&, double&);
-	int cross(Edge&, double&);
-	bool isVertical(void);
-	double slope(void);
-	double ó(double);
+	Edge(vec2 &_org, vec2 &_dest);
 };
 
-#endif // !_UTILITY_GEOMETRY_EDGE_H_
+#endif // !_GAME_GEOMETRY_EDGE_H_

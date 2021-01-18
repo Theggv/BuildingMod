@@ -46,12 +46,11 @@ set (SRC_DEPS
 	"${PROJECT_SOURCE_DIR}/deps/cssdk/public/interface.cpp"
 )
 
-if (UNIX)
-	message("Platform: Linux")
-	
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -std=c++11")
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -std=c++17")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++ -Wl,--no-as-needed")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -ggdb -O3 -Wall -ffunction-sections -fdata-sections")
+	## todo: remove -w, add -Wall
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -ggdb -O3 -w -ffunction-sections -fdata-sections")
 
 	## Produce code optimized for the most common IA32/AMD64/EM64T processors.
 	## As new processors are deployed in the marketplace, the behavior of this option will change.
@@ -69,15 +68,16 @@ if (UNIX)
 		-Wno-strict-aliasing\
 		-Wno-unused-but-set-variable\
 		-fno-devirtualize")
-
-else()
-	message("Platform: Windows")
 endif()
 
 # Setup shared library
 
 add_library(${PROJECT} SHARED ${PCH} ${COMMON_HEADERS} ${SRC} ${SRC_DEPS} "BuildingMod.def")
 target_include_directories(${PROJECT} PUBLIC ${SRC_DIRS})
+
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+	set_target_properties(${PROJECT} PROPERTIES PREFIX "" COMPILE_FLAGS "-m32" LINK_FLAGS "-m32" POSITION_INDEPENDENT_CODE ON)
+endif()
 
 if(UNIX)
 	target_compile_definitions(${PROJECT} PUBLIC 
@@ -98,7 +98,6 @@ if(UNIX)
 		-D_vsnwprintf=vswprintf
 	)
 
-	set_target_properties(${PROJECT} PROPERTIES PREFIX "" COMPILE_FLAGS "-m32" LINK_FLAGS "-m32" POSITION_INDEPENDENT_CODE ON)
 	target_link_libraries(${PROJECT} dl)
 	set_property(TARGET ${PROJECT} PROPERTY LIBRARY_OUTPUT_NAME building_amxx_i386)
 endif()
@@ -107,6 +106,10 @@ endif()
 
 add_library(building_amxx_static STATIC ${PCH} ${COMMON_HEADERS} ${SRC} ${SRC_DEPS} "BuildingMod.def")
 target_include_directories(building_amxx_static PUBLIC ${SRC_DIRS})
+
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+	set_target_properties(building_amxx_static PROPERTIES PREFIX "" COMPILE_FLAGS "-m32" LINK_FLAGS "-m32" POSITION_INDEPENDENT_CODE ON)
+endif()
 
 if(UNIX)
 	target_compile_definitions(building_amxx_static PUBLIC 
@@ -127,6 +130,7 @@ if(UNIX)
 		-D_vsnwprintf=vswprintf
 	)
 
-	set_target_properties(building_amxx_static PROPERTIES PREFIX "" COMPILE_FLAGS "-m32" LINK_FLAGS "-m32" POSITION_INDEPENDENT_CODE ON)
 	set_property(TARGET building_amxx_static PROPERTY LIBRARY_OUTPUT_NAME building_amxx_i386_static)
+else()
+	set_target_properties(building_amxx_static PROPERTIES PREFIX "")
 endif()

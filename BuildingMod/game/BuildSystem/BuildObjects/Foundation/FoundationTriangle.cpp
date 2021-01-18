@@ -20,10 +20,10 @@ FoundationTriangle::FoundationTriangle(edict_t* owner) : Foundation(owner)
 	//	Point(64, minH),
 	//	});
 
-	m_Shape = new CPolygon();
-	m_Shape->insert(Point(-64, minH));
-	m_Shape->insert(Point(0, maxH));
-	m_Shape->insert(Point(64, minH));
+	// m_Shape = new CPolygon();
+	// m_Shape->insert(Point(-64, minH));
+	// m_Shape->insert(Point(0, maxH));
+	// m_Shape->insert(Point(64, minH));
 }
 
 void FoundationTriangle::Start()
