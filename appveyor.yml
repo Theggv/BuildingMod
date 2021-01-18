@@ -23,7 +23,7 @@ matrix:
 build_script:
     - SET BOOST_ROOT=C:/Libraries/boost_1_73_0
     - cd %APPVEYOR_BUILD_FOLDER%
-    - cmake -G "Visual Studio 16 2019" -T host=x86 -A win32 CMakeLists.txt
+    - cmake -G "Visual Studio 16 2019" -T host=x86 -A win32 CMakeLists.txt -Wno-dev
     - cmake --build .
 
 test_script:
