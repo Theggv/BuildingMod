@@ -18,18 +18,6 @@ include(GNUInstallDirs)
 
 # Boost setup
 
-# Add -DIS_LOCAL_BUILD=TRUE to configure args if you want to use custom boost path
-if(IS_LOCAL_BUILD)
-
-	list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
-	set(BOOST_REQUESTED_VERSION 1.74.0)
-
-	# Set your path to boost here
-	set(BOOST_ROOT_DIR E:/Workspace/Boost)
-	set(BOOST_INCLUDE_DIR ${BOOST_ROOT_DIR}/include/boost-1_74)
-	set(BOOST_LIBRARY ${BOOST_ROOT_DIR}/lib)
-endif()
-
 find_package(Boost COMPONENTS system test REQUIRED)
 
 
