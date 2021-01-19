@@ -18,6 +18,7 @@ include(GNUInstallDirs)
 
 # Boost setup
 
+set(Boost_INCLUDE_DIR "./deps")
 find_package(Boost)
 
 
