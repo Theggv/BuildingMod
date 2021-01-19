@@ -19,22 +19,23 @@ include(GNUInstallDirs)
 # Boost setup
 
 set(BOOST_ROOT "./deps/boost")
+set(BOOST_INCLUDE_DIR "./deps")
 set(Boost_INCLUDE_DIR "./deps")
 find_package(Boost)
 
 
 # Dependencies
 set(CMAKE_INCLUDE_PATH
-	"./deps"
-	"./deps/boost"
-	"./deps/metamod"
-	"./deps/cssdk/common"
-	"./deps/cssdk/dlls"
-	"./deps/cssdk/engine"
-	"./deps/cssdk/game_shared"
-	"./deps/cssdk/pm_shared"
-	"./deps/cssdk/public"
-	"./BuildingMod"
+	"deps"
+	"deps/boost"
+	"deps/metamod"
+	"deps/cssdk/common"
+	"deps/cssdk/dlls"
+	"deps/cssdk/engine"
+	"deps/cssdk/game_shared"
+	"deps/cssdk/pm_shared"
+	"deps/cssdk/public"
+	"BuildingMod"
 )
 
 add_definitions(
