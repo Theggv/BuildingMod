@@ -18,7 +18,7 @@ include(GNUInstallDirs)
 
 # Boost setup
 
-find_package(Boost COMPONENTS system test REQUIRED)
+find_package(Boost)
 
 
 # Dependencies
