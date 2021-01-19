@@ -26,6 +26,7 @@ find_package(Boost)
 # Dependencies
 set(CMAKE_INCLUDE_PATH
 	"./deps"
+	"./deps/boost"
 	"./deps/metamod"
 	"./deps/cssdk/common"
 	"./deps/cssdk/dlls"
