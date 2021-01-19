@@ -6,6 +6,7 @@ build
 Testing
 
 # Build results
+!deps
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
