@@ -29,6 +29,8 @@ public:
 	double dot(vec2 &);
 	double length();
 	vec2 normalize();
+
+	vec2 GetNormal();
 };
 
 #endif // !_GAME_GEOMETRY_VEC2_H_

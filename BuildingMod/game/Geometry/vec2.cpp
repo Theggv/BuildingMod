@@ -71,3 +71,8 @@ vec2 vec2::normalize()
 
 	return vec2(x / len, y / len);
 }
+
+vec2 vec2::GetNormal()
+{
+	return vec2(y, -x);
+}
