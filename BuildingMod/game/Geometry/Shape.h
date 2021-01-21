@@ -12,7 +12,7 @@ public:
 	Shape(std::vector<vec2> points);
 
 	bool IsIntersect(Shape &other);
-
+	vec2 GetCenterPoint();
 private:
 	std::vector<vec2> _points;
 

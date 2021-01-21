@@ -1,25 +1,91 @@
 #include "vec2.h"
 
-vec2::vec2(double _x, double _y)
+#include "mat4.h"
+#include "vec4.h"
+
+// constructors
+
+vec2::vec2(double _x, double _y) : x(_x), y(_y)
 {
-	this->x = _x;
-	this->y = _y;
 }
 
-vec2 vec2::operator+(vec2 &p)
+// static methods
+
+vec2 vec2::One()
 {
-	return vec2(x + p.x, y + p.y);
+	return vec2(1, 1);
 }
 
-vec2 vec2::operator-(vec2 &p)
+vec2 vec2::UnitX()
 {
-	return vec2(x - p.x, y - p.y);
+	return vec2(1, 0);
 }
 
-vec2 operator*(double s, vec2 &p)
+vec2 vec2::UnitY()
 {
-	return vec2(s * p.x, s * p.y);
+	return vec2(0, 1);
 }
+
+vec2 vec2::Zero()
+{
+	return vec2(0, 0);
+}
+
+double vec2::Distance(vec2 &a, vec2 &b)
+{
+	return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
+}
+
+double vec2::DistanceSquared(vec2 &a, vec2 &b)
+{
+	return pow(a.x - b.x, 2) + pow(a.y - b.y, 2);
+}
+
+double vec2::Dot(vec2 &a, vec2 &b)
+{
+	return a.x * b.x + a.y * b.y;
+}
+
+// methods
+
+vec2 vec2::Abs()
+{
+	return vec2(abs(x), abs(y));
+}
+
+vec2 vec2::Normalize()
+{
+	auto len = Length();
+
+	if (!len)
+		return *this;
+
+	return vec2(x / len, y / len);
+}
+
+vec2 vec2::NormalVector()
+{
+	return vec2(y, -x);
+}
+
+vec2 vec2::Transform(mat4 &mat)
+{
+	auto vec = vec4(*this) * mat;
+
+	return vec2(vec.x, vec.y);
+}
+
+double vec2::Length()
+{
+	return sqrt(x * x + y * y);
+}
+
+double vec2::LengthSquared()
+{
+	return x * x + y * y;
+}
+
+// operators
 
 double vec2::operator[](int i)
 {
@@ -32,47 +98,42 @@ double vec2::operator[](int i)
 	}
 }
 
-int vec2::operator==(vec2 &p)
+vec2 vec2::operator+(vec2 &vec)
 {
-	return (x == p.x) && (y == p.y);
+	return vec2(x + vec.x, y + vec.y);
 }
 
-int vec2::operator!=(vec2 &p)
+vec2 vec2::operator-()
 {
-	return !(*this == p);
+	return vec2(-x, -y);
 }
 
-int vec2::operator<(vec2 &p)
+vec2 vec2::operator-(vec2 &vec)
 {
-	return ((x < p.x) || ((x == p.x) && (y < p.y)));
+	return vec2(x - vec.x, y - vec.y);
 }
 
-int vec2::operator>(vec2 &p)
+vec2 operator*(double s, vec2 &vec)
 {
-	return ((x > p.x) || ((x == p.x) && (y > p.y)));
+	return vec2(s * vec.x, s * vec.y);
 }
 
-double vec2::dot(vec2 &p)
+vec2 operator*(vec2 &vec, double s)
 {
-	return x * p.x + y * p.y;
+	return vec2(s * vec.x, s * vec.y);
 }
 
-double vec2::length()
+vec2 operator/(vec2 &vec, double s)
 {
-	return sqrt(x * x + y * y);
+	return vec2(vec.x / s, vec.y / s);
 }
 
-vec2 vec2::normalize()
+int vec2::operator==(vec2 &vec)
 {
-	double len = length();
-
-	if (!len)
-		return *this;
-
-	return vec2(x / len, y / len);
+	return (x == vec.x) && (y == vec.y);
 }
 
-vec2 vec2::GetNormal()
+int vec2::operator!=(vec2 &vec)
 {
-	return vec2(y, -x);
+	return !(*this == vec);
 }

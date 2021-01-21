@@ -3,6 +3,9 @@
 
 #include <pch.h>
 
+class mat4;
+class vec4;
+
 class vec2
 {
 public:
@@ -10,27 +13,45 @@ public:
 
 	vec2(double _x = 0.0, double _y = 0.0);
 
-	// operators
+	// static methods
 
-	vec2 operator+(vec2 &);
-	vec2 operator-(vec2 &);
-	friend vec2 operator*(double, vec2 &);
+	static vec2 One();
+	static vec2 UnitX();
+	static vec2 UnitY();
+	static vec2 Zero();
 
-	double operator[](int);
+	static double Distance(vec2 &, vec2 &);
+	static double DistanceSquared(vec2 &, vec2 &);
 
-	int operator==(vec2 &);
-	int operator!=(vec2 &);
-
-	int operator<(vec2 &);
-	int operator>(vec2 &);
+	static double Dot(vec2 &, vec2 &);
 
 	// methods
 
-	double dot(vec2 &);
-	double length();
-	vec2 normalize();
+	vec2 Abs();
+	vec2 Normalize();
+	vec2 NormalVector();
 
-	vec2 GetNormal();
+	vec2 Transform(mat4 &);
+
+	double Length();
+	double LengthSquared();
+
+	// operators
+
+	double operator[](int);
+
+	vec2 operator+(vec2 &);
+
+	vec2 operator-();
+	vec2 operator-(vec2 &);
+
+	friend vec2 operator*(double, vec2 &);
+	friend vec2 operator*(vec2 &, double);
+
+	friend vec2 operator/(vec2 &, double);
+
+	int operator==(vec2 &);
+	int operator!=(vec2 &);
 };
 
 #endif // !_GAME_GEOMETRY_VEC2_H_

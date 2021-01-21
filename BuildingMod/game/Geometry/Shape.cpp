@@ -13,6 +13,20 @@ Shape::Shape(std::vector<vec2> points)
     }
 }
 
+vec2 Shape::GetCenterPoint()
+{
+    double x = 0, y = 0;
+    size_t pointsCount = _points.size();
+
+    for (auto point : _points)
+    {
+        x += point.x;
+        y += point.y;
+    }
+
+    return vec2(x / pointsCount, y / pointsCount);
+}
+
 /**
  * Пересекаются ли две фигуры
  * https://qastack.ru/gamedev/25397/obb-vs-obb-collision-detection
@@ -23,7 +37,7 @@ bool Shape::IsIntersect(Shape &other)
 
     for (size_t i = 1; i < _points.size(); ++i)
     {
-        auto normal = (_points[i] - _points[i - 1]).GetNormal();
+        auto normal = (_points[i] - _points[i - 1]).NormalVector();
 
         SATTest(normal, *this, min1, max1);
         SATTest(normal, other, min2, max2);
@@ -47,7 +61,7 @@ void Shape::SATTest(vec2 normal, Shape &polygon, double &min, double &max)
 
     for (auto point : polygon._points)
     {
-        auto value = point.dot(normal);
+        auto value = vec2::Dot(point, normal);
 
         if (value < min)
             min = value;
