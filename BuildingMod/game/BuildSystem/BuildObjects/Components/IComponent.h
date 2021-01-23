@@ -21,14 +21,14 @@ public:
 	virtual void StateUpdated();
 
 	/// <summary>
-	/// Set parent of component. 
+	/// Set parent of component.
 	/// </summary>
 	/// <param name="parent"></param>
-	void SetParent(GameObject* parent);
-	GameObject* GetParent();
+	void SetParent(GameObject *parent);
+	GameObject *GetParent();
 
 protected:
-	GameObject* m_parent;
+	GameObject *m_parent;
 };
 
 #endif // !_BUILDOBJECTS_COMPONENTS_ICOMPONENT_

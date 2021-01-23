@@ -3,6 +3,7 @@
 
 #include <pch.h>
 #include "IComponent.h"
+#include <game/Geometry.h>
 
 using namespace std;
 
@@ -14,14 +15,17 @@ public:
 	IColliderComponent();
 	~IColliderComponent();
 
-	virtual void AddEdict(edict_t* edict, bool isVisible);
-	virtual set<edict_t*> GetEdicts(bool isVisible);
+	virtual void AddEdict(edict_t *edict, bool isVisible);
+	virtual set<edict_t *> GetEdicts(bool isVisible);
 
 	virtual void UpdateTransform() override;
 	virtual void StateUpdated() override;
+
 protected:
-	set<edict_t*> m_VisibleEdicts;
-	set<edict_t*> m_InvisibleEdicts;
+	set<edict_t *> m_VisibleEdicts;
+	set<edict_t *> m_InvisibleEdicts;
+
+	Shape *m_Shape;
 };
 
 #endif // !_BUILDOBJECTS_COMPONENTS_ICOLLIDERCOMPONENT_

@@ -2,7 +2,7 @@
 #define _BUILDOBJECTS_COMPONENTS_TRIANGLECOLLIDER_
 
 #include <pch.h>
-#include "IColliderComponent.h"
+#include <game/BuildSystem/BuildObjects/Components/IColliderComponent.h>
 
 using namespace std;
 
@@ -11,8 +11,10 @@ class IColliderComponent;
 class TriangleCollider : public IColliderComponent
 {
 public:
-	void AddEdict(edict_t* edict, bool isVisible);
-	set<edict_t*> GetEdicts(bool isVisible);
+	TriangleCollider();
+
+	void AddEdict(edict_t *edict, bool isVisible);
+	set<edict_t *> GetEdicts(bool isVisible);
 
 	virtual void UpdateTransform() override;
 };

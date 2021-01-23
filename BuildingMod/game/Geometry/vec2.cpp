@@ -103,14 +103,14 @@ vec2 vec2::operator+(vec2 &vec)
 	return vec2(x + vec.x, y + vec.y);
 }
 
-vec2 vec2::operator-()
+vec2 operator-(const vec2& vec)
 {
-	return vec2(-x, -y);
+	return vec2(-vec.x, -vec.y);
 }
 
-vec2 vec2::operator-(vec2 &vec)
+vec2 operator-(vec2 &a, vec2 &b)
 {
-	return vec2(x - vec.x, y - vec.y);
+	return vec2(a.x - b.x, a.y - b.y);
 }
 
 vec2 operator*(double s, vec2 &vec)

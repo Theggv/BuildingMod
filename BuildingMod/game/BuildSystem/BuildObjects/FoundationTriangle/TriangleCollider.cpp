@@ -1,6 +1,21 @@
 #include "TriangleCollider.h"
 
-void TriangleCollider::AddEdict(edict_t* edict, bool isVisible)
+TriangleCollider::TriangleCollider()
+{
+	auto width = 120.0;
+	auto height = width * sin(60 * M_PI / 180);
+
+	auto minH = (height / 3) - (height / 2);
+	auto maxH = height + minH;
+
+	m_Shape = new Shape({
+		vec2(-width / 2, minH),
+		vec2(0, maxH),
+		vec2(width / 2, minH),
+	});
+}
+
+void TriangleCollider::AddEdict(edict_t *edict, bool isVisible)
 {
 	if (isVisible)
 		m_VisibleEdicts.insert(edict);
@@ -13,7 +28,7 @@ void TriangleCollider::AddEdict(edict_t* edict, bool isVisible)
 	}
 }
 
-set<edict_t*> TriangleCollider::GetEdicts(bool isVisible)
+set<edict_t *> TriangleCollider::GetEdicts(bool isVisible)
 {
 	return isVisible ? m_VisibleEdicts : m_InvisibleEdicts;
 }
@@ -27,6 +42,7 @@ void TriangleCollider::UpdateTransform()
 	}
 
 	int i = 1;
+	
 	for (auto pEntity : m_InvisibleEdicts)
 	{
 		SET_ORIGIN(pEntity, GetParent()->GetTransform()->GetPosition()->ToRound());

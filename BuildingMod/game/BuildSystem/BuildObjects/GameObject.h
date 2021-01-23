@@ -5,7 +5,8 @@
 #include <game/BuildSystem/BuildObjects/Transform.h>
 #include <game/BuildSystem/BuildObjects/Components/IComponent.h>
 #include <game/BuildSystem/BuildObjects/BuildState.h>
-// #include <game/Geometry/Geometry.h>
+
+#include <game/Geometry.h>
 
 using namespace std;
 
@@ -42,7 +43,7 @@ public:
 	/// Get transform of the object
 	/// </summary>
 	/// <returns></returns>
-	Transform* GetTransform();
+	Transform *GetTransform();
 
 	unsigned long GetWorldPositionFlags();
 
@@ -52,7 +53,7 @@ public:
 	/// <typeparam name="T">IComponent without pointer</typeparam>
 	/// <returns>Returns IComponent if component exists, nullptr otherwise</returns>
 	template <class T>
-	T* GetComponent();
+	T *GetComponent();
 
 	/// <summary>
 	/// Add new component to the object
@@ -65,48 +66,48 @@ public:
 
 	BuildState GetState();
 	bool TrySetState(BuildState state);
+
 protected:
-	set<IComponent*> m_Components;
+	set<IComponent *> m_Components;
 	BuildState m_State;
-	// CPolygon* m_Shape;
-	
+
 private:
 	class GameObjectObserver : public IObserver
 	{
 	public:
-		GameObjectObserver(GameObject* object);
+		GameObjectObserver(GameObject *object);
 		~GameObjectObserver();
 
 		virtual void Update() override;
 
 	private:
-		GameObject* m_GameObject;
+		GameObject *m_GameObject;
 	};
 
-	Transform* m_Transform;
-	IObserver* m_TransformObserver;
+	Transform *m_Transform;
+	IObserver *m_TransformObserver;
 
 	unsigned long m_WorldPosition = 0;
 
 	void UpdateWorldPosition();
 };
 
-template<class T>
-inline T* GameObject::GetComponent()
+template <class T>
+inline T *GameObject::GetComponent()
 {
 	// assert that T is IComponent
 	static_assert(is_base_of<IComponent, T>::value, "Type parameter must derive from IComponent");
 
 	for (auto component : m_Components)
 	{
-		if (auto casted = dynamic_cast<T*>(component))
+		if (auto casted = dynamic_cast<T *>(component))
 			return casted;
 	}
 
 	return nullptr;
 }
 
-template<class T>
+template <class T>
 inline bool GameObject::AddComponent(const T component)
 {
 	// assert that T is IComponent

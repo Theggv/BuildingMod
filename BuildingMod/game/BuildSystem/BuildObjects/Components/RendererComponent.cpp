@@ -1,6 +1,6 @@
 #include "RendererComponent.h"
 
-Material* RendererComponent::GetMaterial()
+Material *RendererComponent::GetMaterial()
 {
 	return m_Material;
 }

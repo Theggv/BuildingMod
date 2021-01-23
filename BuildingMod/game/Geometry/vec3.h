@@ -3,10 +3,10 @@
 
 #include <pch.h>
 
-class vec2;
-class mat4;
+struct vec2;
+struct mat4;
 
-class vec3
+struct vec3
 {
 public:
     double x, y, z;

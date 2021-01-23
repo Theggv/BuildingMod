@@ -2,8 +2,8 @@
 
 IColliderComponent::IColliderComponent()
 {
-	m_VisibleEdicts = set<edict_t*>();
-	m_InvisibleEdicts = set<edict_t*>();
+	m_VisibleEdicts = set<edict_t *>();
+	m_InvisibleEdicts = set<edict_t *>();
 }
 
 IColliderComponent::~IColliderComponent()
@@ -16,9 +16,11 @@ IColliderComponent::~IColliderComponent()
 
 	m_VisibleEdicts.clear();
 	m_InvisibleEdicts.clear();
+
+	delete m_Shape;
 }
 
-void IColliderComponent::AddEdict(edict_t* edict, bool isVisible)
+void IColliderComponent::AddEdict(edict_t *edict, bool isVisible)
 {
 	if (isVisible)
 		m_VisibleEdicts.insert(edict);
@@ -26,7 +28,7 @@ void IColliderComponent::AddEdict(edict_t* edict, bool isVisible)
 		m_InvisibleEdicts.insert(edict);
 }
 
-set<edict_t*> IColliderComponent::GetEdicts(bool isVisible)
+set<edict_t *> IColliderComponent::GetEdicts(bool isVisible)
 {
 	return isVisible ? m_VisibleEdicts : m_InvisibleEdicts;
 }

@@ -11,13 +11,14 @@ using namespace std;
 class RendererComponent : public IComponent
 {
 public:
-	Material* GetMaterial();
+	Material *GetMaterial();
 
 	string GetModel();
 	void SetModel(string model);
+
 private:
 	string m_Model;
-	Material* m_Material;
+	Material *m_Material;
 };
 
 #endif // !_BUILDOBJECTS_COMPONENTS_RENDERERCOMPONENT_

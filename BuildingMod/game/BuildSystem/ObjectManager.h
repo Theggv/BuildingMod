@@ -4,29 +4,30 @@
 #include <pch.h>
 #include <game/BuildSystem/BuildObjects/GameObject.h>
 
-typedef boost::shared_ptr<GameObject*> p_GameObject_t;
-typedef boost::weak_ptr<GameObject*> p_GameObjectWeak_t;
+typedef boost::shared_ptr<GameObject *> p_GameObject_t;
+typedef boost::weak_ptr<GameObject *> p_GameObjectWeak_t;
 
 using namespace std;
 
 class ObjectManager
 {
 public:
-	static ObjectManager& Instance();
+	static ObjectManager &Instance();
 
-	void Add(GameObject* object);
-	void Remove(GameObject* object);
+	void Add(GameObject *object);
+	void Remove(GameObject *object);
 
 	bool Has(int id);
-	bool HasEdict(edict_t* edict);
+	bool HasEdict(edict_t *edict);
 
 	void Clear();
-	GameObject* Get(int id);
+	GameObject *Get(int id);
 	p_GameObjectWeak_t GetPtr(int id);
 
-	p_GameObjectWeak_t GetPtrByEdict(edict_t* edict);
+	p_GameObjectWeak_t GetPtrByEdict(edict_t *edict);
 
 	static unsigned long CalculateWorldPosition(float x, float y);
+
 private:
 	// Map of pointers to objects by object index
 	map<int, p_GameObject_t> m_Objects;
@@ -38,12 +39,11 @@ private:
 	// Map of pointers to objects by edict index
 	map<int, p_GameObjectWeak_t> m_ObjectsEdictIndex;
 
-
 	ObjectManager();
 	~ObjectManager();
 
-	ObjectManager(ObjectManager const&) = delete;
-	ObjectManager& operator= (ObjectManager const&) = delete;
+	ObjectManager(ObjectManager const &) = delete;
+	ObjectManager &operator=(ObjectManager const &) = delete;
 };
 
 #endif // !_BUILDSYSTEM_OBJECTMANAGER_

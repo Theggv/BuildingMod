@@ -3,10 +3,9 @@
 
 #include <pch.h>
 
-class mat4;
-class vec4;
+struct mat4;
 
-class vec2
+struct vec2
 {
 public:
 	double x, y;
@@ -42,8 +41,8 @@ public:
 
 	vec2 operator+(vec2 &);
 
-	vec2 operator-();
-	vec2 operator-(vec2 &);
+	friend vec2 operator-(const vec2 &);
+	friend vec2 operator-(vec2 &, vec2 &);
 
 	friend vec2 operator*(double, vec2 &);
 	friend vec2 operator*(vec2 &, double);
