@@ -1,33 +1,29 @@
-#include "Foundation.h"
+#include "FoundationTriangle.h"
 
 #include <game/BuildSystem/BuildObjects/Components/OwnerComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/RendererComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/IColliderComponent.h>
+#include <game/BuildSystem/BuildObjects/Components/TriangleCollider.h>
 
 #include <game/Utility/Utility.h>
 #include <game/Server/PrecacheManager.h>
 
-Foundation::Foundation(edict_t *owner)
+FoundationTriangle::FoundationTriangle(edict_t *owner) : Foundation(owner)
 {
-	AddComponent(new OwnerComponent(owner));
-
-	auto width = 120.0;
-
-	m_Shape = new Shape({vec2(-width / 2, -width / 2),
-						 vec2(-width / 2, width / 2),
-						 vec2(width / 2, width / 2),
-						 vec2(width / 2, -width / 2)});
+	
 }
 
-void Foundation::Start()
+void FoundationTriangle::Start()
 {
 	auto renderer = new RendererComponent;
-	renderer->SetModel(PrecacheManager::Instance().GetFoundationModel());
+	renderer->SetModel(PrecacheManager::Instance().GetFoundationTriangleModel());
 
 	AddComponent(renderer);
 
-	auto collider = new IColliderComponent;
+	auto collider = new TriangleCollider;
 	collider->AddEdict(UTIL_CreateEdict("info_target"), true);
+	collider->AddEdict(UTIL_CreateEdict("info_target"), false);
+	collider->AddEdict(UTIL_CreateEdict("info_target"), false);
 
 	AddComponent(collider);
 
@@ -36,9 +32,15 @@ void Foundation::Start()
 		auto model = (char *)STRING(UTIL_AllocString(renderer->GetModel()));
 		SET_MODEL(pEntity, model);
 	}
+
+	for (auto pEntity : collider->GetEdicts(false))
+	{
+		auto model = (char *)STRING(UTIL_AllocString(renderer->GetModel()));
+		SET_MODEL(pEntity, model);
+	}
 }
 
-void Foundation::Update()
+void FoundationTriangle::Update()
 {
 	if (m_State != BuildState::STATE_SOLID)
 	{
@@ -46,7 +48,7 @@ void Foundation::Update()
 	}
 }
 
-void Foundation::AimPointHandler()
+void FoundationTriangle::AimPointHandler()
 {
 	auto owner = GetComponent<OwnerComponent>()->GetOwner();
 
@@ -58,20 +60,19 @@ void Foundation::AimPointHandler()
 	TrySetState(isTestPassed ? BuildState::STATE_CAN_BUILD : BuildState::STATE_CANNOT_BUILD);
 
 	GetTransform()->GetPosition()->setVector(viewPoint.x, viewPoint.y, viewPoint.z);
-	GetTransform()->GetRotation()->y(owner->v.v_angle.y);
+	GetTransform()->GetRotation()->y(owner->v.v_angle.y + 180);
 }
 
-bool Foundation::TraceGroundTest(Vector &viewPoint, Vector &viewAngle)
+bool FoundationTriangle::TraceGroundTest(Vector &viewPoint, Vector &viewAngle)
 {
 	TraceResult tr;
 
 	int numHits = 0;
 	vector<Vector> startPoints{
 		viewPoint,
-		viewPoint + UTIL_Rotate(Vector(-56, -56, 0), viewAngle.y),
-		viewPoint + UTIL_Rotate(Vector(-56, 56, 0), viewAngle.y),
-		viewPoint + UTIL_Rotate(Vector(56, -56, 0), viewAngle.y),
-		viewPoint + UTIL_Rotate(Vector(56, 56, 0), viewAngle.y),
+		viewPoint + UTIL_Rotate(Vector(60, 0, 0), viewAngle.y + 90),
+		viewPoint + UTIL_Rotate(Vector(60, 0, 0), viewAngle.y + 210),
+		viewPoint + UTIL_Rotate(Vector(60, 0, 0), viewAngle.y - 30),
 	};
 
 	float maxHeight = 0;
@@ -96,7 +97,7 @@ bool Foundation::TraceGroundTest(Vector &viewPoint, Vector &viewAngle)
 			numHits++;
 	}
 
-	if (numHits >= 4)
+	if (numHits >= 3)
 		return true;
 
 	if (maxHeight <= 140)

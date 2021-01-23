@@ -1,5 +1,5 @@
-#ifndef _BUILDOBJECTS_FOUNDATION_FOUNDATION_
-#define _BUILDOBJECTS_FOUNDATION_FOUNDATION_
+#ifndef _BUILDOBJECTS_FOUNDATION_
+#define _BUILDOBJECTS_FOUNDATION_
 
 #include <pch.h>
 #include "game/BuildSystem/BuildObjects/GameObject.h"
@@ -19,4 +19,4 @@ protected:
 	virtual bool TraceGroundTest(Vector& viewPoint, Vector& viewAngle);
 };
 
-#endif // !_BUILDOBJECTS_FOUNDATION_FOUNDATION_
+#endif // !_BUILDOBJECTS_FOUNDATION_
