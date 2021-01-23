@@ -11,7 +11,6 @@
 
 FoundationTriangle::FoundationTriangle(edict_t *owner) : Foundation(owner)
 {
-	
 }
 
 void FoundationTriangle::Start()

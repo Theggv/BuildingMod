@@ -42,7 +42,7 @@ void TriangleCollider::UpdateTransform()
 	}
 
 	int i = 1;
-	
+
 	for (auto pEntity : m_InvisibleEdicts)
 	{
 		SET_ORIGIN(pEntity, GetParent()->GetTransform()->GetPosition()->ToRound());
