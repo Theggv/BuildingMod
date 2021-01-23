@@ -2,7 +2,7 @@
 
 #include <game/BuildSystem/BuildObjects/GameObject.h>
 #include <game/BuildSystem/BuildObjects/Foundation/Foundation.h>
-#include <game/BuildSystem/BuildObjects/Foundation/FoundationTriangle.h>
+#include <game/BuildSystem/BuildObjects/FoundationTriangle/FoundationTriangle.h>
 
 #include <game/BuildSystem/ObjectManager.h>
 

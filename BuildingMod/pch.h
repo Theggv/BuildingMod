@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>			// for strncpy(), etc
+#include <math.h>
 
 // Platform
 #include <module/sdk/platform.h>
