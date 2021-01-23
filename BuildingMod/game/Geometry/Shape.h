@@ -2,8 +2,9 @@
 #define _GAME_GEOMETRY_POLYGON_H_
 
 #include <pch.h>
+#include "vec3.h"
 
-struct vec3;
+struct vec2;
 
 class Shape
 {

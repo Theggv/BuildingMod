@@ -10,13 +10,6 @@
 Foundation::Foundation(edict_t *owner)
 {
 	AddComponent(new OwnerComponent(owner));
-
-	auto width = 120.0;
-
-	m_Shape = new Shape({vec2(-width / 2, -width / 2),
-						 vec2(-width / 2, width / 2),
-						 vec2(width / 2, width / 2),
-						 vec2(width / 2, -width / 2)});
 }
 
 void Foundation::Start()

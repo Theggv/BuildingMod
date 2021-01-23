@@ -1,9 +1,10 @@
 #include "FoundationTriangle.h"
 
+#include "TriangleCollider.h"
+
 #include <game/BuildSystem/BuildObjects/Components/OwnerComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/RendererComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/IColliderComponent.h>
-#include <game/BuildSystem/BuildObjects/Components/TriangleCollider.h>
 
 #include <game/Utility/Utility.h>
 #include <game/Server/PrecacheManager.h>
