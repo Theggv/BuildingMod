@@ -10,7 +10,7 @@ vec2::vec2(double _x, double _y) : x(_x), y(_y)
 {
 }
 
-vec2::vec2(vec3 &vec) : x(vec.x), y(vec.y)
+vec2::vec2(vec3 vec) : x(vec.x), y(vec.y)
 {
 }
 
@@ -36,17 +36,17 @@ vec2 vec2::Zero()
 	return vec2(0, 0);
 }
 
-double vec2::Distance(vec2 &a, vec2 &b)
+double vec2::Distance(vec2 a, vec2 b)
 {
 	return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
 }
 
-double vec2::DistanceSquared(vec2 &a, vec2 &b)
+double vec2::DistanceSquared(vec2 a, vec2 b)
 {
 	return pow(a.x - b.x, 2) + pow(a.y - b.y, 2);
 }
 
-double vec2::Dot(vec2 &a, vec2 &b)
+double vec2::Dot(vec2 a, vec2 b)
 {
 	return a.x * b.x + a.y * b.y;
 }
@@ -78,7 +78,7 @@ vec2 vec2::Round()
 	return vec2(roundf(x), roundf(y));
 }
 
-vec2 vec2::Transform(mat4 &mat)
+vec2 vec2::Transform(mat4 mat)
 {
 	auto vec = vec4(*this) * mat;
 
@@ -108,42 +108,42 @@ double vec2::operator[](int i)
 	}
 }
 
-vec2 vec2::operator+(vec2 &vec)
+vec2 vec2::operator+(vec2 vec)
 {
 	return vec2(x + vec.x, y + vec.y);
 }
 
-vec2 operator-(const vec2 &vec)
+vec2 operator-(const vec2 vec)
 {
 	return vec2(-vec.x, -vec.y);
 }
 
-vec2 operator-(vec2 &a, vec2 &b)
+vec2 operator-(vec2 a, vec2 b)
 {
 	return vec2(a.x - b.x, a.y - b.y);
 }
 
-vec2 operator*(double s, vec2 &vec)
+vec2 operator*(double s, vec2 vec)
 {
 	return vec2(s * vec.x, s * vec.y);
 }
 
-vec2 operator*(vec2 &vec, double s)
+vec2 operator*(vec2 vec, double s)
 {
 	return vec2(s * vec.x, s * vec.y);
 }
 
-vec2 operator/(vec2 &vec, double s)
+vec2 operator/(vec2 vec, double s)
 {
 	return vec2(vec.x / s, vec.y / s);
 }
 
-int vec2::operator==(vec2 &vec)
+int vec2::operator==(vec2 vec)
 {
 	return (x == vec.x) && (y == vec.y);
 }
 
-int vec2::operator!=(vec2 &vec)
+int vec2::operator!=(vec2 vec)
 {
 	return !(*this == vec);
 }

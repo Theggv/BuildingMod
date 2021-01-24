@@ -6,6 +6,7 @@
 #include "Triangle.h"
 
 struct vec2;
+struct vec3;
 
 class Shape
 {
@@ -14,12 +15,12 @@ public:
 	Shape(std::vector<vec3> points);
 
 	vec3 GetPosition();
-	void SetPosition(vec3 &);
+	void SetPosition(vec3);
 
 	double GetAngle();
 	void SetAngle(double);
 
-	bool IsIntersect(Shape &other);
+	bool IsIntersect(Shape other);
 	vec2 GetCenter();
 
 	std::vector<Triangle> Triangulate();

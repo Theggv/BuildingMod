@@ -35,8 +35,8 @@ protected:
 	const int m_MaxHeight = m_ModelSize - m_MinHeight;
 
 	virtual void AimPointHandler();
-	virtual bool TraceGroundTest(Vector &viewPoint, Vector &viewAngle);
-	virtual bool FoundationAimTest(ray &ray, vec3 &ownerOrigin);
+	virtual bool TraceGroundTest(Vector viewPoint, Vector viewAngle);
+	virtual bool FoundationAimTest(ray ray, vec3 ownerOrigin);
 
 	void AddConnection(GameObject *object, FoundationZones zone);
 	bool HasConnection(FoundationZones zone);
@@ -44,7 +44,7 @@ protected:
 private:
 	p_GameObjectWeak_t m_Connections[4];
 
-	int FoundationConnectionTest(ray &ray, Foundation *other);
+	int FoundationConnectionTest(ray ray, Foundation *other);
 	std::vector<Triangle> GetTriggerZone(FoundationZones zone, HeightZones height);
 
 	// note: works if state is solid

@@ -150,7 +150,7 @@ aabb2 ObjectManager::GetAreaByIndex(unsigned long index)
 	return aabb2(vec2(_x, _y), vec2(_x + 128, _y + 128));
 }
 
-vector<p_GameObjectWeak_t> ObjectManager::GetObjectsInArea(vec3& point, int range)
+vector<p_GameObjectWeak_t> ObjectManager::GetObjectsInArea(vec3 point, int range)
 {
 	auto fromIndex = CalculateWorldPosition(point.x, point.y);
 

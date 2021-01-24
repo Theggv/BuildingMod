@@ -1,7 +1,7 @@
 #include "aabb2.h"
 #include "ray.h"
 
-aabb2::aabb2(vec2 &p1, vec2 &p2)
+aabb2::aabb2(vec2 p1, vec2 p2)
 {
     _mins = vec2(min(p1.x, p2.x), min(p1.y, p2.y));
     _maxs = vec2(max(p1.x, p2.x), max(p1.y, p2.y));
@@ -17,7 +17,7 @@ vec2 aabb2::GetMaxs()
     return _maxs;
 }
 
-bool aabb2::RayIntersection(ray &ray)
+bool aabb2::RayIntersection(ray ray)
 {
     auto start = vec2(ray.GetOrigin());
     auto end = vec2(ray.GetDest());
@@ -28,7 +28,7 @@ bool aabb2::RayIntersection(ray &ray)
            LineIntersection(start, end, _maxs, vec2(_maxs.x, _mins.y));
 }
 
-bool aabb2::LineIntersection(vec2 &a, vec2 &b, vec2 &c, vec2 &d)
+bool aabb2::LineIntersection(vec2 a, vec2 b, vec2 c, vec2 d)
 {
     const double eps = 0.0000001;
 

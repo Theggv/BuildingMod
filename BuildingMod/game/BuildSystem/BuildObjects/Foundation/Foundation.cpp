@@ -62,7 +62,7 @@ void Foundation::StateUpdated()
 	vec2 left = GetConnectionPoint(this, FoundationZones::LEFT, HeightZones::MIDDLE).Round();
 
 	auto objects = ObjectManager::Instance().GetObjectsInArea(
-		(vec3)*GetTransform()->GetPosition());
+		*GetTransform()->GetPosition());
 
 	for (auto object : objects)
 	{
@@ -77,7 +77,7 @@ void Foundation::StateUpdated()
 			continue;
 		}
 
-		vec2 pos = vec2((vec3)*foundation->GetTransform()->GetPosition()).Round();
+		vec2 pos = vec2(*foundation->GetTransform()->GetPosition()).Round();
 
 		if (pos == up)
 		{
@@ -149,7 +149,7 @@ void Foundation::AimPointHandler()
 /**
  * BUG: Если фундамент прикреплен к другому, фикс высоты не сработает
  * */
-bool Foundation::TraceGroundTest(Vector &viewPoint, Vector &viewAngle)
+bool Foundation::TraceGroundTest(Vector viewPoint, Vector viewAngle)
 {
 	TraceResult tr;
 
@@ -207,7 +207,7 @@ bool Foundation::TraceGroundTest(Vector &viewPoint, Vector &viewAngle)
 	return false;
 }
 
-bool Foundation::FoundationAimTest(ray &ray, vec3 &ownerOrigin)
+bool Foundation::FoundationAimTest(ray ray, vec3 ownerOrigin)
 {
 	auto objects = ObjectManager::Instance().GetObjectsInArea(ray.GetOrigin());
 	auto it = objects.begin();
@@ -259,7 +259,7 @@ bool Foundation::FoundationAimTest(ray &ray, vec3 &ownerOrigin)
 
 	// SEM_PRINT("[Building Mod] --------------------------------------------");
 
-	for (auto object_p : objects)
+	for (auto &object_p : objects)
 	{
 		auto foundation = dynamic_cast<Foundation *>(*object_p.lock());
 		auto result = FoundationConnectionTest(ray, foundation);
@@ -289,7 +289,7 @@ bool Foundation::FoundationAimTest(ray &ray, vec3 &ownerOrigin)
  * LOW | MEDIUM | HIGH 			(0 | 1 | 2) << 4
  * UP | RIGHT | DOWN | LEFT 	(0 | 1 | 2 | 3)
  * */
-int Foundation::FoundationConnectionTest(ray &ray, Foundation *other)
+int Foundation::FoundationConnectionTest(ray ray, Foundation *other)
 {
 	// auto stability = other->GetComponent<StabilityComponent *>();
 	vec3 hit;

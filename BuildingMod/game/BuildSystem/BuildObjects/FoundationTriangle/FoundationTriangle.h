@@ -14,7 +14,7 @@ public:
 
 protected:
 	virtual void AimPointHandler() override;
-	virtual bool TraceGroundTest(Vector &viewPoint, Vector &viewAngle) override;
+	virtual bool TraceGroundTest(Vector viewPoint, Vector viewAngle) override;
 };
 
 #endif // !_BUILDOBJECTS_FOUNDATIONTRIANGLE_

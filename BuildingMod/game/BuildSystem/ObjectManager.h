@@ -32,7 +32,7 @@ public:
 	void SetMapIndex(GameObject *object);
 
 	aabb2 GetAreaByIndex(unsigned long index);
-	vector<p_GameObjectWeak_t> GetObjectsInArea(vec3 &point, int range = 3);
+	vector<p_GameObjectWeak_t> GetObjectsInArea(vec3 point, int range = 3);
 
 private:
 	// Map of pointers to objects by object index

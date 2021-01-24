@@ -67,7 +67,7 @@ void FoundationTriangle::AimPointHandler()
 	GetTransform()->GetRotation()->y(owner->v.v_angle.y + 180);
 }
 
-bool FoundationTriangle::TraceGroundTest(Vector &viewPoint, Vector &viewAngle)
+bool FoundationTriangle::TraceGroundTest(Vector viewPoint, Vector viewAngle)
 {
 	TraceResult tr;
 

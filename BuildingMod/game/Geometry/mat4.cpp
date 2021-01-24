@@ -24,12 +24,12 @@ mat4 mat4::RotationMatrix(double angleDegrees)
                  0, 0, 0, 1});
 }
 
-mat4 mat4::TranslateMatrix(vec2 &vec)
+mat4 mat4::TranslateMatrix(vec2 vec)
 {
     return TranslateMatrix(vec3(vec));
 }
 
-mat4 mat4::TranslateMatrix(vec3 &vec)
+mat4 mat4::TranslateMatrix(vec3 vec)
 {
     return mat4({1, 0, 0, 0,
                  0, 1, 0, 0,
@@ -42,7 +42,7 @@ double mat4::operator[](int i)
     return _matrix[i];
 }
 
-vec4 operator*(vec4 &vec, mat4 &mat)
+vec4 operator*(vec4 vec, mat4 mat)
 {
     return vec4(
                vec.x * mat[0] + vec.y * mat[4] + vec.z * mat[8] + vec.w * mat[12],
@@ -52,7 +52,7 @@ vec4 operator*(vec4 &vec, mat4 &mat)
         .Normalize();
 }
 
-mat4 operator*(mat4 &a, mat4 &b)
+mat4 operator*(mat4 a, mat4 b)
 {
     return mat4({
         a[0] * b[0] + a[1] * b[4] + a[2] * b[8] + a[3] * b[12],

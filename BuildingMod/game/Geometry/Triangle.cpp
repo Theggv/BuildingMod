@@ -7,7 +7,7 @@ Triangle::Triangle(vec3 v0, vec3 v1, vec3 v2)
 {
 }
 
-void Triangle::Transform(mat4 &mat)
+void Triangle::Transform(mat4 mat)
 {
     _v0 = _v0.Transform(mat);
     _v1 = _v1.Transform(mat);
@@ -16,7 +16,7 @@ void Triangle::Transform(mat4 &mat)
 
 // Möller–Trumbore intersection algorithm
 bool Triangle::RayIntersection(
-    ray &ray,
+    ray ray,
     vec3 &outIntersectionPoint)
 {
     const float EPS = 0.00000001;

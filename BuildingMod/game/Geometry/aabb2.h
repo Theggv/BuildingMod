@@ -11,16 +11,17 @@ struct ray;
 struct aabb2
 {
 public:
-    aabb2(vec2 &, vec2 &);
+    aabb2(vec2, vec2);
 
-    bool RayIntersection(ray &ray);
+    bool RayIntersection(ray ray);
 
     vec2 GetMins();
     vec2 GetMaxs();
+
 private:
     vec2 _mins, _maxs;
 
-    bool LineIntersection(vec2 &a, vec2 &b, vec2 &c, vec2 &d);
+    bool LineIntersection(vec2 a, vec2 b, vec2 c, vec2 d);
     bool _intersection(double a, double b, double c, double d);
     double _area(vec2 a, vec2 b, vec2 c);
 };

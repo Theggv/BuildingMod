@@ -10,11 +10,11 @@ vec4::vec4(double _x, double _y, double _z, double _w) : x(_x), y(_y), z(_z), w(
 {
 }
 
-vec4::vec4(vec2 &vec) : x(vec.x), y(vec.y), z(0), w(1)
+vec4::vec4(vec2 vec) : x(vec.x), y(vec.y), z(0), w(1)
 {
 }
 
-vec4::vec4(vec3 &vec) : x(vec.x), y(vec.y), z(vec.z), w(1)
+vec4::vec4(vec3 vec) : x(vec.x), y(vec.y), z(vec.z), w(1)
 {
 }
 
@@ -28,7 +28,7 @@ vec4 vec4::Normalize()
     return vec4(x / w, y / w, z / w, 1);
 }
 
-vec4 vec4::Transform(mat4 &mat)
+vec4 vec4::Transform(mat4 mat)
 {
     return *this * mat;
 }

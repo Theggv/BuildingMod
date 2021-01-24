@@ -13,12 +13,12 @@ public:
     mat4(std::vector<double>);
 
     double operator[](int);
-    friend vec4 operator*(vec4 &, mat4 &);
-    friend mat4 operator*(mat4 &, mat4 &);
+    friend vec4 operator*(vec4, mat4);
+    friend mat4 operator*(mat4, mat4);
 
     static mat4 RotationMatrix(double angle);
-    static mat4 TranslateMatrix(vec2 &);
-    static mat4 TranslateMatrix(vec3 &);
+    static mat4 TranslateMatrix(vec2);
+    static mat4 TranslateMatrix(vec3);
 
 private:
     double _matrix[16];

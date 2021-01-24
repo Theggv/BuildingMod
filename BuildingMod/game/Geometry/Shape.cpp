@@ -35,7 +35,7 @@ vec3 Shape::GetPosition()
     return _position;
 }
 
-void Shape::SetPosition(vec3 &pos)
+void Shape::SetPosition(vec3 pos)
 {
     _position = pos;
 }
@@ -69,7 +69,7 @@ void Shape::Transform()
  * Пересекаются ли две фигуры
  * https://qastack.ru/gamedev/25397/obb-vs-obb-collision-detection
  * */
-bool Shape::IsIntersect(Shape &other)
+bool Shape::IsIntersect(Shape other)
 {
     double min1, min2, max1, max2;
 
