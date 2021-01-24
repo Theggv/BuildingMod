@@ -1,11 +1,16 @@
 #include "vec2.h"
 
 #include "mat4.h"
+#include "vec3.h"
 #include "vec4.h"
 
 // constructors
 
 vec2::vec2(double _x, double _y) : x(_x), y(_y)
+{
+}
+
+vec2::vec2(vec3 &vec) : x(vec.x), y(vec.y)
 {
 }
 
@@ -68,6 +73,11 @@ vec2 vec2::NormalVector()
 	return vec2(y, -x);
 }
 
+vec2 vec2::Round()
+{
+	return vec2(roundf(x), roundf(y));
+}
+
 vec2 vec2::Transform(mat4 &mat)
 {
 	auto vec = vec4(*this) * mat;
@@ -103,7 +113,7 @@ vec2 vec2::operator+(vec2 &vec)
 	return vec2(x + vec.x, y + vec.y);
 }
 
-vec2 operator-(const vec2& vec)
+vec2 operator-(const vec2 &vec)
 {
 	return vec2(-vec.x, -vec.y);
 }

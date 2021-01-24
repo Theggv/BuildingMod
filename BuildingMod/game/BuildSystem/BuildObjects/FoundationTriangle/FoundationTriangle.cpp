@@ -15,6 +15,8 @@ FoundationTriangle::FoundationTriangle(edict_t *owner) : Foundation(owner)
 
 void FoundationTriangle::Start()
 {
+	GameObject::Start();
+
 	auto renderer = new RendererComponent;
 	renderer->SetModel(PrecacheManager::Instance().GetFoundationTriangleModel());
 
@@ -42,6 +44,8 @@ void FoundationTriangle::Start()
 
 void FoundationTriangle::Update()
 {
+	GameObject::Update();
+
 	if (m_State != BuildState::STATE_SOLID)
 	{
 		AimPointHandler();

@@ -14,6 +14,10 @@ vec3::vec3(vec2 &vec) : x(vec.x), y(vec.y), z(0)
 {
 }
 
+vec3::vec3(Vector &vec) : x(vec.x), y(vec.y), z(vec.z)
+{
+}
+
 // static methods
 
 vec3 vec3::One()
@@ -56,6 +60,14 @@ double vec3::Dot(vec3 &a, vec3 &b)
     return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 
+vec3 vec3::Cross(vec3 &a, vec3 &b)
+{
+    return vec3(
+        a.y * b.z - b.y * a.z,
+        a.z * b.x - b.z * a.x,
+        a.x * b.y - b.x * a.y);
+}
+
 // methods
 
 vec3 vec3::Abs()
@@ -71,6 +83,11 @@ vec3 vec3::Normalize()
         return *this;
 
     return vec3(x / len, y / len, z / len);
+}
+
+vec3 vec3::Round()
+{
+    return vec3(roundf(x), roundf(y), roundf(z));
 }
 
 vec3 vec3::Transform(mat4 &mat)

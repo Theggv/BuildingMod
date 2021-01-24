@@ -13,6 +13,7 @@ public:
 
     vec3(double _x = 0.0, double _y = 0.0, double _z = 0.0);
     vec3(vec2 &);
+    vec3(Vector &);
 
     // static methods
 
@@ -26,12 +27,13 @@ public:
     static double DistanceSquared(vec3 &, vec3 &);
 
     static double Dot(vec3 &, vec3 &);
-    static double Cross(vec3 &, vec3 &);
+    static vec3 Cross(vec3 &, vec3 &);
 
     // methods
 
     vec3 Abs();
     vec3 Normalize();
+    vec3 Round();
 
     vec3 Transform(mat4 &);
 

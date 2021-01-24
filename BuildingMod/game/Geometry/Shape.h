@@ -3,6 +3,7 @@
 
 #include <pch.h>
 #include "vec3.h"
+#include "Triangle.h"
 
 struct vec2;
 
@@ -20,6 +21,8 @@ public:
 
 	bool IsIntersect(Shape &other);
 	vec2 GetCenter();
+
+	std::vector<Triangle> Triangulate();
 
 private:
 	std::vector<vec3> _initialPoints;

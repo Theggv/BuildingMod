@@ -5,3 +5,8 @@
 #include <game/Geometry/mat4.h>
 
 #include <game/Geometry/Shape.h>
+
+#include <game/Geometry/ray.h>
+#include <game/Geometry/Triangle.h>
+
+#include <game/Geometry/aabb2.h>

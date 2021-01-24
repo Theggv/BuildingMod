@@ -20,7 +20,7 @@ private:
 
 	bool LoadConfig(string path);
 	void TrimSpace(char*);
-	bool Parse_Settings(const char* str, const char* value);
+	bool Parse_Settings(string str, string value);
 
 	bool m_IsInit;
 	string m_ConfigPath;

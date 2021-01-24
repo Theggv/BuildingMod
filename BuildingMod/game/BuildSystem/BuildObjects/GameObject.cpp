@@ -1,14 +1,15 @@
 #include "GameObject.h"
 #include <game/BuildSystem/ObjectManager.h>
 
+// initial object id
 static int m_IdGenerator = 1024;
 
-GameObject::GameObject(): Id(m_IdGenerator)
+GameObject::GameObject() : Id(m_IdGenerator)
 {
 	m_IdGenerator++;
 
 	m_State = BuildState::STATE_CANNOT_BUILD;
-	m_Components = set<IComponent*>();
+	m_Components = set<IComponent *>();
 	m_Transform = new Transform();
 	m_TransformObserver = new GameObjectObserver(this);
 }
@@ -53,9 +54,14 @@ void GameObject::StateUpdated()
 {
 	for (auto component : m_Components)
 		component->StateUpdated();
+
+	if (m_State == BuildState::STATE_SOLID)
+	{
+		ObjectManager::Instance().SetMapIndex(this);
+	}
 }
 
-Transform* GameObject::GetTransform()
+Transform *GameObject::GetTransform()
 {
 	return m_Transform;
 }
@@ -72,7 +78,19 @@ BuildState GameObject::GetState()
 
 bool GameObject::TrySetState(BuildState state)
 {
-	if (state == BuildState::STATE_SOLID && m_State == BuildState::STATE_CANNOT_BUILD)
+	// huy znaet nahuy ono nuzhno
+	// if (state == BuildState::STATE_SOLID && m_State == BuildState::STATE_CANNOT_BUILD)
+	// 	return false;
+
+	// if (state == m_State)
+	// 	return true;
+
+	// m_State = state;
+	// StateUpdated();
+
+	// return true;
+
+	if (state == m_State)
 		return false;
 
 	m_State = state;
@@ -85,11 +103,10 @@ void GameObject::UpdateWorldPosition()
 {
 	m_WorldPosition = ObjectManager::CalculateWorldPosition(
 		m_Transform->GetPosition()->x(),
-		m_Transform->GetPosition()->y()
-	);
+		m_Transform->GetPosition()->y());
 }
 
-GameObject::GameObjectObserver::GameObjectObserver(GameObject* object) : m_GameObject(object)
+GameObject::GameObjectObserver::GameObjectObserver(GameObject *object) : m_GameObject(object)
 {
 	m_GameObject->GetTransform()->Attach(this);
 }

@@ -35,13 +35,13 @@ unsigned int CalculuationTestHelper(GameObject* object, float x, float y)
 	return object->GetWorldPositionFlags();
 }
 
-BOOST_AUTO_TEST_CASE(WorldPositionCalculationTest)
-{
-	auto object = new GameObject;
+// BOOST_AUTO_TEST_CASE(WorldPositionCalculationTest)
+// {
+// 	auto object = new GameObject;
 
-	BOOST_CHECK_EQUAL(CalculuationTestHelper(object, -3230.1f, -2289.3f), 9168);
-	BOOST_CHECK_EQUAL(CalculuationTestHelper(object, 4095.0f, 4095.0f), 16383);
-	BOOST_CHECK_EQUAL(CalculuationTestHelper(object, -4095.0f, -4095.0f), 0);
+// 	BOOST_CHECK_EQUAL(CalculuationTestHelper(object, -3230.1f, -2289.3f), 9168);
+// 	BOOST_CHECK_EQUAL(CalculuationTestHelper(object, 4095.0f, 4095.0f), 16383);
+// 	BOOST_CHECK_EQUAL(CalculuationTestHelper(object, -4095.0f, -4095.0f), 0);
 
-	delete object;
-}
+// 	delete object;
+// }

@@ -67,6 +67,14 @@ public:
 			roundf(_z));
 	}
 
+	inline vec3 ToVec3Round()
+	{
+		return vec3(
+			roundf(_x),
+			roundf(_y),
+			roundf(_z));
+	}
+
 	inline ObservableVector Normalize()
 	{
 		float flLen = Length();

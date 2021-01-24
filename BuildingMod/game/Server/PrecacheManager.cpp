@@ -36,7 +36,9 @@ void PrecacheManager::PrecacheResources()
 	}
 
 	PRECACHE_MODEL((char*)STRING(UTIL_AllocString(m_FoundationModel)));
+	SEM_PRINT("[Building Mod] Precached %s.", m_FoundationModel.c_str());
 	PRECACHE_MODEL((char*)STRING(UTIL_AllocString(m_FoundationTriangleModel)));
+	SEM_PRINT("[Building Mod] Precached %s.", m_FoundationTriangleModel.c_str());
 
 	m_IsInit = true;
 
@@ -53,11 +55,11 @@ string PrecacheManager::GetFoundationTriangleModel()
 	return m_FoundationTriangleModel;
 }
 
-bool PrecacheManager::Parse_Settings(const char* str, const char* value)
+bool PrecacheManager::Parse_Settings(string str, string value)
 {
-	if (!_stricmp(str, "FOUNDATION_MODEL"))
+	if (!_stricmp(str.c_str(), "FOUNDATION_MODEL"))
 		m_FoundationModel = value;
-	else if (!_stricmp(str, "FOUNDATION_TRIANGLE_MODEL"))
+	else if (!_stricmp(str.c_str(), "FOUNDATION_TRIANGLE_MODEL"))
 		m_FoundationTriangleModel = value;
 	else
 	{
@@ -96,7 +98,7 @@ bool PrecacheManager::LoadConfig(string path)
 		boost::algorithm::trim(value);
 		boost::algorithm::erase_all(value, "\"");
 
-		Parse_Settings(key.c_str(), value.c_str());
+		Parse_Settings(key, value);
 	}
 
 	return true;

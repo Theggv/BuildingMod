@@ -2,8 +2,8 @@
 
 #include <pch.h>
 #include <boost/test/included/unit_test.hpp>
-#include <game/Geometry/Shape.h>
-#include <game/Geometry/vec2.h>
+#include <game/BuildSystem/ObjectManager.h>
+#include <game/Geometry.h>
 
 BOOST_AUTO_TEST_CASE(GeometryTriangleTriangleInterTest)
 {
@@ -13,6 +13,9 @@ BOOST_AUTO_TEST_CASE(GeometryTriangleTriangleInterTest)
     auto inter = triangle1->IsIntersect(*triangle2);
 
     BOOST_CHECK_EQUAL(inter, true);
+
+    delete triangle1;
+    delete triangle2;
 }
 
 BOOST_AUTO_TEST_CASE(GeometryTriangleRectInterTest)
@@ -23,6 +26,9 @@ BOOST_AUTO_TEST_CASE(GeometryTriangleRectInterTest)
     auto inter = triangle1->IsIntersect(*rect1);
 
     BOOST_CHECK_EQUAL(inter, true);
+
+    delete triangle1;
+    delete rect1;
 }
 
 BOOST_AUTO_TEST_CASE(GeometryRectRectInterTest)
@@ -33,4 +39,52 @@ BOOST_AUTO_TEST_CASE(GeometryRectRectInterTest)
     auto inter = rect1->IsIntersect(*rect2);
 
     BOOST_CHECK_EQUAL(inter, true);
+
+    delete rect1;
+    delete rect2;
+}
+
+BOOST_AUTO_TEST_CASE(RayIntersectionTest)
+{
+    auto start = vec3(-250, -250, 0);
+    auto end = vec3(0, 0, 0);
+    auto _ray = new ray(start, end - start, 500);
+    auto aabb = new aabb2(vec2(0, 0), vec2(128, 128));
+
+    auto inter = aabb->RayIntersection(*_ray);
+
+    BOOST_CHECK_EQUAL(inter, true);
+
+    delete _ray;
+    delete aabb;
+}
+
+BOOST_AUTO_TEST_CASE(GetAreaByIndexTest)
+{
+    auto point = vec3(550, -390, 0);
+    
+    auto index = ObjectManager::Instance().CalculateWorldPosition(point.x, point.y);
+    auto aabb = ObjectManager::Instance().GetAreaByIndex(index);
+
+    auto isXinsideInterval = point.x >= aabb.GetMins().x && point.x <= aabb.GetMaxs().x;
+    auto isYinsideInterval = point.y >= aabb.GetMins().y && point.y <= aabb.GetMaxs().y;
+
+    BOOST_CHECK_EQUAL(isXinsideInterval, true);
+    BOOST_CHECK_EQUAL(isYinsideInterval, true);
+}
+
+BOOST_AUTO_TEST_CASE(RayIntersectionTest2)
+{
+    auto start = vec3(-250, -250, 0);
+    auto end = vec3(0, 0, 0);
+    auto _ray = new ray(start, end - start, 500);
+
+    auto index = ObjectManager::Instance().CalculateWorldPosition(start.x, start.y);
+    auto aabb = ObjectManager::Instance().GetAreaByIndex(index);
+
+    auto inter = aabb.RayIntersection(*_ray);
+
+    BOOST_CHECK_EQUAL(inter, true);
+
+    delete _ray;
 }

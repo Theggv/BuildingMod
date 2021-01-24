@@ -10,6 +10,10 @@ void OnAmxxAttach()
 	RegisterNatives_GameObject();
 }
 
+void OnAmxxDetach()
+{
+}
+
 bool OnMetaAttach()
 {
 	return true;
@@ -26,19 +30,23 @@ void ServerDeactivate_Post()
 	ObjectManager::Instance().Clear();
 }
 
-int	pfnSpawn(edict_t* pent)
+int pfnSpawn(edict_t *pent)
 {
-	auto &mngr = PrecacheManager::Instance();
+	if (!ENTINDEX(pent))
+	{
+		auto &mngr = PrecacheManager::Instance();
 
-	if (mngr.IsInit())
-		RETURN_META_VALUE(MRES_IGNORED, 0);
+		// if (mngr.IsInit())
+		// 	RETURN_META_VALUE(MRES_IGNORED, 0);
 
-	mngr.PrecacheResources();
+		ObjectManager::Instance().Clear();
+		mngr.PrecacheResources();
+	}
 
 	RETURN_META_VALUE(MRES_IGNORED, 0);
 }
 
-void SEM_PRINT(const char* fmt, ...)
+void SEM_PRINT(const char *fmt, ...)
 {
 	va_list ap;
 	uint32 len;
@@ -50,10 +58,12 @@ void SEM_PRINT(const char* fmt, ...)
 
 	len = strlen(buf);
 
-	if (len < sizeof(buf) - 2) {
+	if (len < sizeof(buf) - 2)
+	{
 		strcat(buf, "\n");
 	}
-	else {
+	else
+	{
 		buf[len - 1] = '\n';
 	}
 

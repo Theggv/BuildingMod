@@ -2,6 +2,8 @@
 #define _MODULE_MAIN_
 
 void OnAmxxAttach();
+void OnAmxxDetach();
+
 bool OnMetaAttach();
 void OnMetaDetach();
 

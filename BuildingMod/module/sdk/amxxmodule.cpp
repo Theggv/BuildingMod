@@ -20,7 +20,7 @@ static amxx_module_info_s g_ModuleInfo =
 	Plugin_info.name,
 	Plugin_info.author,
 	Plugin_info.version,
-	FALSE,
+	TRUE,
 	Plugin_info.logtag,
 	"building",
 	"building"
@@ -166,6 +166,8 @@ C_DLLEXPORT int AMXX_Attach(PFN_REQ_FNPTR reqFnptrFunc)
 
 C_DLLEXPORT int AMXX_Detach()
 {
+	OnAmxxDetach();
+	
 	return AMXX_OK;
 }
 

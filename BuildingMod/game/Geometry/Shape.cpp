@@ -114,3 +114,21 @@ bool Shape::IsValueBetween(double value, double min, double max)
 {
     return min <= value && value <= max;
 }
+
+std::vector<Triangle> Shape::Triangulate()
+{
+    std::vector<Triangle> triangles;
+
+    if (_initialPoints.size() < 3)
+        return triangles;
+
+    for (size_t i = 2; i < _initialPoints.size(); i++)
+    {
+        triangles.push_back(Triangle(
+            _initialPoints[0],
+            _initialPoints[i - 1],
+            _initialPoints[i]));
+    }
+
+    return triangles;
+}

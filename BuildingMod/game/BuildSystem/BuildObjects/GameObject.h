@@ -71,6 +71,8 @@ protected:
 	set<IComponent *> m_Components;
 	BuildState m_State;
 
+	void UpdateWorldPosition();
+
 private:
 	class GameObjectObserver : public IObserver
 	{
@@ -88,8 +90,6 @@ private:
 	IObserver *m_TransformObserver;
 
 	unsigned long m_WorldPosition = 0;
-
-	void UpdateWorldPosition();
 };
 
 template <class T>

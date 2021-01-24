@@ -4,6 +4,8 @@
 #include <pch.h>
 #include <game/BuildSystem/BuildObjects/GameObject.h>
 
+#include <game/Geometry.h>
+
 typedef boost::shared_ptr<GameObject *> p_GameObject_t;
 typedef boost::weak_ptr<GameObject *> p_GameObjectWeak_t;
 
@@ -27,6 +29,10 @@ public:
 	p_GameObjectWeak_t GetPtrByEdict(edict_t *edict);
 
 	static unsigned long CalculateWorldPosition(float x, float y);
+	void SetMapIndex(GameObject *object);
+
+	aabb2 GetAreaByIndex(unsigned long index);
+	vector<p_GameObjectWeak_t> GetObjectsInArea(vec3 &point, int range = 3);
 
 private:
 	// Map of pointers to objects by object index
@@ -34,9 +40,10 @@ private:
 
 	// Array of pointers to objects by position on map
 	// Maximum map size is 8128x8128. It means we can split it by 128x128 zones.
-	//set<p_GameObjectWeak_t> m_ObjectsMapIndex[64 * 64];
+	map<int, p_GameObjectWeak_t> m_ObjectsMapIndex[64 * 64];
 
 	// Map of pointers to objects by edict index
+	// NOT IMPLEMENTED !
 	map<int, p_GameObjectWeak_t> m_ObjectsEdictIndex;
 
 	ObjectManager();

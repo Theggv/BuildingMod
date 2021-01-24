@@ -3,6 +3,7 @@
 
 #include <pch.h>
 
+struct vec3;
 struct mat4;
 
 struct vec2
@@ -11,6 +12,7 @@ public:
 	double x, y;
 
 	vec2(double _x = 0.0, double _y = 0.0);
+	vec2(vec3 &);
 
 	// static methods
 
@@ -29,6 +31,7 @@ public:
 	vec2 Abs();
 	vec2 Normalize();
 	vec2 NormalVector();
+    vec2 Round();
 
 	vec2 Transform(mat4 &);
 
