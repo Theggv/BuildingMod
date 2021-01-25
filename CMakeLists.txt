@@ -3,6 +3,7 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
+
 # THIS HAS TO COME BEFORE THE PROJECT LINE
 # set(CMAKE_C_COMPILER "/usr/lib/gcc")
 # set(CMAKE_CXX_COMPILER "/usr/lib/g++")
