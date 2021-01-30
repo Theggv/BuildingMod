@@ -11,6 +11,8 @@ enum class TriangleZones
 	LEFT
 };
 
+class FoundationSquare;
+
 class FoundationTriangle : public FoundationBase
 {
 	friend class FoundationSquare;
