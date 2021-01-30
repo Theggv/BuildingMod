@@ -8,8 +8,12 @@ struct ray;
 struct vec3;
 struct mat4;
 
+class FoundationBase;
+
 struct Triangle
 {
+    friend class FoundationBase;
+
 public:
     Triangle(vec3 v0, vec3 v1, vec3 v2);
 

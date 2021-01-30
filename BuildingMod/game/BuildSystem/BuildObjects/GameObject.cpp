@@ -78,17 +78,8 @@ BuildState GameObject::GetState()
 
 bool GameObject::TrySetState(BuildState state)
 {
-	// huy znaet nahuy ono nuzhno
-	// if (state == BuildState::STATE_SOLID && m_State == BuildState::STATE_CANNOT_BUILD)
-	// 	return false;
-
-	// if (state == m_State)
-	// 	return true;
-
-	// m_State = state;
-	// StateUpdated();
-
-	// return true;
+	if (state == BuildState::STATE_SOLID && m_State == BuildState::STATE_CANNOT_BUILD)
+		return false;
 
 	if (state == m_State)
 		return false;

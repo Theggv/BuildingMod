@@ -1,7 +1,7 @@
 #include "natives_gameobject.h"
 
 #include <game/BuildSystem/BuildObjects/GameObject.h>
-#include <game/BuildSystem/BuildObjects/Foundation/Foundation.h>
+#include <game/BuildSystem/BuildObjects/FoundationSquare/FoundationSquare.h>
 #include <game/BuildSystem/BuildObjects/FoundationTriangle/FoundationTriangle.h>
 
 #include <game/BuildSystem/ObjectManager.h>
@@ -34,7 +34,7 @@ cell AMX_NATIVE_CALL Building_CreateObject(AMX* amx, cell* params)
 	switch ((objectType_e)objectType)
 	{
 	case objectType_e::OBJECT_FOUNDATION:
-		object = new Foundation(player);
+		object = new FoundationSquare(player);
 		break;
 	case objectType_e::OBJECT_FOUNDATIONTRIANGLE:
 		object = new FoundationTriangle(player);
