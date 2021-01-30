@@ -60,7 +60,7 @@ void FoundationTriangle::AimPointHandler()
 {
 	auto ownerComponent = GetComponent<OwnerComponent>();
 
-	auto viewPoint = ownerComponent->GetAimDest(500.0);
+	auto viewPoint = ownerComponent->GetAimDest(250.0);
 	viewPoint.z += m_MinHeight;
 
 	auto aimRay = ownerComponent->GetAimRay(viewPoint, 500.0);

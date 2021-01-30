@@ -68,7 +68,7 @@ void FoundationBase::AimPointHandler()
 {
     auto ownerComponent = GetComponent<OwnerComponent>();
 
-    auto viewPoint = ownerComponent->GetAimDest(500.0);
+    auto viewPoint = ownerComponent->GetAimDest(250.0);
     viewPoint.z += m_MinHeight;
 
     auto aimRay = ownerComponent->GetAimRay(viewPoint, 500.0);
@@ -174,6 +174,7 @@ int framesCounter = 0;
 
 void FoundationBase::VisualizeZones(std::vector<Triangle> triangles)
 {
+    return;
     if (framesCounter % 25 == 0)
     {
         framesCounter = 0;
