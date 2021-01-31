@@ -87,7 +87,7 @@ void FoundationSquare::ConnectFoundations(FoundationBase *other, bool useRecursi
 	}
 }
 
-AimTestResult FoundationSquare::TraceGroundTest(vec3 viewPoint, vec3 viewAngle)
+AimTestResult FoundationSquare::TraceGroundTest(AimTestResult result)
 {
 	TraceResult tr;
 
@@ -100,8 +100,8 @@ AimTestResult FoundationSquare::TraceGroundTest(vec3 viewPoint, vec3 viewAngle)
 		vec3(40, 40, 0),
 	};
 
-	auto mat = mat4::RotationMatrix(viewAngle.y) *
-			   mat4::TranslateMatrix(viewPoint);
+	auto mat = mat4::RotationMatrix(result.m_Angle) *
+			   mat4::TranslateMatrix(result.m_Origin);
 
 	for (size_t i = 0; i < points.size(); i++)
 	{
@@ -133,16 +133,16 @@ AimTestResult FoundationSquare::TraceGroundTest(vec3 viewPoint, vec3 viewAngle)
 	}
 
 	if (numHits >= 4)
-		return AimTestResult(true, viewPoint);
+		return AimTestResult(true, result.m_Origin, result.m_Angle);
 
 	if (maxHeight <= 150)
 	{
-		viewPoint.z = viewPoint.z - maxHeight + m_MaxHeight;
+		result.m_Origin.z = result.m_Origin.z - maxHeight + m_MaxHeight;
 
-		return TraceGroundTest(viewPoint, viewAngle);
+		return TraceGroundTest(result);
 	}
 
-	return AimTestResult(false);
+	return AimTestResult(false, result.m_Origin, result.m_Angle);
 }
 
 AimTestResult FoundationSquare::FoundationAimTest(ray ray)
@@ -172,7 +172,7 @@ AimTestResult FoundationSquare::FoundationAimTest(ray ray)
 	}
 
 	if (!objects.size())
-		return AimTestResult(false);
+		return AimTestResult(false, ray.GetDest(), ray.GetVectorAngle());
 
 	sort(objects.begin(), objects.end(), [&ray](const p_GameObjectWeak_t a_ptr, const p_GameObjectWeak_t b_ptr) {
 		vec3 posA = *(*a_ptr.lock())->GetTransform()->GetPosition();
@@ -258,7 +258,7 @@ AimTestResult FoundationSquare::FoundationAimTest(ray ray)
 		}
 	}
 
-	return AimTestResult(false);
+	return AimTestResult(false, ray.GetDest(), ray.GetVectorAngle());
 }
 
 /**
@@ -490,4 +490,26 @@ vec3 FoundationSquare::GetConnectionPoint(
 			   mat4::TranslateMatrix(pos);
 
 	return newPos.Transform(mat);
+}
+
+Shape FoundationSquare::GetShape(AimTestResult res)
+{
+	auto half = m_ModelSize / 2 - 1;
+
+	std::vector<vec3> points = {
+		vec3(-half, -half),
+		vec3(half, -half),
+		vec3(half, half),
+		vec3(-half, half),
+	};
+
+	mat4 mat = mat4::RotationMatrix(90 - res.m_Angle) *
+			   mat4::TranslateMatrix(res.m_Origin);
+
+	for (size_t i = 0; i < points.size(); i++)
+	{
+		points[i] = points[i].Transform(mat);
+	}
+
+	return Shape(points);
 }

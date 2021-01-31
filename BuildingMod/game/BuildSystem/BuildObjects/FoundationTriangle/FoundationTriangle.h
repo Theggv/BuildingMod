@@ -35,8 +35,10 @@ public:
 
 protected:
 	// virtual void AimPointHandler() override;
-	virtual AimTestResult TraceGroundTest(vec3 viewPoint, vec3 viewAngle) override;
+	virtual AimTestResult TraceGroundTest(AimTestResult result) override;
 	virtual AimTestResult FoundationAimTest(ray ray) override;
+
+	virtual Shape GetShape(AimTestResult result);
 
 	void AddConnection(GameObject *object, TriangleZones zone);
 	bool HasConnection(TriangleZones zone);

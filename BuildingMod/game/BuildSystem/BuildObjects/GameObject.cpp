@@ -8,7 +8,7 @@ GameObject::GameObject() : Id(m_IdGenerator)
 {
 	m_IdGenerator++;
 
-	m_State = BuildState::STATE_CANNOT_BUILD;
+	m_State = BuildState::STATE_NONE;
 	m_Components = set<IComponent *>();
 	m_Transform = new Transform();
 	m_TransformObserver = new GameObjectObserver(this);
@@ -78,7 +78,11 @@ BuildState GameObject::GetState()
 
 bool GameObject::TrySetState(BuildState state)
 {
-	if (state == BuildState::STATE_SOLID && m_State == BuildState::STATE_CANNOT_BUILD)
+	if (state == BuildState::STATE_NONE)
+		return false;
+
+	if (state == BuildState::STATE_SOLID &&
+		(m_State == BuildState::STATE_CANNOT_BUILD || m_State == BuildState::STATE_NONE))
 		return false;
 
 	if (state == m_State)

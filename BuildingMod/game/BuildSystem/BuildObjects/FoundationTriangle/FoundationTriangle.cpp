@@ -57,7 +57,7 @@ void FoundationTriangle::Update()
 	}
 }
 
-AimTestResult FoundationTriangle::TraceGroundTest(vec3 viewPoint, vec3 viewAngle)
+AimTestResult FoundationTriangle::TraceGroundTest(AimTestResult result)
 {
 	TraceResult tr;
 
@@ -69,8 +69,8 @@ AimTestResult FoundationTriangle::TraceGroundTest(vec3 viewPoint, vec3 viewAngle
 		vec3(0, 40).Transform(mat4::RotationMatrix(120)),
 	};
 
-	auto mat = mat4::RotationMatrix(viewAngle.y) *
-			   mat4::TranslateMatrix(viewPoint);
+	auto mat = mat4::RotationMatrix(result.m_Angle) *
+			   mat4::TranslateMatrix(result.m_Origin);
 
 	for (size_t i = 0; i < points.size(); i++)
 	{
@@ -102,16 +102,16 @@ AimTestResult FoundationTriangle::TraceGroundTest(vec3 viewPoint, vec3 viewAngle
 	}
 
 	if (numHits >= 3)
-		return AimTestResult(true, viewPoint);
+		return AimTestResult(true, result.m_Origin, result.m_Angle);
 
 	if (maxHeight <= 150)
 	{
-		viewPoint.z = viewPoint.z - maxHeight + m_MaxHeight;
+		result.m_Origin.z = result.m_Origin.z - maxHeight + m_MaxHeight;
 
-		return TraceGroundTest(viewPoint, viewAngle);
+		return TraceGroundTest(result);
 	}
 
-	return AimTestResult(false);
+	return AimTestResult(false, result.m_Origin, result.m_Angle);
 }
 
 AimTestResult FoundationTriangle::FoundationAimTest(ray ray)
@@ -141,7 +141,7 @@ AimTestResult FoundationTriangle::FoundationAimTest(ray ray)
 	}
 
 	if (!objects.size())
-		return AimTestResult(false);
+		return AimTestResult(false, ray.GetDest(), ray.GetVectorAngle());
 
 	sort(objects.begin(), objects.end(), [&ray](const p_GameObjectWeak_t a_ptr, const p_GameObjectWeak_t b_ptr) {
 		vec3 posA = *(*a_ptr.lock())->GetTransform()->GetPosition();
@@ -227,7 +227,7 @@ AimTestResult FoundationTriangle::FoundationAimTest(ray ray)
 		}
 	}
 
-	return AimTestResult(false);
+	return AimTestResult(false, ray.GetDest(), ray.GetVectorAngle());
 }
 
 void FoundationTriangle::AddConnection(GameObject *object, TriangleZones zone)
@@ -504,4 +504,25 @@ vec3 FoundationTriangle::GetConnectionPoint(
 			   mat4::TranslateMatrix(pos);
 
 	return newPos.Transform(mat);
+}
+
+Shape FoundationTriangle::GetShape(AimTestResult res)
+{
+	auto v = vec2(0, m_Height * 2 / 3 - 2);
+
+	std::vector<vec3> points = {
+		vec3(v.Transform(mat4::RotationMatrix(0))),
+		vec3(v.Transform(mat4::RotationMatrix(120))),
+		vec3(v.Transform(mat4::RotationMatrix(-120))),
+	};
+
+	mat4 mat = mat4::RotationMatrix(-90 - res.m_Angle) *
+			   mat4::TranslateMatrix(res.m_Origin);
+
+	for (size_t i = 0; i < points.size(); i++)
+	{
+		points[i] = points[i].Transform(mat);
+	}
+
+	return Shape(points);
 }

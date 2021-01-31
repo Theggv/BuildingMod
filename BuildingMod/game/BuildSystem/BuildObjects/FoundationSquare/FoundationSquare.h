@@ -35,8 +35,10 @@ public:
 	void ConnectFoundations(FoundationBase *other, bool useRecursion = true) override;
 
 protected:
-	virtual AimTestResult TraceGroundTest(vec3 viewPoint, vec3 viewAngle) override;
+	virtual AimTestResult TraceGroundTest(AimTestResult result) override;
 	virtual AimTestResult FoundationAimTest(ray ray) override;
+
+    virtual Shape GetShape(AimTestResult result);
 
 	void AddConnection(GameObject *object, SquareZones zone);
 	bool HasConnection(SquareZones zone);
