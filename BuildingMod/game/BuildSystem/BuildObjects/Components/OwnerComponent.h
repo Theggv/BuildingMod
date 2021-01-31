@@ -11,6 +11,7 @@ public:
 	~OwnerComponent();
 
 	virtual void Update() override;
+	virtual void StateUpdated() override;
 
 	/// <summary>
 	/// Get current owner

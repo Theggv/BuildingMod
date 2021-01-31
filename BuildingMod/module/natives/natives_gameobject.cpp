@@ -10,9 +10,14 @@
 
 HLTypeConversion typeConversion;
 
-cell AMX_NATIVE_CALL Building_CreateObject(AMX* amx, cell* params)
+cell AMX_NATIVE_CALL Building_CreateObject(AMX *amx, cell *params)
 {
-	enum args_e { arg_count, arg_idcaller, arg_object_type};
+	enum args_e
+	{
+		arg_count,
+		arg_idcaller,
+		arg_object_type
+	};
 
 	enum class objectType_e
 	{
@@ -28,8 +33,17 @@ cell AMX_NATIVE_CALL Building_CreateObject(AMX* amx, cell* params)
 	auto id = params[arg_idcaller];
 	auto objectType = params[arg_object_type];
 
-	edict_t* player = typeConversion.id_to_edict(id);
-	GameObject* object = nullptr;
+	edict_t *player = typeConversion.id_to_edict(id);
+
+	// Check for existing object
+	auto objectId = EdictFlags::GetPlayerSelectedObject(player);
+
+	auto objectPtr = ObjectManager::Instance().GetPtr(objectId).lock();
+
+	if (objectPtr != nullptr)
+		return 0;
+
+	GameObject *object = nullptr;
 
 	switch ((objectType_e)objectType)
 	{
@@ -53,11 +67,15 @@ cell AMX_NATIVE_CALL Building_CreateObject(AMX* amx, cell* params)
 	return 0;
 }
 
-cell AMX_NATIVE_CALL Building_TryMakeSolid(AMX* amx, cell* params)
+cell AMX_NATIVE_CALL Building_TryMakeSolid(AMX *amx, cell *params)
 {
-	enum args_e { arg_count, arg_idcaller };
+	enum args_e
+	{
+		arg_count,
+		arg_idcaller
+	};
 
-	edict_t* player = typeConversion.id_to_edict(params[arg_idcaller]);
+	edict_t *player = typeConversion.id_to_edict(params[arg_idcaller]);
 
 	auto objectId = EdictFlags::GetPlayerSelectedObject(player);
 
@@ -74,12 +92,11 @@ cell AMX_NATIVE_CALL Building_TryMakeSolid(AMX* amx, cell* params)
 }
 
 AMX_NATIVE_INFO GameObject_Natives[] =
-{
-	{"building_createobject",	Building_CreateObject },
-	{"building_trymakesolid", Building_TryMakeSolid },
+	{
+		{"building_createobject", Building_CreateObject},
+		{"building_trymakesolid", Building_TryMakeSolid},
 
-	{nullptr,			nullptr}
-};
+		{nullptr, nullptr}};
 
 void RegisterNatives_GameObject()
 {

@@ -12,7 +12,7 @@ class FoundationBase;
 
 struct Triangle
 {
-    friend class FoundationBase;
+    friend class VisualizerComponent;
 
 public:
     Triangle(vec3 v0, vec3 v1, vec3 v2);

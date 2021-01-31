@@ -1,6 +1,7 @@
 #include "OwnerComponent.h"
 
 #include <game/Utility/Utility.h>
+#include <game/Utility/EdictFlags.h>
 
 OwnerComponent::OwnerComponent(edict_t *owner)
 {
@@ -14,12 +15,14 @@ OwnerComponent::~OwnerComponent()
 void OwnerComponent::Update()
 {
 	IComponent::Update();
+}
 
-	// SEM_PRINT("[Building Mod] [%.1f %.1f %.1f] %.1f",
-	// 		  m_Owner->v.origin.x,
-	// 		  m_Owner->v.origin.y,
-	// 		  m_Owner->v.origin.z,
-	// 		  m_Owner->v.v_angle.y);
+void OwnerComponent::StateUpdated()
+{
+	if (m_parent->GetState() == BuildState::STATE_SOLID)
+	{
+		EdictFlags::SetPlayerSelectedObject(m_Owner, 0);
+	}
 }
 
 edict_t *OwnerComponent::GetOwner()
