@@ -114,6 +114,14 @@ public:
 		Notify();
 	}
 
+	inline void setVector(vec3 vec)
+	{
+		_x = vec.x;
+		_y = vec.y;
+		_z = vec.z;
+		Notify();
+	}
+
 	inline void setVector(float x, float y, float z)
 	{
 		_x = x;

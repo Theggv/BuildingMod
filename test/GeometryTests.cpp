@@ -7,8 +7,21 @@
 
 BOOST_AUTO_TEST_CASE(GeometryTriangleTriangleInterTest)
 {
-    auto triangle1 = new Shape({vec2(0, 0), vec2(4, 1), vec2(3, 2)});
-    auto triangle2 = new Shape({vec2(1, 2), vec2(1, 3), vec2(2, 2)});
+    auto triangle1 = new Shape({vec2(3, 1), vec2(6, 1), vec2(3, 5)});
+    auto triangle2 = new Shape({vec2(4, 2), vec2(6, 6), vec2(8, 2)});
+
+    auto inter = triangle1->IsIntersect(*triangle2);
+
+    BOOST_CHECK_EQUAL(inter, true);
+
+    delete triangle1;
+    delete triangle2;
+}
+
+BOOST_AUTO_TEST_CASE(GeometryTriangleTriangleInterTest2)
+{
+    auto triangle1 = new Shape({vec2(1005, 1069), vec2(905, 1027), vec2(919, 1134)});
+    auto triangle2 = new Shape({vec2(841, 1035), vec2(855, 1143), vec2(941, 1077)});
 
     auto inter = triangle1->IsIntersect(*triangle2);
 
@@ -26,6 +39,19 @@ BOOST_AUTO_TEST_CASE(GeometryTriangleRectInterTest)
     auto inter = triangle1->IsIntersect(*rect1);
 
     BOOST_CHECK_EQUAL(inter, true);
+
+    delete triangle1;
+    delete rect1;
+}
+
+BOOST_AUTO_TEST_CASE(GeometryTriangleRectInterTest2)
+{
+    auto triangle1 = new Shape({vec2(0, 0), vec2(5, -1), vec2(3, 5)});
+    auto rect1 = new Shape({vec2(6, 0), vec2(10, 0), vec2(10, 4), vec2(6, 4)});
+
+    auto inter = triangle1->IsIntersect(*rect1);
+
+    BOOST_CHECK_EQUAL(inter, false);
 
     delete triangle1;
     delete rect1;
@@ -62,7 +88,7 @@ BOOST_AUTO_TEST_CASE(RayIntersectionTest)
 BOOST_AUTO_TEST_CASE(GetAreaByIndexTest)
 {
     auto point = vec3(550, -390, 0);
-    
+
     auto index = ObjectManager::Instance().CalculateWorldPosition(point.x, point.y);
     auto aabb = ObjectManager::Instance().GetAreaByIndex(index);
 

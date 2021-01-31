@@ -15,6 +15,7 @@ public:
     vec3 GetDirection();
     vec3 GetDest();
     double GetLength();
+    double GetVectorAngle();
 
     // Rotate direction vector by angle by Z axis
     ray Rotate(double angle);
