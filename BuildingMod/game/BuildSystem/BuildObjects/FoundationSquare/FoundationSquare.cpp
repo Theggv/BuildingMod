@@ -184,17 +184,6 @@ AimTestResult FoundationSquare::FoundationAimTest(ray ray)
 		return distVec1.LengthSquared() < distVec2.LengthSquared();
 	});
 
-	// for (auto obj : objects)
-	// {
-	// 	auto gameObject = *obj.lock();
-
-	// 	auto dist = (static_cast<vec3>(*gameObject->GetTransform()->GetPosition()) - ray.GetOrigin()).Length();
-
-	// 	SEM_PRINT("[Building Mod] Distance to object #%d = %.2f", gameObject->Id, dist);
-	// }
-
-	// SEM_PRINT("[Building Mod] --------------------------------------------");
-
 	for (auto &object_p : objects)
 	{
 		auto foundation = dynamic_cast<FoundationBase *>(*object_p.lock());
@@ -396,7 +385,7 @@ std::vector<Triangle> FoundationSquare::GetTriggerZone(SquareZones zone, HeightZ
 	case SquareZones::RIGHT:
 
 		// cw
-		triangles = GenerateTriangles(
+		triangles = Triangle::GenerateTriangles(
 			vec2(m_ModelSize / 2, m_ModelSize / 2),
 			hasUp ? vec2(m_ModelSize, m_ModelSize / 2) : vec2(m_ModelSize, m_ModelSize),
 			hasDown ? vec2(m_ModelSize, -m_ModelSize / 2) : vec2(m_ModelSize, -m_ModelSize),
@@ -407,7 +396,7 @@ std::vector<Triangle> FoundationSquare::GetTriggerZone(SquareZones zone, HeightZ
 	case SquareZones::DOWN:
 
 		// cw
-		triangles = GenerateTriangles(
+		triangles = Triangle::GenerateTriangles(
 			vec2(m_ModelSize / 2, -m_ModelSize / 2),
 			hasRight ? vec2(m_ModelSize / 2, -m_ModelSize) : vec2(m_ModelSize, -m_ModelSize),
 			hasLeft ? vec2(-m_ModelSize / 2, -m_ModelSize) : vec2(-m_ModelSize, -m_ModelSize),
@@ -418,7 +407,7 @@ std::vector<Triangle> FoundationSquare::GetTriggerZone(SquareZones zone, HeightZ
 	case SquareZones::LEFT:
 
 		// cw
-		triangles = GenerateTriangles(
+		triangles = Triangle::GenerateTriangles(
 			vec2(-m_ModelSize / 2, -m_ModelSize / 2),
 			hasDown ? vec2(-m_ModelSize, -m_ModelSize / 2) : vec2(-m_ModelSize, -m_ModelSize),
 			hasUp ? vec2(-m_ModelSize, m_ModelSize / 2) : vec2(-m_ModelSize, m_ModelSize),
@@ -429,7 +418,7 @@ std::vector<Triangle> FoundationSquare::GetTriggerZone(SquareZones zone, HeightZ
 	case SquareZones::UP:
 
 		// cw
-		triangles = GenerateTriangles(
+		triangles = Triangle::GenerateTriangles(
 			vec2(-m_ModelSize / 2, m_ModelSize / 2),
 			hasLeft ? vec2(-m_ModelSize / 2, m_ModelSize) : vec2(-m_ModelSize, m_ModelSize),
 			hasRight ? vec2(m_ModelSize / 2, m_ModelSize) : vec2(m_ModelSize, m_ModelSize),

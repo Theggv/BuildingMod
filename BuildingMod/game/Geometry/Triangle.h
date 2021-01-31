@@ -2,9 +2,11 @@
 #define _GAME_GEOMETRY_TRIANGLE_H_
 
 #include <pch.h>
+#include "vec2.h"
 #include "vec3.h"
 
 struct ray;
+struct vec2;
 struct vec3;
 struct mat4;
 
@@ -19,9 +21,13 @@ public:
 
     void Transform(mat4 mat);
 
-    bool RayIntersection(
-        ray ray,
-        vec3 &outIntersectionPoint);
+    bool RayIntersection(ray ray, vec3 &outIntersectionPoint);
+
+    /**
+	 * Генерирует треугольники для 4 точек a b c d
+	 * heights - массив высот [minHeight, maxHeight]
+ 	 * */
+    static std::vector<Triangle> GenerateTriangles(vec2 a, vec2 b, vec2 c, vec2 d, vec2 heights);
 
 private:
     vec3 _v0, _v1, _v2;

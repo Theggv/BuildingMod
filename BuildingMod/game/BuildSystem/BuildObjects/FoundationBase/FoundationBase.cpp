@@ -18,7 +18,7 @@ FoundationBase::FoundationBase(edict_t *owner)
     AddComponent(new OwnerComponent(owner));
 
     auto visualizer = new VisualizerComponent(0.3);
-    visualizer->Enable();
+    visualizer->Disable();
 
     AddComponent(visualizer);
 }
@@ -92,80 +92,36 @@ void FoundationBase::AimPointHandler()
 
     auto groundTest = TraceGroundTest(aimTest);
 
-    if (interTest.m_IsPassed)
+    if (interTest.m_IsPassed && groundTest.m_IsPassed)
     {
-        auto maxHeightTest = MaxHeightTest(aimTest, groundTest);
-
-        if ((aimTest.m_IsPassed && !maxHeightTest.m_IsPassed) ||
-            !groundTest.m_IsPassed)
-            TrySetState(BuildState::STATE_CANNOT_BUILD);
-        else
-            TrySetState(BuildState::STATE_CAN_BUILD);
-
-        if (groundTest.m_IsPassed && aimTest.m_IsPassed)
+        if (aimTest.m_IsPassed)
         {
+            auto maxHeightTest = MaxHeightTest(aimTest, groundTest);
+
+            TrySetState(maxHeightTest.m_IsPassed
+                            ? BuildState::STATE_CAN_BUILD
+                            : BuildState::STATE_CANNOT_BUILD);
+
             GetTransform()->GetPosition()->setVector(maxHeightTest.m_Origin);
             GetTransform()->GetRotation()->y(180 + maxHeightTest.m_Angle);
-        }
-        else if (groundTest.m_IsPassed)
-        {
-            GetTransform()->GetPosition()->setVector(groundTest.m_Origin);
-            GetTransform()->GetRotation()->y(180 + groundTest.m_Angle);
+
+            return;
         }
         else
         {
-            GetTransform()->GetPosition()->setVector(viewPoint);
-            GetTransform()->GetRotation()->y(180 + angles.y);
+            TrySetState(BuildState::STATE_CAN_BUILD);
+
+            GetTransform()->GetPosition()->setVector(groundTest.m_Origin);
+            GetTransform()->GetRotation()->y(180 + groundTest.m_Angle);
+
+            return;
         }
-
-        return;
-    }
-    else
-    {
-        TrySetState(BuildState::STATE_CANNOT_BUILD);
-
-        GetTransform()->GetPosition()->setVector(viewPoint);
-        GetTransform()->GetRotation()->y(180 + angles.y);
     }
 
-    // if (aimTest.m_IsPassed && groundTest.m_IsPassed)
-    // {
-    //     if (groundTest.m_Origin.z < aimTest.m_Origin.z)
-    //     {
-    //         TrySetState(BuildState::STATE_CANNOT_BUILD);
+    TrySetState(BuildState::STATE_CANNOT_BUILD);
 
-    //         GetTransform()->GetPosition()->setVector(
-    //             aimTest.m_Origin.x,
-    //             aimTest.m_Origin.y,
-    //             aimTest.m_Origin.z);
-
-    //         GetTransform()->GetRotation()->y(180 + aimTest.m_Angle);
-
-    //         return;
-    //     }
-    // }
-
-    // TrySetState(groundTest.m_IsPassed
-    //                 ? BuildState::STATE_CAN_BUILD
-    //                 : BuildState::STATE_CANNOT_BUILD);
-
-    // if (groundTest.m_IsPassed)
-    // {
-    //     GetTransform()->GetPosition()->setVector(
-    //         groundTest.m_Origin.x,
-    //         groundTest.m_Origin.y,
-    //         groundTest.m_Origin.z);
-
-    //     GetTransform()->GetRotation()->y(
-    //         180 + (aimTest.m_IsPassed
-    //                    ? aimTest.m_Angle
-    //                    : angles.y));
-    // }
-    // else
-    // {
-    //     GetTransform()->GetPosition()->setVector(viewPoint.x, viewPoint.y, viewPoint.z);
-    //     GetTransform()->GetRotation()->y(180 + angles.y);
-    // }
+    GetTransform()->GetPosition()->setVector(viewPoint);
+    GetTransform()->GetRotation()->y(180 + angles.y);
 }
 
 AimTestResult FoundationBase::MaxHeightTest(AimTestResult aimTest, AimTestResult groundTest)
@@ -184,10 +140,6 @@ AimTestResult FoundationBase::MinHeightTest(AimTestResult aimTest, AimTestResult
 
 AimTestResult FoundationBase::IntersectionTest(AimTestResult result)
 {
-    // Skip test if previous wasn't passed
-    // if (!result.m_IsPassed)
-    //     return result;
-
     auto objects = ObjectManager::Instance().GetObjectsInArea(result.m_Origin);
 
     auto shape = GetShape(AimTestResult(
@@ -226,48 +178,4 @@ Shape FoundationBase::GetShape()
         true,
         *GetTransform()->GetPosition(),
         GetTransform()->GetRotation()->y()));
-}
-
-std::vector<Triangle> FoundationBase::GenerateTriangles(
-    vec2 a, vec2 b, vec2 c, vec2 d, vec2 heights)
-{
-    std::vector<Triangle> triangles;
-    std::vector<Triangle> buffer;
-
-    auto minHeight = heights.x;
-    auto maxHeight = heights.y;
-
-    // a; b
-    buffer = Shape({vec3(a.x, a.y, minHeight),
-                    vec3(a.x, a.y, maxHeight),
-                    vec3(b.x, b.y, maxHeight),
-                    vec3(b.x, b.y, minHeight)})
-                 .Triangulate();
-    triangles.insert(triangles.end(), buffer.begin(), buffer.end());
-
-    // b; c
-    buffer = Shape({vec3(b.x, b.y, minHeight),
-                    vec3(b.x, b.y, maxHeight),
-                    vec3(c.x, c.y, maxHeight),
-                    vec3(c.x, c.y, minHeight)})
-                 .Triangulate();
-    triangles.insert(triangles.end(), buffer.begin(), buffer.end());
-
-    // c; d
-    buffer = Shape({vec3(c.x, c.y, minHeight),
-                    vec3(c.x, c.y, maxHeight),
-                    vec3(d.x, d.y, maxHeight),
-                    vec3(d.x, d.y, minHeight)})
-                 .Triangulate();
-    triangles.insert(triangles.end(), buffer.begin(), buffer.end());
-
-    // d; a
-    buffer = Shape({vec3(d.x, d.y, minHeight),
-                    vec3(d.x, d.y, maxHeight),
-                    vec3(a.x, a.y, maxHeight),
-                    vec3(a.x, a.y, minHeight)})
-                 .Triangulate();
-    triangles.insert(triangles.end(), buffer.begin(), buffer.end());
-
-    return triangles;
 }

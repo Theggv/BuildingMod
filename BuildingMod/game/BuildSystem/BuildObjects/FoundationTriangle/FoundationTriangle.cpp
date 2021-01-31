@@ -153,17 +153,6 @@ AimTestResult FoundationTriangle::FoundationAimTest(ray ray)
 		return distVec1.LengthSquared() < distVec2.LengthSquared();
 	});
 
-	// for (auto obj : objects)
-	// {
-	// 	auto gameObject = *obj.lock();
-
-	// 	auto dist = (static_cast<vec3>(*gameObject->GetTransform()->GetPosition()) - ray.GetOrigin()).Length();
-
-	// 	SEM_PRINT("[Building Mod] Distance to object #%d = %.2f", gameObject->Id, dist);
-	// }
-
-	// SEM_PRINT("[Building Mod] --------------------------------------------");
-
 	for (auto &object_p : objects)
 	{
 		auto foundation = dynamic_cast<FoundationBase *>(*object_p.lock());
@@ -424,7 +413,7 @@ std::vector<Triangle> FoundationTriangle::GetTriggerZone(TriangleZones zone, Hei
 	{
 	case TriangleZones::RIGHT:
 
-		triangles = GenerateTriangles(
+		triangles = Triangle::GenerateTriangles(
 			a,
 			hasLeft ? aRight : d,
 			hasDown ? bRight : e,
@@ -435,7 +424,7 @@ std::vector<Triangle> FoundationTriangle::GetTriggerZone(TriangleZones zone, Hei
 
 	case TriangleZones::DOWN:
 
-		triangles = GenerateTriangles(
+		triangles = Triangle::GenerateTriangles(
 			b,
 			hasRight ? bDown : e,
 			hasLeft ? cDown : f,
@@ -446,7 +435,7 @@ std::vector<Triangle> FoundationTriangle::GetTriggerZone(TriangleZones zone, Hei
 
 	case TriangleZones::LEFT:
 
-		triangles = GenerateTriangles(
+		triangles = Triangle::GenerateTriangles(
 			c,
 			hasDown ? cLeft : f,
 			hasRight ? aLeft : d,

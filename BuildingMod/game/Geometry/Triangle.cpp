@@ -1,6 +1,7 @@
 #include "Triangle.h"
 #include "ray.h"
 #include "mat4.h"
+#include "Shape.h"
 
 Triangle::Triangle(vec3 v0, vec3 v1, vec3 v2)
     : _v0(v0), _v1(v1), _v2(v2)
@@ -52,4 +53,48 @@ bool Triangle::RayIntersection(
     }
 
     return false;
+}
+
+std::vector<Triangle> Triangle::GenerateTriangles(
+    vec2 a, vec2 b, vec2 c, vec2 d, vec2 heights)
+{
+    std::vector<Triangle> triangles;
+    std::vector<Triangle> buffer;
+
+    auto minHeight = heights.x;
+    auto maxHeight = heights.y;
+
+    // a; b
+    buffer = Shape({vec3(a.x, a.y, minHeight),
+                    vec3(a.x, a.y, maxHeight),
+                    vec3(b.x, b.y, maxHeight),
+                    vec3(b.x, b.y, minHeight)})
+                 .Triangulate();
+    triangles.insert(triangles.end(), buffer.begin(), buffer.end());
+
+    // b; c
+    buffer = Shape({vec3(b.x, b.y, minHeight),
+                    vec3(b.x, b.y, maxHeight),
+                    vec3(c.x, c.y, maxHeight),
+                    vec3(c.x, c.y, minHeight)})
+                 .Triangulate();
+    triangles.insert(triangles.end(), buffer.begin(), buffer.end());
+
+    // c; d
+    buffer = Shape({vec3(c.x, c.y, minHeight),
+                    vec3(c.x, c.y, maxHeight),
+                    vec3(d.x, d.y, maxHeight),
+                    vec3(d.x, d.y, minHeight)})
+                 .Triangulate();
+    triangles.insert(triangles.end(), buffer.begin(), buffer.end());
+
+    // d; a
+    buffer = Shape({vec3(d.x, d.y, minHeight),
+                    vec3(d.x, d.y, maxHeight),
+                    vec3(a.x, a.y, maxHeight),
+                    vec3(a.x, a.y, minHeight)})
+                 .Triangulate();
+    triangles.insert(triangles.end(), buffer.begin(), buffer.end());
+
+    return triangles;
 }

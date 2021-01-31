@@ -52,12 +52,6 @@ protected:
     Shape GetShape();
     virtual Shape GetShape(AimTestResult result) = 0;
 
-    /**
-	 * Генерирует треугольники для 4 точек a b c d
-	 * heights - массив высот [minHeight, maxHeight]
- 	 * */
-    std::vector<Triangle> GenerateTriangles(vec2 a, vec2 b, vec2 c, vec2 d, vec2 heights);
-
 private:
     AimTestResult IntersectionTest(AimTestResult result);
 };
