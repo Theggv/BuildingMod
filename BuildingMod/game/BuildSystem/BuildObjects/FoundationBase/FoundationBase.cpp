@@ -4,6 +4,7 @@
 #include <game/BuildSystem/BuildObjects/Components/RendererComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/IColliderComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/StabilityComponent.h>
+#include <game/BuildSystem/BuildObjects/Components/VisualizerComponent.h>
 
 #include <game/Utility/Utility.h>
 #include <game/Server/PrecacheManager.h>
@@ -15,6 +16,11 @@ const double FoundationBase::m_MaxHeight = m_ModelSize - m_MinHeight;
 FoundationBase::FoundationBase(edict_t *owner)
 {
     AddComponent(new OwnerComponent(owner));
+
+    auto visualizer = new VisualizerComponent(0.3);
+    visualizer->Disable();
+
+    AddComponent(visualizer);
 }
 
 void FoundationBase::Start()
@@ -93,7 +99,7 @@ void FoundationBase::AimPointHandler()
                 aimTestResult.m_Origin.y,
                 aimTestResult.m_Origin.z);
 
-            GetTransform()->GetRotation()->y(aimTestResult.m_Angle);
+            GetTransform()->GetRotation()->y(180 + aimTestResult.m_Angle);
 
             return;
         }
@@ -110,15 +116,15 @@ void FoundationBase::AimPointHandler()
             traceGroundTestResult.m_Origin.y,
             traceGroundTestResult.m_Origin.z);
 
-        if (aimTestResult.m_IsPassed)
-            GetTransform()->GetRotation()->y(aimTestResult.m_Angle);
-        else
-            GetTransform()->GetRotation()->y(angles.y);
+        GetTransform()->GetRotation()->y(
+            180 + (aimTestResult.m_IsPassed
+                       ? aimTestResult.m_Angle
+                       : angles.y));
     }
     else
     {
         GetTransform()->GetPosition()->setVector(viewPoint.x, viewPoint.y, viewPoint.z);
-        GetTransform()->GetRotation()->y(angles.y);
+        GetTransform()->GetRotation()->y(180 + angles.y);
     }
 }
 
@@ -168,48 +174,4 @@ std::vector<Triangle> FoundationBase::GenerateTriangles(
     triangles.insert(triangles.end(), buffer.begin(), buffer.end());
 
     return triangles;
-}
-
-int framesCounter = 0;
-
-void FoundationBase::VisualizeZones(std::vector<Triangle> triangles)
-{
-    return;
-    if (framesCounter % 25 == 0)
-    {
-        framesCounter = 0;
-
-        for (auto triangle : triangles)
-        {
-            DrawLine(triangle._v0, triangle._v1);
-            DrawLine(triangle._v0, triangle._v2);
-            DrawLine(triangle._v1, triangle._v2);
-        }
-    }
-
-    framesCounter++;
-}
-
-void FoundationBase::DrawLine(vec3 p1, vec3 p2)
-{
-    MESSAGE_BEGIN(MSG_BROADCAST, SVC_TEMPENTITY);
-    WRITE_BYTE(TE_BEAMPOINTS);
-    WRITE_COORD(p1.x);                                         //Стартовая точка x
-    WRITE_COORD(p1.y);                                         //Стартовая точка y
-    WRITE_COORD(p1.z);                                         //Стартовая точка z
-    WRITE_COORD(p2.x);                                         //Конечная точка x
-    WRITE_COORD(p2.y);                                         //Конечная точка y
-    WRITE_COORD(p2.z);                                         //Конечная точка z
-    WRITE_SHORT(PrecacheManager::Instance().GetLaserBeamId()); //Индекс спрайта
-    WRITE_BYTE(0);                                             //Стартовый кадр
-    WRITE_BYTE(1);                                             //Скорость анимации
-    WRITE_BYTE(3);                                             //Время существования
-    WRITE_BYTE(5);                                             //Толщина луча
-    WRITE_BYTE(0);                                             //Искажение
-    WRITE_BYTE(255);                                           //Цвет красный
-    WRITE_BYTE(0);                                             //Цвет зеленый
-    WRITE_BYTE(0);                                             //Цвет синий
-    WRITE_BYTE(1000);                                          //Яркость
-    WRITE_BYTE(0);                                             //...
-    MESSAGE_END();
 }

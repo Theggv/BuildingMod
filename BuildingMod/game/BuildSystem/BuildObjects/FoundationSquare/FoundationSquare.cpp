@@ -4,6 +4,7 @@
 #include <game/BuildSystem/BuildObjects/Components/RendererComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/IColliderComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/StabilityComponent.h>
+#include <game/BuildSystem/BuildObjects/Components/VisualizerComponent.h>
 
 #include <game/BuildSystem/BuildObjects/FoundationTriangle/FoundationTriangle.h>
 
@@ -86,9 +87,6 @@ void FoundationSquare::ConnectFoundations(FoundationBase *other, bool useRecursi
 	}
 }
 
-/**
- * BUG: Если фундамент прикреплен к другому, фикс высоты не сработает
- * */
 AimTestResult FoundationSquare::TraceGroundTest(vec3 viewPoint, vec3 viewAngle)
 {
 	TraceResult tr;
@@ -228,13 +226,13 @@ AimTestResult FoundationSquare::FoundationAimTest(ray ray)
 			switch (static_cast<SquareZones>(result & 3))
 			{
 			case SquareZones::RIGHT:
-				return AimTestResult(true, pos, rot.y);
+				return AimTestResult(true, pos, rot.y - 90);
 
 			case SquareZones::DOWN:
-				return AimTestResult(true, pos, rot.y);
+				return AimTestResult(true, pos, rot.y + 180);
 
 			case SquareZones::LEFT:
-				return AimTestResult(true, pos, rot.y);
+				return AimTestResult(true, pos, rot.y + 90);
 
 			case SquareZones::UP:
 				return AimTestResult(true, pos, rot.y);
@@ -258,59 +256,6 @@ AimTestResult FoundationSquare::FoundationAimTest(ray ray)
 				return AimTestResult(true, pos, rot.y - 60);
 			}
 		}
-
-		// auto foundationSquare = dynamic_cast<FoundationSquare *>(*object_p.lock());
-		// auto foundationTriangle = dynamic_cast<FoundationSquare *>(*object_p.lock());
-
-		// int result = -1;
-
-		// if (foundationSquare != nullptr)
-		// 	result = FoundationConnectionTest(ray, foundationSquare);
-		// else if (foundationTriangle != nullptr)
-		// 	result = FoundationConnectionTest(ray, foundationTriangle);
-
-		// if (result != -1)
-		// {
-		// 	// SEM_PRINT("[Building Mod] Height: %d, Zone: %d", result >> 4, result & 3);
-
-		// 	vec3 pos = foundationSquare->GetConnectionPoint(
-		// 		static_cast<SquareZones>(result & 3),
-		// 		static_cast<HeightZones>(result >> 4), true);
-
-		// 	vec3 rot = *foundationSquare->GetTransform()->GetRotation();
-
-		// 	switch (static_cast<SquareZones>(result & 3))
-		// 	{
-		// 	case SquareZones::RIGHT:
-		// 		return AimTestResult(true, pos, rot.y + 180);
-
-		// 	case SquareZones::DOWN:
-		// 		return AimTestResult(true, pos, rot.y + 90);
-
-		// 	case SquareZones::LEFT:
-		// 		return AimTestResult(true, pos, rot.y);
-
-		// 	case SquareZones::UP:
-		// 		return AimTestResult(true, pos, rot.y - 90);
-		// 	}
-		// }
-
-		// auto foundation = dynamic_cast<FoundationSquare *>(*object_p.lock());
-		// auto foundationTriangle = dynamic_cast<FoundationSquare *>(*object_p.lock());
-		// auto result = FoundationConnectionTest(ray, foundation);
-
-		// if (result != -1)
-		// {
-		// 	// SEM_PRINT("[Building Mod] Height: %d, Zone: %d", result >> 4, result & 3);
-
-		// 	vec3 pos = foundation->GetConnectionPoint(
-		// 		static_cast<SquareZones>(result & 3),
-		// 		static_cast<HeightZones>(result >> 4), false);
-
-		// 	vec3 rot = *foundation->GetTransform()->GetRotation();
-
-		// 	return AimTestResult(true, pos, rot.y);
-		// }
 	}
 
 	return AimTestResult(false);
@@ -361,11 +306,11 @@ int FoundationSquare::FoundationConnectionTest(ray ray, FoundationSquare *other)
 
 	if (minZone != -1)
 	{
-		auto drawTries = other->GetTriggerZone(
+		auto tries = other->GetTriggerZone(
 			static_cast<SquareZones>(minZone & 3),
 			static_cast<HeightZones>(minZone >> 4));
 
-		VisualizeZones(drawTries);
+		GetComponent<VisualizerComponent>()->Visualize(tries);
 	}
 
 	return minZone;
@@ -415,11 +360,11 @@ int FoundationSquare::FoundationConnectionTest(ray ray, FoundationTriangle *othe
 
 	if (minZone != -1)
 	{
-		auto drawTries = other->GetTriggerZone(
+		auto tries = other->GetTriggerZone(
 			static_cast<TriangleZones>(minZone & 3),
 			static_cast<HeightZones>(minZone >> 4));
 
-		VisualizeZones(drawTries);
+		GetComponent<VisualizerComponent>()->Visualize(tries);
 	}
 
 	return minZone;

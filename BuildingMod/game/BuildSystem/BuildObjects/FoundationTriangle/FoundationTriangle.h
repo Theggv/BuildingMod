@@ -13,6 +13,14 @@ enum class TriangleZones
 
 class FoundationSquare;
 
+/**
+ *  Components:
+ *      OwnerComponent
+ *      VisualizerComponent
+ * 		RendererComponent
+ * 		IColliderComponent
+ * 		StabilityComponent
+ * */
 class FoundationTriangle : public FoundationBase
 {
 	friend class FoundationSquare;
@@ -26,7 +34,7 @@ public:
 	void ConnectFoundations(FoundationBase *other, bool useRecursion = true) override;
 
 protected:
-	virtual void AimPointHandler() override;
+	// virtual void AimPointHandler() override;
 	virtual AimTestResult TraceGroundTest(vec3 viewPoint, vec3 viewAngle) override;
 	virtual AimTestResult FoundationAimTest(ray ray) override;
 

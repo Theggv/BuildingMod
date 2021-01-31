@@ -14,6 +14,14 @@ enum class SquareZones
 
 class FoundationTriangle;
 
+/**
+ *  Components:
+ *      OwnerComponent
+ *      VisualizerComponent
+ * 		RendererComponent
+ * 		IColliderComponent
+ * 		StabilityComponent
+ * */
 class FoundationSquare : public FoundationBase
 {
 	friend class FoundationTriangle;

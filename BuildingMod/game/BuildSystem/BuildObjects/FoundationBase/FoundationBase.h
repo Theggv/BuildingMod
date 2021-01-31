@@ -13,6 +13,11 @@ enum class HeightZones
     HIGH,
 };
 
+/**
+ *  Components:
+ *      OwnerComponent
+ *      VisualizerComponent
+ * */
 class FoundationBase : public GameObject
 {
 public:
@@ -43,9 +48,6 @@ protected:
 	 * heights - массив высот [minHeight, maxHeight]
  	 * */
     std::vector<Triangle> GenerateTriangles(vec2 a, vec2 b, vec2 c, vec2 d, vec2 heights);
-
-    void VisualizeZones(std::vector<Triangle> triangles);
-    void DrawLine(vec3, vec3);
 };
 
 #endif // !_BUILDOBJECTS_FOUNDATIONBASE_

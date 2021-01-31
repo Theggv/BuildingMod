@@ -5,6 +5,7 @@
 #include <game/BuildSystem/BuildObjects/Components/OwnerComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/RendererComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/IColliderComponent.h>
+#include <game/BuildSystem/BuildObjects/Components/VisualizerComponent.h>
 
 #include <game/BuildSystem/BuildObjects/FoundationSquare/FoundationSquare.h>
 
@@ -53,64 +54,6 @@ void FoundationTriangle::Update()
 	if (m_State != BuildState::STATE_SOLID)
 	{
 		AimPointHandler();
-	}
-}
-
-void FoundationTriangle::AimPointHandler()
-{
-	auto ownerComponent = GetComponent<OwnerComponent>();
-
-	auto viewPoint = ownerComponent->GetAimDest(250.0);
-	viewPoint.z += m_MinHeight;
-
-	auto aimRay = ownerComponent->GetAimRay(viewPoint, 500.0);
-	auto angles = ownerComponent->GetViewAngles();
-
-	auto aimTestResult = FoundationAimTest(aimRay);
-
-	auto traceGroundTestResult = TraceGroundTest(
-		aimTestResult.m_IsPassed
-			? aimTestResult.m_Origin
-			: viewPoint,
-		angles);
-
-	if (aimTestResult.m_IsPassed && traceGroundTestResult.m_IsPassed)
-	{
-		if (traceGroundTestResult.m_Origin.z < aimTestResult.m_Origin.z)
-		{
-			TrySetState(BuildState::STATE_CANNOT_BUILD);
-
-			GetTransform()->GetPosition()->setVector(
-				aimTestResult.m_Origin.x,
-				aimTestResult.m_Origin.y,
-				aimTestResult.m_Origin.z);
-
-			GetTransform()->GetRotation()->y(aimTestResult.m_Angle + 180);
-
-			return;
-		}
-	}
-
-	TrySetState(traceGroundTestResult.m_IsPassed
-					? BuildState::STATE_CAN_BUILD
-					: BuildState::STATE_CANNOT_BUILD);
-
-	if (traceGroundTestResult.m_IsPassed)
-	{
-		GetTransform()->GetPosition()->setVector(
-			traceGroundTestResult.m_Origin.x,
-			traceGroundTestResult.m_Origin.y,
-			traceGroundTestResult.m_Origin.z);
-
-		if (aimTestResult.m_IsPassed)
-			GetTransform()->GetRotation()->y(aimTestResult.m_Angle + 180);
-		else
-			GetTransform()->GetRotation()->y(angles.y + 180);
-	}
-	else
-	{
-		GetTransform()->GetPosition()->setVector(viewPoint.x, viewPoint.y, viewPoint.z);
-		GetTransform()->GetRotation()->y(angles.y + 180);
 	}
 }
 
@@ -168,7 +111,7 @@ AimTestResult FoundationTriangle::TraceGroundTest(vec3 viewPoint, vec3 viewAngle
 		return TraceGroundTest(viewPoint, viewAngle);
 	}
 
-	return AimTestResult(true);
+	return AimTestResult(false);
 }
 
 AimTestResult FoundationTriangle::FoundationAimTest(ray ray)
@@ -375,11 +318,11 @@ int FoundationTriangle::FoundationConnectionTest(ray ray, FoundationSquare *othe
 
 	if (minZone != -1)
 	{
-		auto drawTries = other->GetTriggerZone(
+		auto tries = other->GetTriggerZone(
 			static_cast<SquareZones>(minZone & 3),
 			static_cast<HeightZones>(minZone >> 4));
 
-		VisualizeZones(drawTries);
+		GetComponent<VisualizerComponent>()->Visualize(tries);
 	}
 
 	return minZone;
@@ -429,11 +372,11 @@ int FoundationTriangle::FoundationConnectionTest(ray ray, FoundationTriangle *ot
 
 	if (minZone != -1)
 	{
-		auto drawTries = other->GetTriggerZone(
+		auto tries = other->GetTriggerZone(
 			static_cast<TriangleZones>(minZone & 3),
 			static_cast<HeightZones>(minZone >> 4));
 
-		VisualizeZones(drawTries);
+		GetComponent<VisualizerComponent>()->Visualize(tries);
 	}
 
 	return minZone;
@@ -469,7 +412,7 @@ std::vector<Triangle> FoundationTriangle::GetTriggerZone(TriangleZones zone, Hei
 	auto tempVector = vec2(0, ((d - a) / 2).Length() / (sin(60 * M_PI / 180)));
 
 	auto aRight = a + tempVector.Transform(mat4::RotationMatrix(-30));
-	auto aLeft = a + tempVector.Transform(mat4::RotationMatrix(-30));
+	auto aLeft = a + tempVector.Transform(mat4::RotationMatrix(30));
 
 	auto bRight = b + tempVector.Transform(mat4::RotationMatrix(-90));
 	auto bDown = b + tempVector.Transform(mat4::RotationMatrix(-150));
