@@ -27,15 +27,11 @@ public:
     virtual void Update() override;
     virtual void StateUpdated() override;
 
-    /**
-     * Идея метода - соединить this фундамент с other, 
-     * и затем вызвать other->ConnectionFoundations(this, false)
-     * useRecursion нужна, чтобы метод не зациклился 
-    * */
-    virtual void ConnectFoundations(FoundationBase *other, bool useRecursion = true) = 0;
+    void ConnectFoundations(FoundationBase *other);
+
+    static const double m_ModelSize;
 
 protected:
-    static const double m_ModelSize;
     static const double m_MinHeight;
     static const double m_MaxHeight;
 

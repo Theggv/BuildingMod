@@ -5,6 +5,7 @@
 #include <game/BuildSystem/BuildObjects/Components/IColliderComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/StabilityComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/VisualizerComponent.h>
+#include <game/BuildSystem/BuildObjects/Components/TriggerZoneComponent.h>
 
 #include <game/Utility/Utility.h>
 #include <game/Server/PrecacheManager.h>
@@ -68,6 +69,12 @@ void FoundationBase::StateUpdated()
 
         ConnectFoundations(foundation);
     }
+}
+
+void FoundationBase::ConnectFoundations(FoundationBase *other)
+{
+    this->GetComponent<TriggerZoneComponent>()->AddConnection(other);
+    other->GetComponent<TriggerZoneComponent>()->AddConnection(this);
 }
 
 void FoundationBase::AimPointHandler()

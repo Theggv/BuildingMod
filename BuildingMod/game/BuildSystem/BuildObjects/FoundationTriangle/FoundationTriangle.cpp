@@ -1,4 +1,5 @@
 #include "FoundationTriangle.h"
+#include "TriangleZoneComponent.h"
 
 #include "TriangleCollider.h"
 
@@ -6,8 +7,6 @@
 #include <game/BuildSystem/BuildObjects/Components/RendererComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/IColliderComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/VisualizerComponent.h>
-
-#include <game/BuildSystem/BuildObjects/FoundationSquare/FoundationSquare.h>
 
 #include <game/Utility/Utility.h>
 #include <game/Server/PrecacheManager.h>
@@ -45,6 +44,9 @@ void FoundationTriangle::Start()
 		auto model = (char *)STRING(UTIL_AllocString(renderer->GetModel()));
 		SET_MODEL(pEntity, model);
 	}
+
+	auto triggerZone = new TriangleZoneComponent;
+	AddComponent(triggerZone);
 }
 
 void FoundationTriangle::Update()
@@ -155,344 +157,16 @@ AimTestResult FoundationTriangle::FoundationAimTest(ray ray)
 
 	for (auto &object_p : objects)
 	{
-		auto foundation = dynamic_cast<FoundationBase *>(*object_p.lock());
-		auto foundationSquare = dynamic_cast<FoundationSquare *>(*object_p.lock());
-		auto foundationTriangle = dynamic_cast<FoundationTriangle *>(*object_p.lock());
+		auto object = *object_p.lock();
 
-		int result = -1;
+		auto triggerZoneComponent = object->GetComponent<TriggerZoneComponent>();
+		auto result = triggerZoneComponent->TryConnect(ray, this);
 
-		if (foundationSquare != nullptr)
-			result = FoundationConnectionTest(ray, foundationSquare);
-		else if (foundationTriangle != nullptr)
-			result = FoundationConnectionTest(ray, foundationTriangle);
-
-		if (result == -1)
-			continue;
-
-		vec3 pos = vec3::Zero();
-		vec3 rot = *foundation->GetTransform()->GetRotation();
-
-		// SEM_PRINT("[Building Mod] Height: %d, Zone: %d, angle: %.1f",
-		// 		  result >> 4, result & 3, rot.y);
-
-		if (foundationSquare != nullptr)
-		{
-			vec3 pos = foundationSquare->GetConnectionPoint(
-				static_cast<SquareZones>(result & 3),
-				static_cast<HeightZones>(result >> 4), true);
-
-			switch (static_cast<SquareZones>(result & 3))
-			{
-			case SquareZones::RIGHT:
-				return AimTestResult(true, pos, rot.y - 90);
-
-			case SquareZones::DOWN:
-				return AimTestResult(true, pos, rot.y + 180);
-
-			case SquareZones::LEFT:
-				return AimTestResult(true, pos, rot.y + 90);
-
-			case SquareZones::UP:
-				return AimTestResult(true, pos, rot.y);
-			}
-		}
-		else if (foundationTriangle != nullptr)
-		{
-			vec3 pos = foundationTriangle->GetConnectionPoint(
-				static_cast<TriangleZones>(result & 3),
-				static_cast<HeightZones>(result >> 4), true);
-
-			switch (static_cast<TriangleZones>(result & 3))
-			{
-			case TriangleZones::RIGHT:
-				return AimTestResult(true, pos, rot.y + 60 + 180);
-
-			case TriangleZones::DOWN:
-				return AimTestResult(true, pos, rot.y + 180 + 180);
-
-			case TriangleZones::LEFT:
-				return AimTestResult(true, pos, rot.y - 60 + 180);
-			}
-		}
+		if (result.m_IsPassed)
+			return result;
 	}
 
 	return AimTestResult(false, ray.GetDest(), ray.GetVectorAngle());
-}
-
-void FoundationTriangle::AddConnection(GameObject *object, TriangleZones zone)
-{
-	// tak ne dolzhno byt', no na vsyakiy sluchay
-	if (!m_Connections[static_cast<int>(zone)].empty() &&
-		!m_Connections[static_cast<int>(zone)].expired())
-		return;
-
-	m_Connections[static_cast<int>(zone)] = ObjectManager::Instance().GetPtr(object->Id);
-}
-
-bool FoundationTriangle::HasConnection(TriangleZones zone)
-{
-	if (m_Connections[static_cast<int>(zone)].empty() ||
-		m_Connections[static_cast<int>(zone)].expired())
-		return false;
-
-	return true;
-}
-
-void FoundationTriangle::ConnectFoundations(FoundationBase *other, bool useRecursion)
-{
-	bool isTriangle = dynamic_cast<FoundationSquare *>(other) == nullptr;
-
-	vec2 pos = vec2(*other->GetTransform()->GetPosition()).Round();
-
-	for (size_t i = 0; i < 3; i++)
-	{
-		vec2 point = GetConnectionPoint(
-						 static_cast<TriangleZones>(i), HeightZones::MIDDLE, isTriangle)
-						 .Round();
-
-		if (point == pos)
-		{
-			AddConnection(other, static_cast<TriangleZones>(i));
-
-			if (useRecursion)
-				other->ConnectFoundations(this, false);
-
-			return;
-		}
-	}
-}
-
-/**
- * LOW | MEDIUM | HIGH 			(0 | 1 | 2) << 4
- * UP | RIGHT | DOWN | LEFT 	(0 | 1 | 2 | 3)
- * */
-int FoundationTriangle::FoundationConnectionTest(ray ray, FoundationSquare *other)
-{
-	// auto stability = other->GetComponent<StabilityComponent *>();
-	vec3 hit;
-	bool intersection;
-
-	int minRayLength = 75;
-	bool minLengthTest;
-
-	int minZone = -1;
-	double minLengthSquared = 0;
-	double curLengthSquared;
-
-	for (size_t height = 0; height < 3; ++height)
-	{
-		for (size_t zone = 0; zone < 4; zone++)
-		{
-			auto triangles = other->GetTriggerZone(
-				static_cast<SquareZones>(zone),
-				static_cast<HeightZones>(height));
-
-			for (auto triangle : triangles)
-			{
-				intersection = triangle.RayIntersection(ray, hit);
-				curLengthSquared = (hit - ray.GetOrigin()).LengthSquared();
-				minLengthTest = curLengthSquared >= minRayLength * minRayLength;
-
-				if (intersection && minLengthTest)
-				{
-					if (!minLengthSquared || curLengthSquared < minLengthSquared)
-					{
-						minLengthSquared = curLengthSquared;
-						minZone = (height << 4) + zone;
-					}
-				}
-			}
-		}
-	}
-
-	if (minZone != -1)
-	{
-		auto tries = other->GetTriggerZone(
-			static_cast<SquareZones>(minZone & 3),
-			static_cast<HeightZones>(minZone >> 4));
-
-		GetComponent<VisualizerComponent>()->Visualize(tries);
-	}
-
-	return minZone;
-}
-
-/**
- * LOW | MEDIUM | HIGH 			(0 | 1 | 2) << 4
- * RIGHT | DOWN | LEFT 	(0 | 1 | 2 | 3)
- * */
-int FoundationTriangle::FoundationConnectionTest(ray ray, FoundationTriangle *other)
-{
-	vec3 hit;
-	bool intersection;
-
-	int minRayLength = 75;
-	bool minLengthTest;
-
-	int minZone = -1;
-	double minLengthSquared = 0;
-	double curLengthSquared;
-
-	for (size_t height = 0; height < 3; ++height)
-	{
-		for (size_t zone = 0; zone < 3; zone++)
-		{
-			auto triangles = other->GetTriggerZone(
-				static_cast<TriangleZones>(zone),
-				static_cast<HeightZones>(height));
-
-			for (auto triangle : triangles)
-			{
-				intersection = triangle.RayIntersection(ray, hit);
-				curLengthSquared = (hit - ray.GetOrigin()).LengthSquared();
-				minLengthTest = curLengthSquared >= minRayLength * minRayLength;
-
-				if (intersection && minLengthTest)
-				{
-					if (!minLengthSquared || curLengthSquared < minLengthSquared)
-					{
-						minLengthSquared = curLengthSquared;
-						minZone = (height << 4) + zone;
-					}
-				}
-			}
-		}
-	}
-
-	if (minZone != -1)
-	{
-		auto tries = other->GetTriggerZone(
-			static_cast<TriangleZones>(minZone & 3),
-			static_cast<HeightZones>(minZone >> 4));
-
-		GetComponent<VisualizerComponent>()->Visualize(tries);
-	}
-
-	return minZone;
-}
-
-std::vector<Triangle> FoundationTriangle::GetTriggerZone(TriangleZones zone, HeightZones height)
-{
-	// basic impl, without zones check
-	std::vector<Triangle> triangles;
-	std::vector<Triangle> buffer;
-
-	// Return empty list if zone is not empty
-	if (HasConnection(zone))
-		return triangles;
-
-	// list of heights (min, max)
-	std::vector<vec2> heights = {vec2(-128, -30), vec2(-30, 30), vec2(30, 128)};
-
-	auto hasRight = HasConnection(TriangleZones::RIGHT);
-	auto hasDown = HasConnection(TriangleZones::DOWN);
-	auto hasLeft = HasConnection(TriangleZones::LEFT);
-
-	// smari shemu, down
-
-	auto a = vec2(0, 2 * m_Height / 3);
-	auto b = a.Transform(mat4::RotationMatrix(-120));
-	auto c = a.Transform(mat4::RotationMatrix(120));
-
-	auto d = vec2(0, 5 * m_Height / 3);
-	auto e = d.Transform(mat4::RotationMatrix(-120));
-	auto f = d.Transform(mat4::RotationMatrix(120));
-
-	auto tempVector = vec2(0, ((d - a) / 2).Length() / (sin(60 * M_PI / 180)));
-
-	auto aRight = a + tempVector.Transform(mat4::RotationMatrix(-30));
-	auto aLeft = a + tempVector.Transform(mat4::RotationMatrix(30));
-
-	auto bRight = b + tempVector.Transform(mat4::RotationMatrix(-90));
-	auto bDown = b + tempVector.Transform(mat4::RotationMatrix(-150));
-
-	auto cLeft = c + tempVector.Transform(mat4::RotationMatrix(90));
-	auto cDown = c + tempVector.Transform(mat4::RotationMatrix(150));
-
-	switch (zone)
-	{
-	case TriangleZones::RIGHT:
-
-		triangles = Triangle::GenerateTriangles(
-			a,
-			hasLeft ? aRight : d,
-			hasDown ? bRight : e,
-			b,
-			heights[static_cast<int>(height)]);
-
-		break;
-
-	case TriangleZones::DOWN:
-
-		triangles = Triangle::GenerateTriangles(
-			b,
-			hasRight ? bDown : e,
-			hasLeft ? cDown : f,
-			c,
-			heights[static_cast<int>(height)]);
-
-		break;
-
-	case TriangleZones::LEFT:
-
-		triangles = Triangle::GenerateTriangles(
-			c,
-			hasDown ? cLeft : f,
-			hasRight ? aLeft : d,
-			a,
-			heights[static_cast<int>(height)]);
-
-		break;
-	}
-
-	// Transform
-	vec3 pos = *GetTransform()->GetPosition();
-	vec3 rot = *GetTransform()->GetRotation();
-
-	mat4 mat = mat4::RotationMatrix(-90 - rot.y) *
-			   mat4::TranslateMatrix(pos);
-
-	for (auto &triangle : triangles)
-	{
-		triangle.Transform(mat);
-	}
-
-	return triangles;
-}
-
-vec3 FoundationTriangle::GetConnectionPoint(
-	TriangleZones zone, HeightZones heightZone, bool isForTriangle)
-{
-	double heights[3] = {-m_ModelSize / 2.0, 0, m_ModelSize / 2.0};
-	auto height = heights[static_cast<int>(heightZone)];
-
-	vec3 newPos = vec3(
-		0,
-		isForTriangle
-			? m_Height * 2 / 3
-			: m_ModelSize / 2 + FoundationTriangle::m_Height / 3,
-		height);
-
-	switch (zone)
-	{
-	case TriangleZones::RIGHT:
-		newPos = newPos.Transform(mat4::RotationMatrix(-60.0));
-		break;
-	case TriangleZones::DOWN:
-		newPos = newPos.Transform(mat4::RotationMatrix(180.0));
-		break;
-	case TriangleZones::LEFT:
-		newPos = newPos.Transform(mat4::RotationMatrix(60.0));
-		break;
-	}
-
-	vec3 pos = *GetTransform()->GetPosition();
-	vec3 rot = *GetTransform()->GetRotation();
-
-	mat4 mat = mat4::RotationMatrix(-90 - rot.y) *
-			   mat4::TranslateMatrix(pos);
-
-	return newPos.Transform(mat);
 }
 
 Shape FoundationTriangle::GetShape(AimTestResult res)
