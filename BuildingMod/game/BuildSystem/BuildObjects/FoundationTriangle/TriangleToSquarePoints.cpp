@@ -1,0 +1,58 @@
+#include "TriangleToSquarePoints.h"
+#include "FoundationTriangle.h"
+#include <game/BuildSystem/BuildObjects/FoundationSquare/FoundationSquare.h>
+
+AimTestResult TriangleToSquarePoints::GetConnectionPoint(
+    GameObject *object, GameObject *bindable, int zoneId)
+{
+    if (dynamic_cast<FoundationSquare *>(bindable) == nullptr)
+        return CallNext(object, bindable, zoneId);
+
+    auto foundation = dynamic_cast<FoundationTriangle *>(object);
+
+    if (foundation == nullptr)
+        return CallNext(object, bindable, zoneId);
+
+    TriangleZones zone;
+    HeightZones heightZone;
+    ConvertZoneId(zoneId, zone, heightZone);
+
+    double heights[3] = {-foundation->m_ModelSize / 2.0, 0, foundation->m_ModelSize / 2.0};
+    auto height = heights[static_cast<int>(heightZone)];
+
+    vec3 newPos = vec3(0, foundation->m_ModelSize / 2 + FoundationTriangle::m_Height / 3, height);
+
+    vec3 pos = *foundation->GetTransform()->GetPosition();
+    vec3 rot = *foundation->GetTransform()->GetRotation();
+
+    mat4 mat = mat4::RotationMatrix(-90 - rot.y) *
+               mat4::TranslateMatrix(pos);
+
+    switch (zone)
+    {
+    case TriangleZones::RIGHT:
+
+        return AimTestResult(true,
+                             newPos.Transform(mat4::RotationMatrix(-60) * mat),
+                             rot.y + 60 + 180);
+    case TriangleZones::DOWN:
+
+        return AimTestResult(true,
+                             newPos.Transform(mat4::RotationMatrix(180) * mat),
+                             rot.y + 180 + 180);
+    case TriangleZones::LEFT:
+
+        return AimTestResult(true,
+                             newPos.Transform(mat4::RotationMatrix(60) * mat),
+                             rot.y - 60 + 180);
+
+    default:
+        return AimTestResult(false);
+    }
+}
+
+void TriangleToSquarePoints::ConvertZoneId(int zoneId, TriangleZones &zone, HeightZones &height)
+{
+    height = static_cast<HeightZones>(zoneId / 3);
+    zone = static_cast<TriangleZones>(zoneId % 3);
+}

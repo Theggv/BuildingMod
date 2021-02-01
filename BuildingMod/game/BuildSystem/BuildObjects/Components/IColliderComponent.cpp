@@ -93,7 +93,7 @@ void IColliderComponent::StateUpdated()
 
 			pEntity->v.rendermode = kRenderTransAlpha;
 			pEntity->v.renderamt = 150.0f;
-			pEntity->v.rendercolor = Vector(50, 50, 255);
+			pEntity->v.rendercolor = Vector(0, 0, 255);
 			pEntity->v.renderfx = kRenderFxGlowShell;
 		}
 

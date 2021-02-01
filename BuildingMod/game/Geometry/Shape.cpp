@@ -73,10 +73,12 @@ bool Shape::IsIntersect(Shape other)
 {
     double min1, min2, max1, max2;
 
-    for (size_t i = 1; i < _initialPoints.size(); ++i)
+    for (size_t i = 0; i < _initialPoints.size(); ++i)
     {
-        auto vec = _initialPoints[i] - _initialPoints[i - 1];
-        auto normal = vec2(vec.x, vec.y).NormalVector();
+        size_t j = (i == _initialPoints.size() - 1) ? 0 : i + 1;
+        
+        auto vec = _initialPoints[i] - _initialPoints[j];
+        auto normal = vec2(-vec.y, vec.x);
 
         SATTest(normal, *this, min1, max1);
         SATTest(normal, other, min2, max2);
@@ -95,8 +97,8 @@ bool Shape::IsIntersect(Shape other)
  * */
 void Shape::SATTest(vec2 normal, Shape &polygon, double &min, double &max)
 {
-    min = INT_MIN;
-    max = INT_MAX;
+    min = INT_MAX;
+    max = INT_MIN;
 
     for (auto point : polygon._initialPoints)
     {

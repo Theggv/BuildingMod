@@ -5,6 +5,7 @@
 
 enum class BuildState
 {
+	STATE_NONE,
 	STATE_SOLID,
 	STATE_CAN_BUILD,
 	STATE_CANNOT_BUILD,

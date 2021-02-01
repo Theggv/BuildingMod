@@ -1,10 +1,10 @@
-#ifndef _BUILDOBJECTS_FOUNDATIONTRIANGLE_
-#define _BUILDOBJECTS_FOUNDATIONTRIANGLE_
+#ifndef _BUILDOBJECTS_FOUNDATIONSQUARE_
+#define _BUILDOBJECTS_FOUNDATIONSQUARE_
 
 #include <pch.h>
 #include <game/BuildSystem/BuildObjects/FoundationBase/FoundationBase.h>
 
-class FoundationSquare;
+class FoundationTriangle;
 
 /**
  *  Components:
@@ -13,22 +13,19 @@ class FoundationSquare;
  * 		RendererComponent
  * 		IColliderComponent
  * 		StabilityComponent
- * 		TriangleZoneComponent
+ * 		SquareZoneComponent
  * */
-class FoundationTriangle : public FoundationBase
+class FoundationSquare : public FoundationBase
 {
-	friend class FoundationSquare;
+	friend class FoundationTriangle;
 
 public:
-	FoundationTriangle(edict_t *owner);
+	FoundationSquare(edict_t *owner);
 
 	virtual void Start() override;
-	virtual void Update() override;
-
-	static const double m_Height;
+	virtual void StateUpdated() override;
 
 protected:
-	// virtual void AimPointHandler() override;
 	virtual AimTestResult TraceGroundTest(AimTestResult result) override;
 	virtual AimTestResult FoundationAimTest(ray ray) override;
 
@@ -37,4 +34,4 @@ protected:
 private:
 };
 
-#endif // !_BUILDOBJECTS_FOUNDATIONTRIANGLE_
+#endif // !_BUILDOBJECTS_FOUNDATIONSQUARE_

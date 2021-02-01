@@ -1,35 +1,30 @@
-#include "FoundationTriangle.h"
-#include "TriangleZoneComponent.h"
-
-#include "TriangleCollider.h"
+#include "FoundationSquare.h"
+#include "SquareZoneComponent.h"
 
 #include <game/BuildSystem/BuildObjects/Components/OwnerComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/RendererComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/IColliderComponent.h>
+#include <game/BuildSystem/BuildObjects/Components/StabilityComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/VisualizerComponent.h>
 
 #include <game/Utility/Utility.h>
 #include <game/Server/PrecacheManager.h>
 
-const double FoundationTriangle::m_Height = m_ModelSize * sin(60 * M_PI / 180);
-
-FoundationTriangle::FoundationTriangle(edict_t *owner) : FoundationBase(owner)
+FoundationSquare::FoundationSquare(edict_t *owner) : FoundationBase(owner)
 {
 }
 
-void FoundationTriangle::Start()
+void FoundationSquare::Start()
 {
-	GameObject::Start();
+	FoundationBase::Start();
 
 	auto renderer = new RendererComponent;
-	renderer->SetModel(PrecacheManager::Instance().GetFoundationTriangleModel());
+	renderer->SetModel(PrecacheManager::Instance().GetFoundationSquareModel());
 
 	AddComponent(renderer);
 
-	auto collider = new TriangleCollider;
+	auto collider = new IColliderComponent;
 	collider->AddEdict(UTIL_CreateEdict("info_target"), true);
-	collider->AddEdict(UTIL_CreateEdict("info_target"), false);
-	collider->AddEdict(UTIL_CreateEdict("info_target"), false);
 
 	AddComponent(collider);
 
@@ -39,36 +34,29 @@ void FoundationTriangle::Start()
 		SET_MODEL(pEntity, model);
 	}
 
-	for (auto pEntity : collider->GetEdicts(false))
-	{
-		auto model = (char *)STRING(UTIL_AllocString(renderer->GetModel()));
-		SET_MODEL(pEntity, model);
-	}
+	auto stability = new StabilityComponent;
+	AddComponent(stability);
 
-	auto triggerZone = new TriangleZoneComponent;
+	auto triggerZone = new SquareZoneComponent;
 	AddComponent(triggerZone);
 }
 
-void FoundationTriangle::Update()
+void FoundationSquare::StateUpdated()
 {
-	GameObject::Update();
-
-	if (m_State != BuildState::STATE_SOLID)
-	{
-		AimPointHandler();
-	}
+	FoundationBase::StateUpdated();
 }
 
-AimTestResult FoundationTriangle::TraceGroundTest(AimTestResult result)
+AimTestResult FoundationSquare::TraceGroundTest(AimTestResult result)
 {
 	TraceResult tr;
 
 	int numHits = 0;
 	vector<vec3> points{
 		vec3::Zero(),
-		vec3(0, 40).Transform(mat4::RotationMatrix(0)),
-		vec3(0, 40).Transform(mat4::RotationMatrix(-120)),
-		vec3(0, 40).Transform(mat4::RotationMatrix(120)),
+		vec3(-40, -40, 0),
+		vec3(-40, 40, 0),
+		vec3(40, -40, 0),
+		vec3(40, 40, 0),
 	};
 
 	auto mat = mat4::RotationMatrix(result.m_Angle) *
@@ -103,7 +91,7 @@ AimTestResult FoundationTriangle::TraceGroundTest(AimTestResult result)
 			numHits++;
 	}
 
-	if (numHits >= 3)
+	if (numHits >= 4)
 		return AimTestResult(true, result.m_Origin, result.m_Angle);
 
 	if (maxHeight <= 150)
@@ -116,7 +104,7 @@ AimTestResult FoundationTriangle::TraceGroundTest(AimTestResult result)
 	return AimTestResult(false, result.m_Origin, result.m_Angle);
 }
 
-AimTestResult FoundationTriangle::FoundationAimTest(ray ray)
+AimTestResult FoundationSquare::FoundationAimTest(ray ray)
 {
 	auto objects = ObjectManager::Instance().GetObjectsInArea(ray.GetOrigin());
 	auto it = objects.begin();
@@ -169,17 +157,18 @@ AimTestResult FoundationTriangle::FoundationAimTest(ray ray)
 	return AimTestResult(false, ray.GetDest(), ray.GetVectorAngle());
 }
 
-Shape FoundationTriangle::GetShape(AimTestResult res)
+Shape FoundationSquare::GetShape(AimTestResult res)
 {
-	auto v = vec2(0, m_Height * 2 / 3 - 2);
+	auto half = m_ModelSize / 2 - 1;
 
 	std::vector<vec3> points = {
-		vec3(v.Transform(mat4::RotationMatrix(0))),
-		vec3(v.Transform(mat4::RotationMatrix(120))),
-		vec3(v.Transform(mat4::RotationMatrix(-120))),
+		vec3(-half, -half),
+		vec3(half, -half),
+		vec3(half, half),
+		vec3(-half, half),
 	};
 
-	mat4 mat = mat4::RotationMatrix(-90 - res.m_Angle) *
+	mat4 mat = mat4::RotationMatrix(90 - res.m_Angle) *
 			   mat4::TranslateMatrix(res.m_Origin);
 
 	for (size_t i = 0; i < points.size(); i++)

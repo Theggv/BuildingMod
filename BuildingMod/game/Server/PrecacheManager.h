@@ -13,8 +13,10 @@ public:
 	bool IsInit();
 	void PrecacheResources();
 
-	string GetFoundationModel();
+	string GetFoundationSquareModel();
 	string GetFoundationTriangleModel();
+
+	int GetLaserBeamId();
 private:
 	PrecacheManager();
 
@@ -27,8 +29,10 @@ private:
 
 	// models region
 
-	string m_FoundationModel;
+	string m_FoundationSquareModel;
 	string m_FoundationTriangleModel;
+
+	int m_LaserBeamId;
 };
 
 #endif // !_SERVER_PRECACHEMANAGER_

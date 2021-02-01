@@ -11,11 +11,11 @@ PrecacheManager::PrecacheManager()
 
 	m_ConfigPath = temp;
 
-	m_FoundationModel = "";
+	m_FoundationSquareModel = "";
 	m_FoundationTriangleModel = "";
 }
 
-PrecacheManager& PrecacheManager::Instance()
+PrecacheManager &PrecacheManager::Instance()
 {
 	static PrecacheManager manager;
 
@@ -35,19 +35,21 @@ void PrecacheManager::PrecacheResources()
 		return;
 	}
 
-	PRECACHE_MODEL((char*)STRING(UTIL_AllocString(m_FoundationModel)));
-	SEM_PRINT("[Building Mod] Precached %s.", m_FoundationModel.c_str());
-	PRECACHE_MODEL((char*)STRING(UTIL_AllocString(m_FoundationTriangleModel)));
+	PRECACHE_MODEL((char *)STRING(UTIL_AllocString(m_FoundationSquareModel)));
+	SEM_PRINT("[Building Mod] Precached %s.", m_FoundationSquareModel.c_str());
+	PRECACHE_MODEL((char *)STRING(UTIL_AllocString(m_FoundationTriangleModel)));
 	SEM_PRINT("[Building Mod] Precached %s.", m_FoundationTriangleModel.c_str());
+
+	m_LaserBeamId = PRECACHE_MODEL((char *)STRING(UTIL_AllocString("sprites/laserbeam.spr")));
 
 	m_IsInit = true;
 
 	SEM_PRINT("[Building Mod] Resources precached.");
 }
 
-string PrecacheManager::GetFoundationModel()
+string PrecacheManager::GetFoundationSquareModel()
 {
-	return m_FoundationModel;
+	return m_FoundationSquareModel;
 }
 
 string PrecacheManager::GetFoundationTriangleModel()
@@ -55,10 +57,15 @@ string PrecacheManager::GetFoundationTriangleModel()
 	return m_FoundationTriangleModel;
 }
 
+int PrecacheManager::GetLaserBeamId()
+{
+	return m_LaserBeamId;
+}
+
 bool PrecacheManager::Parse_Settings(string str, string value)
 {
 	if (!_stricmp(str.c_str(), "FOUNDATION_MODEL"))
-		m_FoundationModel = value;
+		m_FoundationSquareModel = value;
 	else if (!_stricmp(str.c_str(), "FOUNDATION_TRIANGLE_MODEL"))
 		m_FoundationTriangleModel = value;
 	else
@@ -71,7 +78,7 @@ bool PrecacheManager::Parse_Settings(string str, string value)
 
 bool PrecacheManager::LoadConfig(string path)
 {
-	FILE* fp = fopen(path.c_str(), "rt");
+	FILE *fp = fopen(path.c_str(), "rt");
 
 	if (!fp)
 		return false;
@@ -109,22 +116,25 @@ static inline int IsCharSpecial(char j)
 	return (j == ' ' || j == '"' || j == ';' || j == '\t' || j == '\r' || j == '\n');
 }
 
-void PrecacheManager::TrimSpace(char* pneedle)
+void PrecacheManager::TrimSpace(char *pneedle)
 {
-	char* phaystack = pneedle;
-	char* pbuf = pneedle;
+	char *phaystack = pneedle;
+	char *pbuf = pneedle;
 
-	while (IsCharSpecial(*pbuf)) {
+	while (IsCharSpecial(*pbuf))
+	{
 		++pbuf;
 	}
 
-	while (*pbuf) {
+	while (*pbuf)
+	{
 		*phaystack++ = *pbuf++;
 	}
 
 	*phaystack = '\0';
 
-	while (phaystack > pneedle && *--phaystack && IsCharSpecial(*phaystack)) {
+	while (phaystack > pneedle && *--phaystack && IsCharSpecial(*phaystack))
+	{
 		*phaystack = '\0';
 	}
 }
