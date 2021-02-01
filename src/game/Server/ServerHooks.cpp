@@ -159,14 +159,14 @@ void CBasePlayer_PostThink(IReGameHook_CBasePlayer_PostThink *chain, CBasePlayer
 		int len;
 
 		len = snprintf(
-			buffer, sizeof(buffer), "[%s #%d] Connections: ",
-			className, object->Id);
+			buffer, sizeof(buffer), "[%s #%d] Stability: %.0f%% Connections: ",
+			className, object->Id, stability->GetStability() * 100);
 
 		for (auto connection : stability->GetConnections())
 		{
 			len += snprintf(
-				buffer + len, sizeof(buffer) - len, "%d ",
-				(*connection.ptr.lock())->Id);
+				buffer + len, sizeof(buffer) - len, "%d(%d)",
+				(*connection.ptr.lock())->Id, connection.type);
 		}
 
 		UTIL_ClientPrint(pPlayer->edict(), MessageDest::PrintCenter, buffer);
