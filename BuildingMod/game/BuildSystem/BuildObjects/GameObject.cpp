@@ -54,7 +54,7 @@ int GameObject::UpdateFullPack(bool isPost)
 		if (!isPost)
 		{
 			if (state->state->renderamt == 0.0f)
-				state->state->number = 0;
+				state->state->number = -1;
 			else
 				return 0;
 		}
