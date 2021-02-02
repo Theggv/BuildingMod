@@ -40,9 +40,6 @@ void GameObject::Update()
 
 int GameObject::UpdateFullPack(bool isPost)
 {
-	if (!isPost)
-		return 0;
-
 	if (m_State != BuildState::STATE_SOLID)
 		return 0;
 
@@ -51,10 +48,21 @@ int GameObject::UpdateFullPack(bool isPost)
 	auto state = FrameState::Instance().GetState(isPost);
 	vec3 playerPos = state->host->v.origin;
 
-	// 150 units
-	if ((playerPos - pos).LengthSquared() > 25000)
+	// 125 units
+	if ((playerPos - pos).LengthSquared() > 15625)
 	{
-		state->state->solid = SOLID_NOT;
+		if (!isPost)
+		{
+			if (state->state->renderamt == 0.0f)
+				state->state->number = 0;
+			else
+				return 0;
+		}
+		else
+		{
+			state->state->solid = SOLID_NOT;
+		}
+
 		return 1;
 	}
 

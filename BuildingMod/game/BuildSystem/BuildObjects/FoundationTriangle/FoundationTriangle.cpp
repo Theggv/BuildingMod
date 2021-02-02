@@ -62,9 +62,6 @@ void FoundationTriangle::Update()
 
 int FoundationTriangle::UpdateFullPack(bool isPost)
 {
-	if (!isPost)
-		return 0;
-
 	if (m_State != BuildState::STATE_SOLID)
 		return 0;
 
@@ -76,7 +73,18 @@ int FoundationTriangle::UpdateFullPack(bool isPost)
 	// 100 units
 	if ((playerPos - pos).LengthSquared() > 10000)
 	{
-		state->state->solid = SOLID_NOT;
+		if (!isPost)
+		{
+			if (state->state->renderamt == 0.0f)
+				state->state->number = 0;
+			else
+				return 0;
+		}
+		else
+		{
+			state->state->solid = SOLID_NOT;
+		}
+
 		return 1;
 	}
 
