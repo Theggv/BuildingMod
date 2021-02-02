@@ -108,7 +108,7 @@ AimTestResult FoundationTriangle::TraceGroundTest(AimTestResult &result)
 
 	if (maxHeight <= 150)
 	{
-		result.m_Origin.z = result.m_Origin.z - maxHeight + m_MaxHeight;
+		result.m_Origin.z = result.m_Origin.z - 1;
 
 		return TraceGroundTest(result);
 	}
