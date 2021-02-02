@@ -73,8 +73,8 @@ int FoundationTriangle::UpdateFullPack(bool isPost)
 	auto state = FrameState::Instance().GetState(isPost);
 	vec3 playerPos = state->host->v.origin;
 
-	// 150 units
-	if ((playerPos - pos).LengthSquared() > 25000)
+	// 100 units
+	if ((playerPos - pos).LengthSquared() > 10000)
 	{
 		state->state->solid = SOLID_NOT;
 		return 1;
