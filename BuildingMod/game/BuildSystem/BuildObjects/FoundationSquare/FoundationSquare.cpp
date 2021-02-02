@@ -46,7 +46,7 @@ void FoundationSquare::StateUpdated()
 	FoundationBase::StateUpdated();
 }
 
-AimTestResult FoundationSquare::TraceGroundTest(AimTestResult result)
+AimTestResult FoundationSquare::TraceGroundTest(AimTestResult &result)
 {
 	TraceResult tr;
 
@@ -91,17 +91,12 @@ AimTestResult FoundationSquare::TraceGroundTest(AimTestResult result)
 			numHits++;
 	}
 
-	SEM_PRINT("[Building Mod] numHits = %d before = %.1f",
-			  numHits, result.m_Origin.z);
 	if (numHits >= 4)
 		return AimTestResult(true, result.m_Origin, result.m_Angle);
 
 	if (maxHeight <= 150)
 	{
 		result.m_Origin.z = result.m_Origin.z - maxHeight + m_MaxHeight;
-
-		SEM_PRINT("[Building Mod] numHits = %d after = %.1f",
-				  numHits, result.m_Origin.z);
 
 		return TraceGroundTest(result);
 	}

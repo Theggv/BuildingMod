@@ -36,7 +36,7 @@ protected:
     static const double m_MaxHeight;
 
     virtual void AimPointHandler();
-    virtual AimTestResult TraceGroundTest(AimTestResult result) = 0;
+    virtual AimTestResult TraceGroundTest(AimTestResult &result) = 0;
     AimTestResult MaxHeightTest(AimTestResult aimTest, AimTestResult groundTest);
     AimTestResult MinHeightTest(AimTestResult aimTest, AimTestResult groundTest);
 

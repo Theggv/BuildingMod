@@ -59,7 +59,7 @@ void FoundationTriangle::Update()
 	}
 }
 
-AimTestResult FoundationTriangle::TraceGroundTest(AimTestResult result)
+AimTestResult FoundationTriangle::TraceGroundTest(AimTestResult &result)
 {
 	TraceResult tr;
 

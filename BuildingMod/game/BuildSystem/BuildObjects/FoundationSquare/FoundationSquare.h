@@ -26,7 +26,7 @@ public:
 	virtual void StateUpdated() override;
 
 protected:
-	virtual AimTestResult TraceGroundTest(AimTestResult result) override;
+	virtual AimTestResult TraceGroundTest(AimTestResult &result) override;
 	virtual AimTestResult FoundationAimTest(ray ray) override;
 
 	virtual Shape GetShape(AimTestResult result);

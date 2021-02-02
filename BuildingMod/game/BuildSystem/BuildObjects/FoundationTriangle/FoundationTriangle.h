@@ -28,7 +28,7 @@ public:
 	static const double m_Height;
 
 protected:
-	virtual AimTestResult TraceGroundTest(AimTestResult result) override;
+	virtual AimTestResult TraceGroundTest(AimTestResult &result) override;
 	virtual AimTestResult FoundationAimTest(ray ray) override;
 
 	virtual Shape GetShape(AimTestResult result);
