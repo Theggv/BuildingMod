@@ -63,7 +63,7 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 	## As new processors are deployed in the marketplace, the behavior of this option will change.
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
 		-mtune=generic -msse3\
-		-Wno-format-extra-args
+		-Wno-format-extra-args\
 		-Wno-write-strings -Wno-invalid-offsetof\
 		-Wno-unused-variable -Wno-unused-function\
 		-Wno-unused-result -Wno-invalid-offsetof\
