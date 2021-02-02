@@ -12,7 +12,7 @@
 
 const double FoundationBase::m_ModelSize = 112;
 const double FoundationBase::m_MinHeight = 8;
-const double FoundationBase::m_MaxHeight = m_ModelSize + m_MinHeight;
+const double FoundationBase::m_MaxHeight = m_ModelSize + m_MinHeight - 1;
 
 FoundationBase::FoundationBase(edict_t *owner)
 {
