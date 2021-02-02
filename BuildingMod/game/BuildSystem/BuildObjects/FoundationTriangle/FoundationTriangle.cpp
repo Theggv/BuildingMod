@@ -86,7 +86,7 @@ AimTestResult FoundationTriangle::TraceGroundTest(AimTestResult result)
 		auto converted = Vector(point.x, point.y, point.z);
 
 		UTIL_TraceLine(converted, converted - Vector(0, 0, 1000),
-					   IGNORE_MONSTERS::ignore_monsters,
+					   IGNORE_MONSTERS::dont_ignore_monsters,
 					   nullptr, &tr);
 
 		auto vDest = tr.vecEndPos - converted;

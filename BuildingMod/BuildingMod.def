@@ -1,4 +1,4 @@
-LIBRARY building_amxx_i386
+LIBRARY building_amxx
 EXPORTS
 	GiveFnptrsToDll			@1
 SECTIONS
