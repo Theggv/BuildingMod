@@ -24,9 +24,9 @@ void FoundationSquare::Start()
 	AddComponent(renderer);
 
 	auto collider = new IColliderComponent;
-	collider->AddEdict(UTIL_CreateEdict("info_target"), true);
-
 	AddComponent(collider);
+
+	collider->AddEdict(UTIL_CreateEdict("info_target"), true);
 
 	for (auto pEntity : collider->GetEdicts(true))
 	{

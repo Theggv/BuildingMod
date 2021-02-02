@@ -1,4 +1,5 @@
 #include "ObjectManager.h"
+#include <Utility/EdictFlags.h>
 
 ObjectManager::ObjectManager()
 {
@@ -54,7 +55,7 @@ bool ObjectManager::Has(int id)
 
 bool ObjectManager::HasEdict(edict_t *edict)
 {
-	return m_ObjectsEdictIndex.find(ENTINDEX(edict)) != m_ObjectsEdictIndex.end();
+	return Has(EdictFlags::GetFlags(edict));
 }
 
 void ObjectManager::Clear()
@@ -90,7 +91,9 @@ p_GameObjectWeak_t ObjectManager::GetPtrByEdict(edict_t *edict)
 	if (!HasEdict(edict))
 		return p_GameObjectWeak_t();
 
-	return m_ObjectsEdictIndex.at(ENTINDEX(edict));
+	auto id = EdictFlags::GetFlags(edict);
+
+	return GetPtr(id);
 }
 
 unsigned long ObjectManager::CalculateWorldPosition(float x, float y)

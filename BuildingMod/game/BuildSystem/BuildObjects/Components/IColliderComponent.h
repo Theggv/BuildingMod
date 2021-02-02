@@ -15,6 +15,9 @@ public:
 	IColliderComponent();
 	~IColliderComponent();
 
+	/**
+	 * note: Should be call after gameobject.AddComponent()!
+	 * */
 	virtual void AddEdict(edict_t *edict, bool isVisible);
 	virtual set<edict_t *> GetEdicts(bool isVisible);
 

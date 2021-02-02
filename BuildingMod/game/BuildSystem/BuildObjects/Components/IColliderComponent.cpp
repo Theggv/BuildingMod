@@ -1,4 +1,5 @@
 #include "IColliderComponent.h"
+#include <Utility/EdictFlags.h>
 
 IColliderComponent::IColliderComponent()
 {
@@ -26,6 +27,8 @@ void IColliderComponent::AddEdict(edict_t *edict, bool isVisible)
 		m_VisibleEdicts.insert(edict);
 	else
 		m_InvisibleEdicts.insert(edict);
+
+	EdictFlags::SetFlags(edict, m_parent->Id);
 }
 
 set<edict_t *> IColliderComponent::GetEdicts(bool isVisible)
@@ -58,6 +61,8 @@ void IColliderComponent::StateUpdated()
 		for (auto pEntity : m_VisibleEdicts)
 		{
 			pEntity->v.solid = SOLID_BBOX;
+			// pEntity->v.solid = SOLID_NOT;
+
 			SET_SIZE(pEntity, Vector(-64, -64, 0), Vector(64, 64, 128));
 
 			pEntity->v.rendermode = kRenderNormal;
@@ -67,6 +72,8 @@ void IColliderComponent::StateUpdated()
 		for (auto pEntity : m_InvisibleEdicts)
 		{
 			pEntity->v.solid = SOLID_BBOX;
+			// pEntity->v.solid = SOLID_NOT;
+
 			SET_SIZE(pEntity, Vector(-64, -64, 0), Vector(64, 64, 128));
 		}
 

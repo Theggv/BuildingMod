@@ -1,4 +1,5 @@
 #include "TriangleCollider.h"
+#include <Utility/EdictFlags.h>
 
 TriangleCollider::TriangleCollider()
 {
@@ -26,6 +27,8 @@ void TriangleCollider::AddEdict(edict_t *edict, bool isVisible)
 		edict->v.rendermode = kRenderTransAlpha;
 		edict->v.renderamt = 0.0f;
 	}
+
+	EdictFlags::SetFlags(edict, m_parent->Id);
 }
 
 set<edict_t *> TriangleCollider::GetEdicts(bool isVisible)

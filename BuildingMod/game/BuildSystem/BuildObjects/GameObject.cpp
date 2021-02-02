@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include <game/BuildSystem/ObjectManager.h>
+#include <Server/FrameState.h>
 
 // initial object id
 static int m_IdGenerator = 1024;
@@ -39,6 +40,24 @@ void GameObject::Update()
 
 int GameObject::UpdateFullPack(bool isPost)
 {
+	// if (!isPost)
+	// 	return 0;
+
+	if (m_State != BuildState::STATE_SOLID)
+		return 0;
+
+	vec3 pos = *GetTransform()->GetPosition();
+
+	auto state = FrameState::Instance().GetState(isPost);
+	vec3 playerPos = state->host->v.origin;
+
+	// 200 units
+	if ((playerPos - pos).LengthSquared() > 40000)
+	{
+		state->state->solid = SOLID_NOT;
+		return 1;
+	}
+
 	return 0;
 }
 

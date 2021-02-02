@@ -27,11 +27,12 @@ void FoundationTriangle::Start()
 	AddComponent(renderer);
 
 	auto collider = new TriangleCollider;
+	AddComponent(collider);
+	
 	collider->AddEdict(UTIL_CreateEdict("info_target"), true);
 	collider->AddEdict(UTIL_CreateEdict("info_target"), false);
 	collider->AddEdict(UTIL_CreateEdict("info_target"), false);
 
-	AddComponent(collider);
 
 	for (auto pEntity : collider->GetEdicts(true))
 	{
