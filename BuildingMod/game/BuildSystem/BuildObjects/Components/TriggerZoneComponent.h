@@ -18,7 +18,7 @@ class TriggerZoneComponent : public IComponent
 {
 public:
     TriggerZoneComponent();
-    ~TriggerZoneComponent();
+    virtual ~TriggerZoneComponent();
 
     /**
      * object - объект, который необходимо прибиндить

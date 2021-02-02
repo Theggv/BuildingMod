@@ -11,7 +11,7 @@ using namespace std;
 class IConnectionPoints
 {
 public:
-    ~IConnectionPoints();
+    virtual ~IConnectionPoints();
 
     void SetSuccessor(IConnectionPoints *successor);
 
