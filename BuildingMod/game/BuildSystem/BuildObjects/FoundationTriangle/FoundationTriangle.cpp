@@ -60,7 +60,7 @@ void FoundationTriangle::Update()
 	}
 }
 
-int GameObject::UpdateFullPack(bool isPost)
+int FoundationTriangle::UpdateFullPack(bool isPost)
 {
 	if (!isPost)
 		return 0;
