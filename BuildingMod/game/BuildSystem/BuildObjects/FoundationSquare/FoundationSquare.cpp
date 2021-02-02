@@ -97,7 +97,8 @@ AimTestResult FoundationSquare::TraceGroundTest(AimTestResult result)
 	if (maxHeight <= 150)
 	{
 		result.m_Origin.z = result.m_Origin.z - maxHeight + m_MaxHeight;
-
+		
+		SEM_PRINT("[Building Mod] Z=%d", result.m_Origin.z);
 		return TraceGroundTest(result);
 	}
 
