@@ -40,8 +40,8 @@ void GameObject::Update()
 
 int GameObject::UpdateFullPack(bool isPost)
 {
-	// if (!isPost)
-	// 	return 0;
+	if (!isPost)
+		return 0;
 
 	if (m_State != BuildState::STATE_SOLID)
 		return 0;

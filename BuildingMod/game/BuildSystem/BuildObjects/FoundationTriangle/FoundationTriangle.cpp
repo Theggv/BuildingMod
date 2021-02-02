@@ -10,6 +10,7 @@
 
 #include <game/Utility/Utility.h>
 #include <game/Server/PrecacheManager.h>
+#include <game/Server/FrameState.h>
 
 const double FoundationTriangle::m_Height = m_ModelSize * sin(60 * M_PI / 180);
 
@@ -57,6 +58,29 @@ void FoundationTriangle::Update()
 	{
 		AimPointHandler();
 	}
+}
+
+int GameObject::UpdateFullPack(bool isPost)
+{
+	if (!isPost)
+		return 0;
+
+	if (m_State != BuildState::STATE_SOLID)
+		return 0;
+
+	vec3 pos = *GetTransform()->GetPosition();
+
+	auto state = FrameState::Instance().GetState(isPost);
+	vec3 playerPos = state->host->v.origin;
+
+	// 150 units
+	if ((playerPos - pos).LengthSquared() > 25000)
+	{
+		state->state->solid = SOLID_NOT;
+		return 1;
+	}
+
+	return 0;
 }
 
 AimTestResult FoundationTriangle::TraceGroundTest(AimTestResult &result)
