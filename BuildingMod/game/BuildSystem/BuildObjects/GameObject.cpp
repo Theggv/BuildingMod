@@ -51,8 +51,8 @@ int GameObject::UpdateFullPack(bool isPost)
 	auto state = FrameState::Instance().GetState(isPost);
 	vec3 playerPos = state->host->v.origin;
 
-	// 175 units
-	if ((playerPos - pos).LengthSquared() > 30625)
+	// 150 units
+	if ((playerPos - pos).LengthSquared() > 25000)
 	{
 		state->state->solid = SOLID_NOT;
 		return 1;
