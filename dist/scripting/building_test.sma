@@ -24,7 +24,8 @@ public cmd_Create(id)
 	new iMenu = menu_create(szMsg, "CreateMenu_Handler");
 
 	menu_additem(iMenu, "Foundation", "1");
-	menu_additem(iMenu, "Triangle Foundation", "2^n");
+	menu_additem(iMenu, "Triangle Foundation", "2");
+	menu_additem(iMenu, "Wall^n", "3");
 	menu_additem(iMenu, "Make solid", "50");
 
 	if (is_user_connected(id) && pev_valid(id) == 2)
@@ -47,10 +48,11 @@ public CreateMenu_Handler(id, menu, item)
 	
 	new iItem = str_to_num(s_Data);
 
-	switch(iItem)
+	switch (iItem)
 	{
 		case 1: building_createobject(id, OBJECT_FOUNDATION);
 		case 2: building_createobject(id, OBJECT_FOUNDATIONTRIANGLE);
+		case 3: building_createobject(id, OBJECT_WALL);
 		case 50: building_trymakesolid(id);
 	}
 

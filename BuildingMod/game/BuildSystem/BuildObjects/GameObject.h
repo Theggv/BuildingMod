@@ -5,6 +5,7 @@
 #include <game/BuildSystem/BuildObjects/Transform.h>
 #include <game/BuildSystem/BuildObjects/Components/IComponent.h>
 #include <game/BuildSystem/BuildObjects/BuildState.h>
+#include <game/Server/FrameState.h>
 
 #include <game/Geometry.h>
 
@@ -33,7 +34,7 @@ public:
 	/// </summary>
 	/// <param name="isPost">Is post call</param>
 	/// <returns>return 1 if entity state was changed, 0 otherwise</returns>
-	virtual int UpdateFullPack(bool isPost);
+	virtual int UpdateFullPack(AddToFullPackArgs args, bool isPost);
 	// Called when parent's transform was updated
 	virtual void UpdateTransform();
 

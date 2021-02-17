@@ -21,8 +21,14 @@ public:
      * */
     virtual AimTestResult GetConnectionPoint(GameObject *object, GameObject *bindable, int zoneId) = 0;
 
+    /**
+     * returns zoneId if success, -1 otherwise
+     * */
+    virtual int GetZoneIdByPosition(GameObject* object, GameObject* bindable, vec3 pos) = 0;
+
 protected:
     AimTestResult CallNext(GameObject *object, GameObject *bindable, int zoneId);
+    int CallNext(GameObject *object, GameObject *bindable, vec3 pos);
 
 private:
     IConnectionPoints *m_Successor;

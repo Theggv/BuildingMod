@@ -38,32 +38,30 @@ void GameObject::Update()
 		component->Update();
 }
 
-int GameObject::UpdateFullPack(bool isPost)
+int GameObject::UpdateFullPack(AddToFullPackArgs args, bool isPost)
 {
 	if (m_State != BuildState::STATE_SOLID)
 		return 0;
 
 	vec3 pos = *GetTransform()->GetPosition();
 
-	auto state = FrameState::Instance().GetState(isPost);
-	vec3 playerPos = state->host->v.origin;
+	vec3 playerPos = args.host->v.origin;
 
 	// 125 units
 	if ((playerPos - pos).LengthSquared() > 15625)
 	{
 		if (!isPost)
 		{
-			if (state->state->renderamt == 0.0f)
-				state->state->number = -1;
+			if (args.state->rendermode != kRenderNormal &&
+				args.state->renderamt == 0.0f)
+				args.state->number = -1;
 			else
 				return 0;
 		}
 		else
-		{
-			state->state->solid = SOLID_NOT;
-		}
+			args.state->solid = SOLID_NOT;
 
-		return 1;
+		return MRES_SUPERCEDE;
 	}
 
 	return 0;

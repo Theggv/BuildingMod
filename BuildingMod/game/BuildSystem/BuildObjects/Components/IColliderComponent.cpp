@@ -28,7 +28,7 @@ void IColliderComponent::AddEdict(edict_t *edict, bool isVisible)
 	else
 		m_InvisibleEdicts.insert(edict);
 
-	EdictFlags::SetFlags(edict, m_parent->Id);
+	EdictFlags::SetFlags(edict, m_Parent->Id);
 }
 
 set<edict_t *> IColliderComponent::GetEdicts(bool isVisible)
@@ -53,7 +53,7 @@ void IColliderComponent::UpdateTransform()
 
 void IColliderComponent::StateUpdated()
 {
-	auto state = m_parent->GetState();
+	auto state = m_Parent->GetState();
 
 	switch (state)
 	{

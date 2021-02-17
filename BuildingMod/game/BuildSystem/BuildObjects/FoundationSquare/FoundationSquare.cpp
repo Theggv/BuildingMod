@@ -1,14 +1,15 @@
 #include "FoundationSquare.h"
-#include "SquareZoneComponent.h"
+#include "StabilityComponent.h"
 
 #include <game/BuildSystem/BuildObjects/Components/OwnerComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/RendererComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/IColliderComponent.h>
-#include <game/BuildSystem/BuildObjects/Components/StabilityComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/VisualizerComponent.h>
 
 #include <game/Utility/Utility.h>
 #include <game/Server/PrecacheManager.h>
+
+using namespace FoundationSquareResolvers;
 
 FoundationSquare::FoundationSquare(edict_t *owner) : FoundationBase(owner)
 {
@@ -36,14 +37,6 @@ void FoundationSquare::Start()
 
 	auto stability = new StabilityComponent;
 	AddComponent(stability);
-
-	auto triggerZone = new SquareZoneComponent;
-	AddComponent(triggerZone);
-}
-
-void FoundationSquare::StateUpdated()
-{
-	FoundationBase::StateUpdated();
 }
 
 AimTestResult FoundationSquare::TraceGroundTest(AimTestResult &result)
@@ -147,8 +140,8 @@ AimTestResult FoundationSquare::FoundationAimTest(ray ray)
 	{
 		auto object = *object_p.lock();
 
-		auto triggerZoneComponent = object->GetComponent<TriggerZoneComponent>();
-		auto result = triggerZoneComponent->TryConnect(ray, this);
+		auto stability = object->GetComponent<IStabilityComponent>();
+		auto result = stability->TryConnect(ray, this);
 
 		if (result.m_IsPassed)
 			return result;

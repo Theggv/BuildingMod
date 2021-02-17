@@ -6,6 +6,13 @@
 
 class FoundationSquare;
 
+enum class TriangleZones
+{
+    RIGHT,
+    DOWN,
+    LEFT,
+};
+
 /**
  *  Components:
  *      OwnerComponent
@@ -24,7 +31,7 @@ public:
 
 	virtual void Start() override;
 	virtual void Update() override;
-	virtual int UpdateFullPack(bool isPost) override;
+	// virtual int UpdateFullPack(bool isPost) override;
 
 	static const double m_Height;
 

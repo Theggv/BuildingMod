@@ -5,68 +5,84 @@
 #include <game/Utility/Utility.h>
 
 #ifndef MAX_PLAYERS
-#define MAX_PLAYERS	32
+#define MAX_PLAYERS 32
 #endif // !MAX_PLAYERS
 
-int pfnAddToFullPack_Pre(struct entity_state_s* state, int e, edict_t* ent, edict_t* host, int hostflags, int player, unsigned char* pSet)
+int pfnAddToFullPack_Pre(
+	struct entity_state_s *state,
+	int e,
+	edict_t *ent,
+	edict_t *host,
+	int hostflags,
+	int player,
+	unsigned char *pSet)
 {
 	// Skip if ent is player
-	if (player)
-		return 0;
+	if (player || !IsEntValid(ent) || state->number < 0)
+		RETURN_META_VALUE(MRES_IGNORED, 0);
 
-	static ObjectManager* manager;
+	static ObjectManager *manager;
 
 	if (manager == nullptr)
 		manager = &ObjectManager::Instance();
 
-	auto gameObjectPtr = manager->GetPtrByEdict(ent).lock();
-	
 	// Skip if ent is not gameobject
-	if (gameObjectPtr == nullptr)
+	if (!manager->HasEdict(ent))
+		RETURN_META_VALUE(MRES_IGNORED, 0);
+
+	auto playerPos = host->v.origin;
+	auto pos = ent->v.origin;
+
+	// 125 units
+	if ((playerPos - pos).LengthSquared() > 15625)
 	{
-		gameObjectPtr.reset();
-		return 0;
+		if (ent->v.rendermode != kRenderNormal &&
+			ent->v.renderamt == 0.0f)
+			state->number = -1;
+		else
+			RETURN_META_VALUE(MRES_IGNORED, 0);
+
+		RETURN_META_VALUE(MRES_SUPERCEDE, 0);
 	}
 
-	auto gameObject = *gameObjectPtr;
-	gameObjectPtr.reset();
-
-	// Save state 
-	FrameState::Instance().SetState({state, e, ent, host, hostflags, player, pSet}, false);
-
-	return gameObject->UpdateFullPack(false);
+	RETURN_META_VALUE(MRES_IGNORED, 0);
 }
 
-int pfnAddToFullPack_Post(struct entity_state_s* state, int e, edict_t* ent, edict_t* host, int hostflags, int player, unsigned char* pSet)
+int pfnAddToFullPack_Post(
+	struct entity_state_s *state,
+	int e,
+	edict_t *ent,
+	edict_t *host,
+	int hostflags,
+	int player,
+	unsigned char *pSet)
 {
 	// Skip if ent is player
-	if (player)
-		return 0;
+	if (player || !IsEntValid(ent) || state->number < 0)
+		RETURN_META_VALUE(MRES_IGNORED, 0);
 
-	static ObjectManager* manager;
+	static ObjectManager *manager;
 
 	if (manager == nullptr)
 		manager = &ObjectManager::Instance();
 
-	auto gameObjectPtr = manager->GetPtrByEdict(ent).lock();
-	
 	// Skip if ent is not gameobject
-	if (gameObjectPtr == nullptr)
+	if (!manager->HasEdict(ent))
+		RETURN_META_VALUE(MRES_IGNORED, 0);
+
+	auto playerPos = host->v.origin;
+	auto pos = ent->v.origin;
+
+	// 125 units
+	if ((playerPos - pos).LengthSquared() > 15625)
 	{
-		gameObjectPtr.reset();
-		return 0;
+		state->solid = SOLID_NOT;
 	}
 
-	auto gameObject = *gameObjectPtr;
-	gameObjectPtr.reset();
-
-	// Save state 
-	FrameState::Instance().SetState({state, e, ent, host, hostflags, player, pSet}, true);
-
-	return gameObject->UpdateFullPack(true);
+	RETURN_META_VALUE(MRES_IGNORED, 0);
 }
 
-void CBasePlayer_PreThink(IReGameHook_CBasePlayer_PreThink* chain, CBasePlayer* pPlayer)
+void CBasePlayer_PreThink(IReGameHook_CBasePlayer_PreThink *chain, CBasePlayer *pPlayer)
 {
 	if (!pPlayer->IsAlive())
 	{
@@ -75,7 +91,7 @@ void CBasePlayer_PreThink(IReGameHook_CBasePlayer_PreThink* chain, CBasePlayer* 
 	}
 
 	int index = pPlayer->entindex();
-	
+
 	if (index < 0 || index >= MAX_PLAYERS)
 	{
 		chain->callOriginal(pPlayer);
@@ -96,7 +112,7 @@ void CBasePlayer_PreThink(IReGameHook_CBasePlayer_PreThink* chain, CBasePlayer* 
 	chain->callOriginal(pPlayer);
 }
 
-void CBasePlayer_PostThink(IReGameHook_CBasePlayer_PostThink* chain, CBasePlayer* pPlayer)
+void CBasePlayer_PostThink(IReGameHook_CBasePlayer_PostThink *chain, CBasePlayer *pPlayer)
 {
 	if (!pPlayer->IsPlayer())
 	{
@@ -141,17 +157,52 @@ void CBasePlayer_PostThink(IReGameHook_CBasePlayer_PostThink* chain, CBasePlayer
 	chain->callOriginal(pPlayer);
 }
 
-int SV_CreatePacketEntities(IRehldsHook_SV_CreatePacketEntities* chain, sv_delta_s type, IGameClient* client, packet_entities_s* to, sizebuf_s* msg)
+int SV_CreatePacketEntities(IRehldsHook_SV_CreatePacketEntities *chain, sv_delta_s type, IGameClient *client, packet_entities_s *to, sizebuf_s *msg)
 {
 	return chain->callOriginal(type, client, to, msg);
 
 	auto host = client->GetEdict();
 
+	static ObjectManager *manager;
+
+	if (manager == nullptr)
+		manager = &ObjectManager::Instance();
+
 	for (int i = 0; i < to->num_entities; ++i)
 	{
 		auto state = to->entities + i;
 		auto entIndex = state->number;
+
+		auto gameObjectPtr = manager->GetPtrByEdict(INDEXENT(entIndex)).lock();
+
+		// Skip if ent is not gameobject
+		if (gameObjectPtr == nullptr)
+		{
+			gameObjectPtr.reset();
+			continue;
+		}
+
+		auto gameObject = *gameObjectPtr;
+		gameObjectPtr.reset();
+
+		// Save state
+		// FrameState::Instance().SetState({state, host}, false);
+		// gameObject->UpdateFullPack(false);
 	}
+
+	int index = 0;
+
+	for (int i = 0; i < to->num_entities; ++i)
+	{
+		auto state = to->entities + i;
+
+		if ((state->effects & EF_NODRAW))
+			continue;
+
+		to->entities[index++] = to->entities[i];
+	}
+
+	to->num_entities = index;
 
 	return chain->callNext(type, client, to, msg);
 }

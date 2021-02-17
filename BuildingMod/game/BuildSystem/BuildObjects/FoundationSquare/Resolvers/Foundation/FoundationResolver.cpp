@@ -1,13 +1,15 @@
-#include "SquareZoneComponent.h"
+#include "FoundationResolver.h"
 
 // objects
-#include "FoundationSquare.h"
+#include "../../FoundationSquare.h"
 
 // point generators
 #include "SquareToSquarePoints.h"
 #include "SquareToTrianglePoints.h"
 
-SquareZoneComponent::SquareZoneComponent()
+using namespace FoundationSquareResolvers;
+
+FoundationResolver::FoundationResolver()
 {
     auto squareToSquare = new SquareToSquarePoints;
     auto squareToTriangle = new SquareToTrianglePoints;
@@ -19,7 +21,16 @@ SquareZoneComponent::SquareZoneComponent()
     GenerateZones();
 }
 
-void SquareZoneComponent::GenerateZones()
+bool FoundationResolver::CanResolve(GameObject *object, GameObject *bindable)
+{
+    if (dynamic_cast<FoundationSquare *>(object) != nullptr &&
+        dynamic_cast<FoundationBase *>(bindable) != nullptr)
+        return true;
+
+    return false;
+}
+
+void FoundationResolver::GenerateZones()
 {
     m_Zones.clear();
 
@@ -33,49 +44,30 @@ void SquareZoneComponent::GenerateZones()
     }
 }
 
-void SquareZoneComponent::AddConnection(GameObject *object)
+bool FoundationResolver::HasConnection(SquareZones zone)
 {
-    auto objectPos = vec2(*object->GetTransform()->GetPosition()).Round();
-
-    for (size_t zone = 0; zone < 4; zone++)
-    {
-        auto point = vec2(m_Handler->GetConnectionPoint(m_parent, object, zone).m_Origin).Round();
-
-        if (objectPos == point)
-        {
-            m_Connections[zone] = ObjectManager::Instance().GetPtr(object->Id);
-
-            // Regenerate zones after change
-            GenerateZones();
-        }
-    }
-}
-
-bool SquareZoneComponent::HasConnection(SquareZones zone)
-{
-    if (m_Connections[static_cast<int>(zone)].empty() ||
-        m_Connections[static_cast<int>(zone)].expired())
+    if (m_Connections.find(static_cast<int>(zone)) == m_Connections.end())
         return false;
 
     return true;
 }
 
-SquareZones SquareZoneComponent::GetZoneById(int zoneId)
+SquareZones FoundationResolver::GetZoneById(int zoneId)
 {
     return static_cast<SquareZones>(zoneId % 4);
 }
 
-HeightZones SquareZoneComponent::GetHeightById(int zoneId)
+HeightZones FoundationResolver::GetHeightById(int zoneId)
 {
     return static_cast<HeightZones>(zoneId / 4);
 }
 
-int SquareZoneComponent::GetZoneId(int zone, int height)
+int FoundationResolver::GetZoneId(int zone, int height)
 {
     return zone + height * 4;
 }
 
-vector<Triangle> SquareZoneComponent::GenerateZone(int zoneId)
+vector<Triangle> FoundationResolver::GenerateZone(int zoneId)
 {
     std::vector<Triangle> triangles;
     std::vector<Triangle> buffer;
@@ -151,7 +143,7 @@ vector<Triangle> SquareZoneComponent::GenerateZone(int zoneId)
     return triangles;
 }
 
-vector<Triangle> SquareZoneComponent::GetTransformedZone(GameObject *object, int zoneId)
+vector<Triangle> FoundationResolver::GetTransformedZone(GameObject *object, int zoneId)
 {
     vector<Triangle> tries;
 

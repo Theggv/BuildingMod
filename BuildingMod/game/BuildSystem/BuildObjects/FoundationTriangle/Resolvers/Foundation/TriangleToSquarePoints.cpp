@@ -1,5 +1,4 @@
 #include "TriangleToSquarePoints.h"
-#include "FoundationTriangle.h"
 #include <game/BuildSystem/BuildObjects/FoundationSquare/FoundationSquare.h>
 
 AimTestResult TriangleToSquarePoints::GetConnectionPoint(
@@ -49,6 +48,36 @@ AimTestResult TriangleToSquarePoints::GetConnectionPoint(
     default:
         return AimTestResult(false);
     }
+}
+
+int TriangleToSquarePoints::GetZoneIdByPosition(GameObject *object, GameObject *bindable, vec3 pos)
+{
+    if (dynamic_cast<FoundationSquare *>(bindable) == nullptr)
+        return CallNext(object, bindable, pos);
+
+    auto foundation = dynamic_cast<FoundationTriangle *>(object);
+
+    vec3 newPos = vec3(0, foundation->m_ModelSize / 2 + FoundationTriangle::m_Height / 3, pos.z);
+
+    vec3 objectPos = *foundation->GetTransform()->GetPosition();
+    vec3 objectRot = *foundation->GetTransform()->GetRotation();
+
+    mat4 mat = mat4::RotationMatrix(-90 - objectRot.y) *
+               mat4::TranslateMatrix(objectPos);
+
+    vector<vec3> positions = {
+        newPos.Transform(mat4::RotationMatrix(-60) * mat),
+        newPos.Transform(mat4::RotationMatrix(180) * mat),
+        newPos.Transform(mat4::RotationMatrix(60) * mat),
+    };
+
+    for (size_t i = 0; i < positions.size(); i++)
+    {
+        if (positions[i].Round() == pos.Round())
+            return i;
+    }
+
+    return -1;
 }
 
 void TriangleToSquarePoints::ConvertZoneId(int zoneId, TriangleZones &zone, HeightZones &height)

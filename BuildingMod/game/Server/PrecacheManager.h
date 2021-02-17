@@ -15,6 +15,7 @@ public:
 
 	string GetFoundationSquareModel();
 	string GetFoundationTriangleModel();
+	string GetWallModel();
 
 	int GetLaserBeamId();
 private:
@@ -31,6 +32,7 @@ private:
 
 	string m_FoundationSquareModel;
 	string m_FoundationTriangleModel;
+	string m_WallModel;
 
 	int m_LaserBeamId;
 };

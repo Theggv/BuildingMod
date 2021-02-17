@@ -28,7 +28,7 @@ void TriangleCollider::AddEdict(edict_t *edict, bool isVisible)
 		edict->v.renderamt = 0.0f;
 	}
 
-	EdictFlags::SetFlags(edict, m_parent->Id);
+	EdictFlags::SetFlags(edict, m_Parent->Id);
 }
 
 set<edict_t *> TriangleCollider::GetEdicts(bool isVisible)

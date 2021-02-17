@@ -26,10 +26,10 @@ void IComponent::StateUpdated()
 
 void IComponent::SetParent(GameObject *parent)
 {
-	m_parent = parent;
+	m_Parent = parent;
 }
 
 GameObject *IComponent::GetParent()
 {
-	return m_parent;
+	return m_Parent;
 }

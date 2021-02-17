@@ -3,6 +3,7 @@
 #include <game/BuildSystem/BuildObjects/GameObject.h>
 #include <game/BuildSystem/BuildObjects/FoundationSquare/FoundationSquare.h>
 #include <game/BuildSystem/BuildObjects/FoundationTriangle/FoundationTriangle.h>
+#include <game/BuildSystem/BuildObjects/WallFull/WallFull.h>
 
 #include <game/BuildSystem/ObjectManager.h>
 
@@ -23,6 +24,7 @@ cell AMX_NATIVE_CALL Building_CreateObject(AMX *amx, cell *params)
 	{
 		OBJECT_FOUNDATION,
 		OBJECT_FOUNDATIONTRIANGLE,
+		OBJECT_WALL,
 	};
 
 	// int len;
@@ -52,6 +54,9 @@ cell AMX_NATIVE_CALL Building_CreateObject(AMX *amx, cell *params)
 		break;
 	case objectType_e::OBJECT_FOUNDATIONTRIANGLE:
 		object = new FoundationTriangle(player);
+		break;
+	case objectType_e::OBJECT_WALL:
+		// object = new WallFull(player);
 		break;
 	default:
 		break;

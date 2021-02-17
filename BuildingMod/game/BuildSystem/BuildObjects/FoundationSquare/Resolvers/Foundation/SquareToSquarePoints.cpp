@@ -1,11 +1,9 @@
-#include "SquareToTrianglePoints.h"
-#include "FoundationSquare.h"
-#include <game/BuildSystem/BuildObjects/FoundationTriangle/FoundationTriangle.h>
+#include "SquareToSquarePoints.h"
 
-AimTestResult SquareToTrianglePoints::GetConnectionPoint(
+AimTestResult SquareToSquarePoints::GetConnectionPoint(
     GameObject *object, GameObject *bindable, int zoneId)
 {
-    if (dynamic_cast<FoundationTriangle *>(bindable) == nullptr)
+    if (dynamic_cast<FoundationSquare *>(bindable) == nullptr)
         return CallNext(object, bindable, zoneId);
 
     auto foundation = dynamic_cast<FoundationSquare *>(object);
@@ -17,7 +15,7 @@ AimTestResult SquareToTrianglePoints::GetConnectionPoint(
     double heights[3] = {-foundation->m_ModelSize / 2.0, 0, foundation->m_ModelSize / 2.0};
     auto height = heights[static_cast<int>(heightZone)];
 
-    vec3 newPos = vec3(0, foundation->m_ModelSize / 2 + FoundationTriangle::m_Height / 3, height);
+    vec3 newPos = vec3(0, foundation->m_ModelSize, height);
 
     vec3 pos = *foundation->GetTransform()->GetPosition();
     vec3 rot = *foundation->GetTransform()->GetRotation();
@@ -45,7 +43,7 @@ AimTestResult SquareToTrianglePoints::GetConnectionPoint(
     case SquareZones::UP:
 
         return AimTestResult(true,
-                             newPos.Transform(mat4::RotationMatrix(0) * mat),
+                             newPos.Transform(mat),
                              rot.y);
 
     default:
@@ -53,7 +51,38 @@ AimTestResult SquareToTrianglePoints::GetConnectionPoint(
     }
 }
 
-void SquareToTrianglePoints::ConvertZoneId(int zoneId, SquareZones &zone, HeightZones &height)
+int SquareToSquarePoints::GetZoneIdByPosition(GameObject *object, GameObject *bindable, vec3 pos)
+{
+    if (dynamic_cast<FoundationSquare *>(bindable) == nullptr)
+        return CallNext(object, bindable, pos);
+
+    auto foundation = dynamic_cast<FoundationSquare *>(object);
+
+    vec3 newPos = vec3(0, foundation->m_ModelSize, pos.z);
+
+    vec3 objectPos = *foundation->GetTransform()->GetPosition();
+    vec3 objectRot = *foundation->GetTransform()->GetRotation();
+
+    mat4 mat = mat4::RotationMatrix(90 - objectRot.y) *
+               mat4::TranslateMatrix(objectPos);
+
+    vector<vec3> positions = {
+        newPos.Transform(mat4::RotationMatrix(90) * mat),
+        newPos.Transform(mat4::RotationMatrix(180) * mat),
+        newPos.Transform(mat4::RotationMatrix(-90) * mat),
+        newPos.Transform(mat),
+    };
+
+    for (size_t i = 0; i < positions.size(); i++)
+    {
+        if (positions[i].Round() == pos.Round())
+            return i;
+    }
+
+    return -1;
+}
+
+void SquareToSquarePoints::ConvertZoneId(int zoneId, SquareZones &zone, HeightZones &height)
 {
     height = static_cast<HeightZones>(zoneId / 4);
     zone = static_cast<SquareZones>(zoneId % 4);

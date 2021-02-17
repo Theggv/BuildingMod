@@ -3,9 +3,8 @@
 #include <game/BuildSystem/BuildObjects/Components/OwnerComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/RendererComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/IColliderComponent.h>
-#include <game/BuildSystem/BuildObjects/Components/StabilityComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/VisualizerComponent.h>
-#include <game/BuildSystem/BuildObjects/Components/TriggerZoneComponent.h>
+#include <game/BuildSystem/BuildObjects/Components/IStabilityComponent.h>
 
 #include <game/Utility/Utility.h>
 #include <game/Server/PrecacheManager.h>
@@ -73,8 +72,8 @@ void FoundationBase::StateUpdated()
 
 void FoundationBase::ConnectFoundations(FoundationBase *other)
 {
-    this->GetComponent<TriggerZoneComponent>()->AddConnection(other);
-    other->GetComponent<TriggerZoneComponent>()->AddConnection(this);
+    this->GetComponent<IStabilityComponent>()->AddConnection(other);
+    other->GetComponent<IStabilityComponent>()->AddConnection(this);
 }
 
 void FoundationBase::AimPointHandler()

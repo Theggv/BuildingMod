@@ -4,7 +4,13 @@
 #include <pch.h>
 #include <game/BuildSystem/BuildObjects/FoundationBase/FoundationBase.h>
 
-class FoundationTriangle;
+enum class SquareZones
+{
+	RIGHT,
+	DOWN,
+	LEFT,
+	UP,
+};
 
 /**
  *  Components:
@@ -17,13 +23,10 @@ class FoundationTriangle;
  * */
 class FoundationSquare : public FoundationBase
 {
-	friend class FoundationTriangle;
-
 public:
 	FoundationSquare(edict_t *owner);
 
 	virtual void Start() override;
-	virtual void StateUpdated() override;
 
 protected:
 	virtual AimTestResult TraceGroundTest(AimTestResult &result) override;

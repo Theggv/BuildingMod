@@ -5,42 +5,16 @@ file (GLOB PCH
 	"pch.cpp"
 )
 
-file (GLOB COMMON_SRC
+file (GLOB_RECURSE COMMON_SRC
 	"module/*.cpp"
-	"module/sdk/*.cpp"
-	"module/natives/*.cpp"
 
 	"game/*.cpp"
-	"game/BuildSystem/*.cpp"
-	"game/BuildSystem/BuildObjects/*.cpp"
-	"game/BuildSystem/BuildObjects/Components/*.cpp"
-	"game/BuildSystem/BuildObjects/FoundationBase/*.cpp"
-	"game/BuildSystem/BuildObjects/FoundationSquare/*.cpp"
-	"game/BuildSystem/BuildObjects/FoundationTriangle/*.cpp"
-	"game/BuildSystem/BuildObjects/WallBase/*.cpp"
-	"game/BuildSystem/BuildObjects/Materials/*.cpp"
-	"game/Geometry/*.cpp"
-	"game/Utility/*.cpp"
-	"game/Server/*.cpp"
 )
 
-file (GLOB COMMON_HEADERS
+file (GLOB_RECURSE COMMON_HEADERS
 	"module/*.h"
-	"module/sdk/*.h"
-	"module/natives/*.h"
 
 	"game/*.h"
-	"game/BuildSystem/*.h"
-	"game/BuildSystem/BuildObjects/*.h"
-	"game/BuildSystem/BuildObjects/Components/*.h"
-	"game/BuildSystem/BuildObjects/FoundationBase/*.h"
-	"game/BuildSystem/BuildObjects/FoundationSquare/*.h"
-	"game/BuildSystem/BuildObjects/FoundationTriangle/*.h"
-	"game/BuildSystem/BuildObjects/WallBase/*.h"
-	"game/BuildSystem/BuildObjects/Materials/*.h"
-	"game/Geometry/*.h"
-	"game/Utility/*.h"
-	"game/Server/*.h"
 )
 
 set (SRC ${COMMON_SRC})

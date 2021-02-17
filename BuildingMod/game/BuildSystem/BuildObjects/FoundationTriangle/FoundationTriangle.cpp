@@ -1,5 +1,5 @@
 #include "FoundationTriangle.h"
-#include "TriangleZoneComponent.h"
+#include "StabilityComponent.h"
 
 #include "TriangleCollider.h"
 
@@ -11,6 +11,8 @@
 #include <game/Utility/Utility.h>
 #include <game/Server/PrecacheManager.h>
 #include <game/Server/FrameState.h>
+
+using namespace FoundationTriangleResolvers;
 
 const double FoundationTriangle::m_Height = m_ModelSize * sin(60 * M_PI / 180);
 
@@ -46,7 +48,7 @@ void FoundationTriangle::Start()
 		SET_MODEL(pEntity, model);
 	}
 
-	auto triggerZone = new TriangleZoneComponent;
+	auto triggerZone = new StabilityComponent;
 	AddComponent(triggerZone);
 }
 
@@ -58,37 +60,6 @@ void FoundationTriangle::Update()
 	{
 		AimPointHandler();
 	}
-}
-
-int FoundationTriangle::UpdateFullPack(bool isPost)
-{
-	if (m_State != BuildState::STATE_SOLID)
-		return 0;
-
-	vec3 pos = *GetTransform()->GetPosition();
-
-	auto state = FrameState::Instance().GetState(isPost);
-	vec3 playerPos = state->host->v.origin;
-
-	// 100 units
-	if ((playerPos - pos).LengthSquared() > 10000)
-	{
-		if (!isPost)
-		{
-			if (state->state->renderamt == 0.0f)
-				state->state->number = -1;
-			else
-				return 0;
-		}
-		else
-		{
-			state->state->solid = SOLID_NOT;
-		}
-
-		return 1;
-	}
-
-	return 0;
 }
 
 AimTestResult FoundationTriangle::TraceGroundTest(AimTestResult &result)
@@ -191,8 +162,8 @@ AimTestResult FoundationTriangle::FoundationAimTest(ray ray)
 	{
 		auto object = *object_p.lock();
 
-		auto triggerZoneComponent = object->GetComponent<TriggerZoneComponent>();
-		auto result = triggerZoneComponent->TryConnect(ray, this);
+		auto stability = object->GetComponent<IStabilityComponent>();
+		auto result = stability->TryConnect(ray, this);
 
 		if (result.m_IsPassed)
 			return result;

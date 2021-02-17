@@ -36,9 +36,8 @@ void PrecacheManager::PrecacheResources()
 	}
 
 	PRECACHE_MODEL((char *)STRING(UTIL_AllocString(m_FoundationSquareModel)));
-	SEM_PRINT("[Building Mod] Precached %s.", m_FoundationSquareModel.c_str());
 	PRECACHE_MODEL((char *)STRING(UTIL_AllocString(m_FoundationTriangleModel)));
-	SEM_PRINT("[Building Mod] Precached %s.", m_FoundationTriangleModel.c_str());
+	PRECACHE_MODEL((char *)STRING(UTIL_AllocString(m_WallModel)));
 
 	m_LaserBeamId = PRECACHE_MODEL((char *)STRING(UTIL_AllocString("sprites/laserbeam.spr")));
 
@@ -57,6 +56,11 @@ string PrecacheManager::GetFoundationTriangleModel()
 	return m_FoundationTriangleModel;
 }
 
+string PrecacheManager::GetWallModel()
+{
+	return m_WallModel;
+}
+
 int PrecacheManager::GetLaserBeamId()
 {
 	return m_LaserBeamId;
@@ -68,6 +72,8 @@ bool PrecacheManager::Parse_Settings(string str, string value)
 		m_FoundationSquareModel = value;
 	else if (!_stricmp(str.c_str(), "FOUNDATION_TRIANGLE_MODEL"))
 		m_FoundationTriangleModel = value;
+	else if (!_stricmp(str.c_str(), "WALL_MODEL"))
+		m_WallModel = value;
 	else
 	{
 		return false;
