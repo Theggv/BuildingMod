@@ -1,6 +1,6 @@
 #include "IObjectResolver.h"
-#include "../IStabilityComponent.h"
 #include "IConnectionPoints.h"
+#include "../IStabilityComponent.h"
 
 IObjectResolver::~IObjectResolver()
 {
@@ -28,6 +28,9 @@ void IObjectResolver::AddConnection(GameObject *object, GameObject *bindable)
         bindable,
         *bindable->GetTransform()->GetPosition());
 
+    if (zoneId < 0)
+        return;
+
     if (m_Connections.find(zoneId) != m_Connections.end())
     {
         m_Connections[zoneId] = object;
@@ -37,6 +40,8 @@ void IObjectResolver::AddConnection(GameObject *object, GameObject *bindable)
         m_Connections.insert(pair<int, GameObject *>(
             zoneId, object));
     }
+
+    GenerateZones();
 }
 
 bool IObjectResolver::HasConnection(GameObject *object, GameObject *bindable, vec3 pos)
@@ -50,6 +55,9 @@ bool IObjectResolver::HasConnection(GameObject *object, GameObject *bindable, ve
     auto zoneId = m_Handler->GetZoneIdByPosition(
         object,
         bindable, pos);
+
+    if (zoneId < 0)
+        return false;
 
     if (m_Connections.find(zoneId) != m_Connections.end())
     {

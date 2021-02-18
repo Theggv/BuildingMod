@@ -69,7 +69,7 @@ int TriangleToTrianglePoints::GetZoneIdByPosition(GameObject *object, GameObject
 
     for (size_t i = 0; i < positions.size(); i++)
     {
-        if (positions[i].Round() == pos.Round())
+        if (vec2(positions[i]).Round() == vec2(pos).Round())
             return i;
     }
 
