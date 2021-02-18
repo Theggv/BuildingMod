@@ -53,7 +53,7 @@ int TriangleToTrianglePoints::GetZoneIdByPosition(GameObject *object, GameObject
 
     auto foundation = dynamic_cast<FoundationTriangle *>(object);
 
-    vec3 newPos = vec3(0, foundation->m_Height * 2 / 3, pos.z);
+    vec3 newPos = vec3(0, foundation->m_Height * 2 / 3, 0);
 
     vec3 objectPos = *foundation->GetTransform()->GetPosition();
     vec3 objectRot = *foundation->GetTransform()->GetRotation();

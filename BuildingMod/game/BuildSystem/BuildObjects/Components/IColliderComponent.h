@@ -28,7 +28,7 @@ protected:
 	set<edict_t *> m_VisibleEdicts;
 	set<edict_t *> m_InvisibleEdicts;
 
-	Shape *m_Shape;
+	Shape *m_Shape = nullptr;
 };
 
 #endif // !_BUILDOBJECTS_COMPONENTS_ICOLLIDERCOMPONENT_

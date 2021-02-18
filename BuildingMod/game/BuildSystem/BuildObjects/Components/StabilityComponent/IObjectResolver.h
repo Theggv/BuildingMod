@@ -7,6 +7,8 @@
 #include <game/BuildSystem/BuildObjects/AimTestResult.h>
 #include <game/BuildSystem/BuildObjects/GameObject.h>
 
+#include "../VisualizerComponent.h"
+
 using namespace std;
 
 class IConnectionPoints;
@@ -31,13 +33,14 @@ protected:
 
     AimTestResult CallNext(ray ray, GameObject *object, GameObject *bindable);
 
-    IConnectionPoints *m_Handler;
+    IConnectionPoints *m_Handler = nullptr;
 
     vector<vector<Triangle>> m_Zones;
     map<int, GameObject *> m_Connections;
 
 private:
-    IObjectResolver *m_Successor;
+    IObjectResolver *m_Successor = nullptr;
+    VisualizerComponent *m_Visualizer = new VisualizerComponent(0.2);
 };
 
 #endif // !_BUILDOBJECTS_IOBJECTRESOLVER_

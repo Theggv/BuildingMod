@@ -2,21 +2,18 @@
 
 // objects
 #include <game/BuildSystem/BuildObjects/FoundationSquare/FoundationSquare.h>
+#include <game/BuildSystem/BuildObjects/FoundationTriangle/FoundationTriangle.h>
 
 // Object resolvers
-#include "Resolvers/Foundation/FoundationResolver.h"
 #include "Resolvers/Wall/WallResolver.h"
 
-using namespace FoundationSquareResolvers;
+using namespace WallFullResolvers;
 
 StabilityComponent::StabilityComponent()
 {
-    auto foundationResolver = new FoundationResolver;
     auto wallResolver = new WallResolver;
 
-    foundationResolver->SetSuccessor(wallResolver);
-
-    m_ObjectResolver = foundationResolver;
+    m_ObjectResolver = wallResolver;
 }
 
 void StabilityComponent::CalculateStability()

@@ -1,16 +1,16 @@
-#ifndef _BUILDOBJECTS_FOUNDATIONSQUARE_WALLPOINTS_
-#define _BUILDOBJECTS_FOUNDATIONSQUARE_WALLPOINTS_
+#ifndef _BUILDOBJECTS_FOUNDATIONTRIANGLE_WALLPOINTS_
+#define _BUILDOBJECTS_FOUNDATIONTRIANGLE_WALLPOINTS_
 
 #include <pch.h>
 #include <game/BuildSystem/BuildObjects/GameObject.h>
 #include <game/BuildSystem/BuildObjects/Components/StabilityComponent/IConnectionPoints.h>
 #include <game/Geometry.h>
 
-#include "../../FoundationSquare.h"
+#include "../../FoundationTriangle.h"
 
 using namespace std;
 
-namespace FoundationSquareResolvers
+namespace FoundationTriangleResolvers
 {
     class WallPoints : public IConnectionPoints
     {
@@ -24,4 +24,4 @@ namespace FoundationSquareResolvers
     };
 }
 
-#endif // !_BUILDOBJECTS_FOUNDATIONSQUARE_WALLPOINTS_
+#endif // !_BUILDOBJECTS_FOUNDATIONTRIANGLE_WALLPOINTS_

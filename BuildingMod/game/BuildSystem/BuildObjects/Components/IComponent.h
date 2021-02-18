@@ -28,7 +28,7 @@ public:
 	GameObject *GetParent();
 
 protected:
-	GameObject *m_Parent;
+	GameObject *m_Parent = nullptr;
 };
 
 #endif // !_BUILDOBJECTS_COMPONENTS_ICOMPONENT_

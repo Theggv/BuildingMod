@@ -1,4 +1,5 @@
 #include "WallFull.h"
+#include "StabilityComponent.h"
 
 #include <game/BuildSystem/BuildObjects/Components/OwnerComponent.h>
 #include <game/BuildSystem/BuildObjects/Components/RendererComponent.h>
@@ -11,6 +12,8 @@
 
 // objects
 #include <game/BuildSystem/BuildObjects/FoundationBase/FoundationBase.h>
+
+using namespace WallFullResolvers;
 
 const double WallFull::m_Height = m_ModelSize;
 
@@ -37,8 +40,12 @@ void WallFull::Start()
         auto model = (char *)STRING(UTIL_AllocString(renderer->GetModel()));
         SET_MODEL(pEntity, model);
     }
+	
+	auto triggerZone = new StabilityComponent;
+	AddComponent(triggerZone);
 }
 
+// NOTE - idk is it works
 AimTestResult WallFull::AimTest(ray ray)
 {
 	auto objects = ObjectManager::Instance().GetObjectsInArea(ray.GetOrigin());

@@ -31,7 +31,7 @@ protected:
     int CallNext(GameObject *object, GameObject *bindable, vec3 pos);
 
 private:
-    IConnectionPoints *m_Successor;
+    IConnectionPoints *m_Successor = nullptr;
 };
 
 #endif // !_BUILDOBJECTS_ICONNECTIONPOINTS_

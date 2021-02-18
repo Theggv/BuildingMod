@@ -1,5 +1,5 @@
-#ifndef _BUILDOBJECTS_FOUNATIONSQUARE_WALLRESOLVER_
-#define _BUILDOBJECTS_FOUNATIONSQUARE_WALLRESOLVER_
+#ifndef _BUILDOBJECTS_FOUNDATIONTRIANGLE_WALLRESOLVER_
+#define _BUILDOBJECTS_FOUNDATIONTRIANGLE_WALLRESOLVER_
 
 #include <pch.h>
 #include <game/BuildSystem/BuildObjects/GameObject.h>
@@ -8,11 +8,11 @@
 #include <game/BuildSystem/ObjectManager.h>
 #include <game/Geometry.h>
 
-#include "../../FoundationSquare.h"
+#include "../../FoundationTriangle.h"
 
 using namespace std;
 
-namespace FoundationSquareResolvers
+namespace FoundationTriangleResolvers
 {
     class WallResolver : public IObjectResolver
     {
@@ -20,13 +20,14 @@ namespace FoundationSquareResolvers
         WallResolver();
 
         virtual bool CanResolve(GameObject *object, GameObject *bindable) override;
+        vector<Triangle> GetTransformedZone(GameObject *object, int zoneId) override;
 
     protected:
         void GenerateZones() override;
-        bool HasConnection(SquareZones squareZone);
+        bool HasConnection(TriangleZones triangleZone);
 
         vector<Triangle> GenerateZone(int zoneId);
     };
 }
 
-#endif // !_BUILDOBJECTS_FOUNATIONSQUARE_WALLRESOLVER_
+#endif // !_BUILDOBJECTS_FOUNDATIONTRIANGLE_WALLRESOLVER_

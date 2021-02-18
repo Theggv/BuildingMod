@@ -1,13 +1,13 @@
 #include "WallResolver.h"
 
 // objects
-#include "../../FoundationSquare.h"
 #include <game/BuildSystem/BuildObjects/WallBase/WallBase.h>
+#include <game/BuildSystem/BuildObjects/FoundationSquare/FoundationSquare.h>
 
 // point generators
 #include "WallPoints.h"
 
-using namespace FoundationSquareResolvers;
+using namespace WallFullResolvers;
 
 WallResolver::WallResolver()
 {
@@ -20,6 +20,9 @@ WallResolver::WallResolver()
 
 bool WallResolver::CanResolve(GameObject *object, GameObject *bindable)
 {
+    // NOTE - temporary
+    return false;
+
     if (dynamic_cast<FoundationSquare *>(object) != nullptr &&
         dynamic_cast<WallBase *>(bindable) != nullptr)
         return true;
@@ -56,6 +59,11 @@ vector<Triangle> WallResolver::GenerateZone(int zoneId)
 
     auto minHeight = -30;
     auto maxHeight = 30;
+
+    auto hasRight = HasConnection(SquareZones::RIGHT);
+    auto hasDown = HasConnection(SquareZones::DOWN);
+    auto hasLeft = HasConnection(SquareZones::LEFT);
+    auto hasUp = HasConnection(SquareZones::UP);
 
     auto width = FoundationSquare::m_ModelSize;
 

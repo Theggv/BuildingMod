@@ -34,7 +34,7 @@ public:
     double GetStability();
 
 protected:
-    IObjectResolver *m_ObjectResolver;
+    IObjectResolver *m_ObjectResolver = nullptr;
     double m_Stability;
 };
 

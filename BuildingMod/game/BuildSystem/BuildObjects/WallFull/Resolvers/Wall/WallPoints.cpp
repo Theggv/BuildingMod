@@ -2,7 +2,7 @@
 #include <game/BuildSystem/BuildObjects/FoundationSquare/FoundationSquare.h>
 #include <game/BuildSystem/BuildObjects/WallBase/WallBase.h>
 
-using namespace FoundationSquareResolvers;
+using namespace WallFullResolvers;
 
 AimTestResult WallPoints::GetConnectionPoint(
     GameObject *object, GameObject *bindable, int zoneId)
@@ -26,22 +26,22 @@ AimTestResult WallPoints::GetConnectionPoint(
 
         return AimTestResult(true,
                              newPos.Transform(mat4::RotationMatrix(90) * mat),
-                             rot.y - 180);
+                             rot.y - 90);
     case SquareZones::DOWN:
 
         return AimTestResult(true,
                              newPos.Transform(mat4::RotationMatrix(180) * mat),
-                             rot.y + 90);
+                             rot.y + 180);
     case SquareZones::LEFT:
 
         return AimTestResult(true,
                              newPos.Transform(mat4::RotationMatrix(-90) * mat),
-                             rot.y);
+                             rot.y + 90);
     case SquareZones::UP:
 
         return AimTestResult(true,
                              newPos.Transform(mat4::RotationMatrix(0) * mat),
-                             rot.y - 90);
+                             rot.y);
     }
 
     return AimTestResult(false);
@@ -54,7 +54,7 @@ int WallPoints::GetZoneIdByPosition(GameObject *object, GameObject *bindable, ve
 
     auto foundation = dynamic_cast<FoundationSquare *>(object);
 
-    vec3 newPos = vec3(0, foundation->m_ModelSize / 2, 0);
+    vec3 newPos = vec3(0, foundation->m_ModelSize, 0);
 
     vec3 objectPos = *foundation->GetTransform()->GetPosition();
     vec3 objectRot = *foundation->GetTransform()->GetRotation();
@@ -71,7 +71,7 @@ int WallPoints::GetZoneIdByPosition(GameObject *object, GameObject *bindable, ve
 
     for (size_t i = 0; i < positions.size(); i++)
     {
-        if (positions[i].Round() == pos.Round())
+        if (vec2(positions[i]).Round() == vec2(pos).Round())
             return i;
     }
 

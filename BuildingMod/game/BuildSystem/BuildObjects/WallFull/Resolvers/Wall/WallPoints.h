@@ -6,11 +6,11 @@
 #include <game/BuildSystem/BuildObjects/Components/StabilityComponent/IConnectionPoints.h>
 #include <game/Geometry.h>
 
-#include "../../FoundationSquare.h"
+#include "../../WallFull.h"
 
 using namespace std;
 
-namespace FoundationSquareResolvers
+namespace WallFullResolvers
 {
     class WallPoints : public IConnectionPoints
     {

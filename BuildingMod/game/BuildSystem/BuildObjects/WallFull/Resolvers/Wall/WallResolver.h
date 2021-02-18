@@ -8,11 +8,11 @@
 #include <game/BuildSystem/ObjectManager.h>
 #include <game/Geometry.h>
 
-#include "../../FoundationSquare.h"
+#include <game/BuildSystem/BuildObjects/FoundationSquare/FoundationSquare.h>
 
 using namespace std;
 
-namespace FoundationSquareResolvers
+namespace WallFullResolvers
 {
     class WallResolver : public IObjectResolver
     {
@@ -24,6 +24,10 @@ namespace FoundationSquareResolvers
     protected:
         void GenerateZones() override;
         bool HasConnection(SquareZones squareZone);
+
+        SquareZones GetZoneById(int zoneId);
+        HeightZones GetHeightById(int zoneId);
+        int GetZoneId(int zone, int height);
 
         vector<Triangle> GenerateZone(int zoneId);
     };

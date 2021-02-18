@@ -70,7 +70,6 @@ int FoundationResolver::GetZoneId(int zone, int height)
 
 vector<Triangle> FoundationResolver::GenerateZone(int zoneId)
 {
-    // basic impl, without zones check
     std::vector<Triangle> triangles;
     std::vector<Triangle> buffer;
 

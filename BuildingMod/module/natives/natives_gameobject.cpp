@@ -56,7 +56,7 @@ cell AMX_NATIVE_CALL Building_CreateObject(AMX *amx, cell *params)
 		object = new FoundationTriangle(player);
 		break;
 	case objectType_e::OBJECT_WALL:
-		// object = new WallFull(player);
+		object = new WallFull(player);
 		break;
 	default:
 		break;

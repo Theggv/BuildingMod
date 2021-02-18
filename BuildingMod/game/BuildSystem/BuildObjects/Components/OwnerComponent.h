@@ -30,7 +30,7 @@ public:
 	ray GetAimRay(vec3 destination, double maxRayLength);
 
 private:
-	edict_t *m_Owner;
+	edict_t *m_Owner = nullptr;
 };
 
 #endif // !_BUILDOBJECTS_COMPONENTS_OWNERCOMPONENT_

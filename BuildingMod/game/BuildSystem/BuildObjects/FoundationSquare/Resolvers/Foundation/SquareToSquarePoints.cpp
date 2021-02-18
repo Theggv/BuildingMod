@@ -58,7 +58,7 @@ int SquareToSquarePoints::GetZoneIdByPosition(GameObject *object, GameObject *bi
 
     auto foundation = dynamic_cast<FoundationSquare *>(object);
 
-    vec3 newPos = vec3(0, foundation->m_ModelSize, pos.z);
+    vec3 newPos = vec3(0, foundation->m_ModelSize, 0);
 
     vec3 objectPos = *foundation->GetTransform()->GetPosition();
     vec3 objectRot = *foundation->GetTransform()->GetRotation();

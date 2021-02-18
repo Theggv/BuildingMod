@@ -21,7 +21,7 @@ protected:
     static const double m_Height;
 
 
-    virtual AimTestResult AimTest(ray ray) = 0;
+    virtual AimTestResult AimTest(ray ray) override;
 
     virtual Shape GetShape(AimTestResult result);
 

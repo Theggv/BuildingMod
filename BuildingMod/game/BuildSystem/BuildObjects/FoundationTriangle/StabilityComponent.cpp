@@ -6,14 +6,14 @@
 
 // Object resolvers
 #include "Resolvers/Foundation/FoundationResolver.h"
-// #include "Resolvers/Wall/WallResolver.h"
+#include "Resolvers/Wall/WallResolver.h"
 
 using namespace FoundationTriangleResolvers;
 
 StabilityComponent::StabilityComponent()
 {
     auto foundationResolver = new FoundationResolver;
-    auto wallResolver = new FoundationResolver; // izmenit'
+    auto wallResolver = new WallResolver;
 
     foundationResolver->SetSuccessor(wallResolver);
 
