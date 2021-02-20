@@ -24,7 +24,6 @@ namespace FoundationTriangleResolvers
 
     protected:
         void GenerateZones() override;
-        bool HasConnection(TriangleZones triangleZone);
 
         vector<Triangle> GenerateZone(int zoneId);
     };

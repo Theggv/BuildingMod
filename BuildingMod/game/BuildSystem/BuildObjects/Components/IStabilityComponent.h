@@ -28,6 +28,7 @@ public:
 
     virtual void AddConnection(GameObject *object);
     virtual bool HasConnection(GameObject *object, vec3 pos);
+    virtual void RemoveConnection(GameObject *object);
 
     virtual void CalculateStability() = 0;
 

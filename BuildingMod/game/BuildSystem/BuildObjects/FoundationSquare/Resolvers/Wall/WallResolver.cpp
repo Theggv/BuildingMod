@@ -37,21 +37,12 @@ void WallResolver::GenerateZones()
     }
 }
 
-bool WallResolver::HasConnection(SquareZones zone)
-{
-    if (m_Connections.find(static_cast<int>(zone)) == m_Connections.end())
-        return false;
-
-    return true;
-}
-
 vector<Triangle> WallResolver::GenerateZone(int zoneId)
 {
     std::vector<Triangle> triangles;
-    std::vector<Triangle> buffer;
 
     // Return empty list if zone is not empty
-    if (HasConnection(static_cast<SquareZones>(zoneId)))
+    if (HasConnection(zoneId))
         return triangles;
 
     auto minHeight = -30;
@@ -63,40 +54,35 @@ vector<Triangle> WallResolver::GenerateZone(int zoneId)
     {
     case SquareZones::RIGHT:
 
-        triangles = Shape({vec3(width / 2, width / 2, minHeight),
-                           vec3(width / 2, width / 2, maxHeight),
-                           vec3(width / 2, -width / 2, maxHeight),
-                           vec3(width / 2, -width / 2, minHeight)})
-                        .Triangulate();
+        return Shape({vec3(width / 2, width / 2, minHeight),
+                      vec3(width / 2, width / 2, maxHeight),
+                      vec3(width / 2, -width / 2, maxHeight),
+                      vec3(width / 2, -width / 2, minHeight)})
+            .Triangulate();
 
-        break;
     case SquareZones::DOWN:
 
-        triangles = Shape({vec3(-width / 2, -width / 2, minHeight),
-                           vec3(-width / 2, -width / 2, maxHeight),
-                           vec3(width / 2, -width / 2, maxHeight),
-                           vec3(width / 2, -width / 2, minHeight)})
-                        .Triangulate();
+        return Shape({vec3(-width / 2, -width / 2, minHeight),
+                      vec3(-width / 2, -width / 2, maxHeight),
+                      vec3(width / 2, -width / 2, maxHeight),
+                      vec3(width / 2, -width / 2, minHeight)})
+            .Triangulate();
 
-        break;
     case SquareZones::LEFT:
 
-        triangles = Shape({vec3(-width / 2, width / 2, minHeight),
-                           vec3(-width / 2, width / 2, maxHeight),
-                           vec3(-width / 2, -width / 2, maxHeight),
-                           vec3(-width / 2, -width / 2, minHeight)})
-                        .Triangulate();
+        return Shape({vec3(-width / 2, width / 2, minHeight),
+                      vec3(-width / 2, width / 2, maxHeight),
+                      vec3(-width / 2, -width / 2, maxHeight),
+                      vec3(-width / 2, -width / 2, minHeight)})
+            .Triangulate();
 
-        break;
     case SquareZones::UP:
 
-        triangles = Shape({vec3(-width / 2, width / 2, minHeight),
-                           vec3(-width / 2, width / 2, maxHeight),
-                           vec3(width / 2, width / 2, maxHeight),
-                           vec3(width / 2, width / 2, minHeight)})
-                        .Triangulate();
-
-        break;
+        return Shape({vec3(-width / 2, width / 2, minHeight),
+                      vec3(-width / 2, width / 2, maxHeight),
+                      vec3(width / 2, width / 2, maxHeight),
+                      vec3(width / 2, width / 2, minHeight)})
+            .Triangulate();
     }
 
     return triangles;

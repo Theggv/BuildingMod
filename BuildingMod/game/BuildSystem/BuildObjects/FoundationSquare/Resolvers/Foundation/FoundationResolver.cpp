@@ -44,14 +44,6 @@ void FoundationResolver::GenerateZones()
     }
 }
 
-bool FoundationResolver::HasConnection(SquareZones zone)
-{
-    if (m_Connections.find(static_cast<int>(zone)) == m_Connections.end())
-        return false;
-
-    return true;
-}
-
 SquareZones FoundationResolver::GetZoneById(int zoneId)
 {
     return static_cast<SquareZones>(zoneId % 4);
@@ -70,13 +62,12 @@ int FoundationResolver::GetZoneId(int zone, int height)
 vector<Triangle> FoundationResolver::GenerateZone(int zoneId)
 {
     std::vector<Triangle> triangles;
-    std::vector<Triangle> buffer;
 
     auto zone = GetZoneById(zoneId);
     auto heightZone = GetHeightById(zoneId);
 
     // Return empty list if zone is not empty
-    if (HasConnection(zone))
+    if (HasConnection(static_cast<int>(zone)))
         return triangles;
 
     // list of heights (min, max)
@@ -85,10 +76,10 @@ vector<Triangle> FoundationResolver::GenerateZone(int zoneId)
     auto minHeight = heights[static_cast<int>(heightZone)].x;
     auto maxHeight = heights[static_cast<int>(heightZone)].y;
 
-    auto hasRight = HasConnection(SquareZones::RIGHT);
-    auto hasDown = HasConnection(SquareZones::DOWN);
-    auto hasLeft = HasConnection(SquareZones::LEFT);
-    auto hasUp = HasConnection(SquareZones::UP);
+    auto hasRight = HasConnection(static_cast<int>(SquareZones::RIGHT));
+    auto hasDown = HasConnection(static_cast<int>(SquareZones::DOWN));
+    auto hasLeft = HasConnection(static_cast<int>(SquareZones::LEFT));
+    auto hasUp = HasConnection(static_cast<int>(SquareZones::UP));
 
     auto width = FoundationSquare::m_ModelSize;
 
@@ -96,48 +87,38 @@ vector<Triangle> FoundationResolver::GenerateZone(int zoneId)
     {
     case SquareZones::RIGHT:
 
-        // cw
-        triangles = Triangle::GenerateTriangles(
+        return Triangle::GenerateTriangles(
             vec2(width / 2, width / 2),
             hasUp ? vec2(width, width / 2) : vec2(width, width),
             hasDown ? vec2(width, -width / 2) : vec2(width, -width),
             vec2(width / 2, -width / 2),
             heights[static_cast<int>(heightZone)]);
-
-        break;
     case SquareZones::DOWN:
 
-        // cw
-        triangles = Triangle::GenerateTriangles(
+        return Triangle::GenerateTriangles(
             vec2(width / 2, -width / 2),
             hasRight ? vec2(width / 2, -width) : vec2(width, -width),
             hasLeft ? vec2(-width / 2, -width) : vec2(-width, -width),
             vec2(-width / 2, -width / 2),
             heights[static_cast<int>(heightZone)]);
 
-        break;
     case SquareZones::LEFT:
 
-        // cw
-        triangles = Triangle::GenerateTriangles(
+        return Triangle::GenerateTriangles(
             vec2(-width / 2, -width / 2),
             hasDown ? vec2(-width, -width / 2) : vec2(-width, -width),
             hasUp ? vec2(-width, width / 2) : vec2(-width, width),
             vec2(-width / 2, width / 2),
             heights[static_cast<int>(heightZone)]);
 
-        break;
     case SquareZones::UP:
 
-        // cw
-        triangles = Triangle::GenerateTriangles(
+        return Triangle::GenerateTriangles(
             vec2(-width / 2, width / 2),
             hasLeft ? vec2(-width / 2, width) : vec2(-width, width),
             hasRight ? vec2(width / 2, width) : vec2(width, width),
             vec2(width / 2, width / 2),
             heights[static_cast<int>(heightZone)]);
-
-        break;
     }
 
     return triangles;

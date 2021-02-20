@@ -44,15 +44,6 @@ bool FoundationResolver::CanResolve(GameObject *object, GameObject *bindable)
     return false;
 }
 
-
-bool FoundationResolver::HasConnection(TriangleZones zone)
-{
-   if (m_Connections.find(static_cast<int>(zone)) == m_Connections.end())
-        return false;
-
-    return true;
-}
-
 TriangleZones FoundationResolver::GetZoneById(int zoneId)
 {
     return static_cast<TriangleZones>(zoneId % 3);
@@ -71,21 +62,20 @@ int FoundationResolver::GetZoneId(int zone, int height)
 vector<Triangle> FoundationResolver::GenerateZone(int zoneId)
 {
     std::vector<Triangle> triangles;
-    std::vector<Triangle> buffer;
 
     auto zone = GetZoneById(zoneId);
     auto heightZone = GetHeightById(zoneId);
 
     // Return empty list if zone is not empty
-    if (HasConnection(zone))
+    if (HasConnection(static_cast<int>(zone)))
         return triangles;
 
     // list of heights (min, max)
     std::vector<vec2> heights = {vec2(-128, -30), vec2(-30, 30), vec2(30, 128)};
 
-    auto hasRight = HasConnection(TriangleZones::RIGHT);
-    auto hasDown = HasConnection(TriangleZones::DOWN);
-    auto hasLeft = HasConnection(TriangleZones::LEFT);
+    auto hasRight = HasConnection(static_cast<int>(TriangleZones::RIGHT));
+    auto hasDown = HasConnection(static_cast<int>(TriangleZones::DOWN));
+    auto hasLeft = HasConnection(static_cast<int>(TriangleZones::LEFT));
 
     // smari shemu, down
 

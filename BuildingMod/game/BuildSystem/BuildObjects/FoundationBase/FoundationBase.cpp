@@ -66,12 +66,13 @@ void FoundationBase::StateUpdated()
         if (foundation->Id == this->Id)
             continue;
 
-        ConnectFoundations(foundation);
+        Connect(foundation);
     }
 }
 
-void FoundationBase::ConnectFoundations(FoundationBase *other)
+void FoundationBase::Connect(GameObject *other)
 {
+    // NOTE Don't safe if GameObject hasn't IStabilityComponent
     this->GetComponent<IStabilityComponent>()->AddConnection(other);
     other->GetComponent<IStabilityComponent>()->AddConnection(this);
 }

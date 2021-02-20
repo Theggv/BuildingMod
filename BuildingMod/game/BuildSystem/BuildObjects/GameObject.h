@@ -68,6 +68,8 @@ public:
 	BuildState GetState();
 	bool TrySetState(BuildState state);
 
+    virtual void Connect(GameObject *other) = 0;
+
 protected:
 	set<IComponent *> m_Components;
 	BuildState m_State;

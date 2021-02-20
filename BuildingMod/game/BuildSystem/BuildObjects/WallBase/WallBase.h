@@ -21,7 +21,7 @@ public:
     virtual void Update() override;
     virtual void StateUpdated() override;
 
-    virtual void Connect(GameObject *other);
+    void Connect(GameObject *other) override;
 
     static const double m_ModelSize;
 

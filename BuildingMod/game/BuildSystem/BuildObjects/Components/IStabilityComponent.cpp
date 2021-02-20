@@ -29,3 +29,8 @@ bool IStabilityComponent::HasConnection(GameObject *object, vec3 pos)
 {
     return m_ObjectResolver->HasConnection(m_Parent, object, pos);
 }
+
+void IStabilityComponent::RemoveConnection(GameObject *object)
+{
+    m_ObjectResolver->RemoveConnection(m_Parent, object);
+}

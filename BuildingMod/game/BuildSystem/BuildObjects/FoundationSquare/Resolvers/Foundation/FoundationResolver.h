@@ -26,8 +26,6 @@ namespace FoundationSquareResolvers
         vector<Triangle> GetTransformedZone(GameObject *object, int zoneId) override;
 
     private:
-        bool HasConnection(SquareZones squareZone);
-
         SquareZones GetZoneById(int zoneId);
         HeightZones GetHeightById(int zoneId);
         int GetZoneId(int zone, int height);

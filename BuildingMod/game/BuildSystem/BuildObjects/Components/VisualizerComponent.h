@@ -8,11 +8,11 @@
 class VisualizerComponent : public IComponent
 {
 public:
-/**
- * Update rate in seconds 
- * */
-	VisualizerComponent(double updateRate);
-	~VisualizerComponent();
+    /**
+     * @param updateRate Update rate in seconds 
+     * */
+    VisualizerComponent(double updateRate = 0.2);
+    ~VisualizerComponent();
 
     void Enable();
     void Disable();
@@ -20,6 +20,7 @@ public:
     bool IsEnabled();
 
     void Visualize(std::vector<Triangle> triangles);
+
 private:
     double m_UpdateRate;
     bool m_IsEnable;

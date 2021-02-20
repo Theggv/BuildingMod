@@ -23,7 +23,6 @@ namespace FoundationSquareResolvers
 
     protected:
         void GenerateZones() override;
-        bool HasConnection(SquareZones squareZone);
 
         vector<Triangle> GenerateZone(int zoneId);
     };

@@ -33,12 +33,12 @@ void IObjectResolver::AddConnection(GameObject *object, GameObject *bindable)
 
     if (m_Connections.find(zoneId) != m_Connections.end())
     {
-        m_Connections[zoneId] = object;
+        m_Connections[zoneId] = ObjectManager::Instance().GetPtr(object->Id);
     }
     else
     {
-        m_Connections.insert(pair<int, GameObject *>(
-            zoneId, object));
+        m_Connections.insert(pair<int, p_GameObjectWeak_t>(
+            zoneId, ObjectManager::Instance().GetPtr(object->Id)));
     }
 
     GenerateZones();
@@ -56,15 +56,67 @@ bool IObjectResolver::HasConnection(GameObject *object, GameObject *bindable, ve
         object,
         bindable, pos);
 
+    return HasConnection(zoneId);
+}
+
+bool IObjectResolver::HasConnection(int zoneId)
+{
     if (zoneId < 0)
         return false;
 
     if (m_Connections.find(zoneId) != m_Connections.end())
     {
-        return true;
+        return !m_Connections[zoneId].empty() &&
+               !m_Connections[zoneId].expired();
     }
 
     return false;
+}
+
+void IObjectResolver::RemoveConnection(GameObject *object, GameObject *bindable)
+{
+    if (!CanResolve(object, bindable))
+    {
+        if (m_Successor != nullptr)
+            m_Successor->RemoveConnection(object, bindable);
+
+        return;
+    }
+
+    auto zoneId = m_Handler->GetZoneIdByPosition(
+        object,
+        bindable,
+        *bindable->GetTransform()->GetPosition());
+
+    if (zoneId < 0)
+        return;
+
+    if (m_Connections.find(zoneId) != m_Connections.end())
+    {
+        m_Connections.erase(zoneId);
+    }
+
+    GenerateZones();
+}
+
+void IObjectResolver::RemoveConnections(GameObject *object)
+{
+    for (auto connection : m_Connections)
+    {
+        auto object_p = connection.second;
+
+        if (object_p.empty() || object_p.expired())
+            continue;
+
+        auto other = *object_p.lock();
+
+        auto stability = other->GetComponent<IStabilityComponent>();
+
+        if (stability == nullptr)
+            continue;
+
+        stability->RemoveConnection(object);
+    }
 }
 
 AimTestResult IObjectResolver::TryConnect(ray ray, GameObject *object, GameObject *bindable)

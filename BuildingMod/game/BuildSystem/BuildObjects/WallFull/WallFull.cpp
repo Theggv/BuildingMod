@@ -23,24 +23,24 @@ WallFull::WallFull(edict_t *owner) : WallBase(owner)
 
 void WallFull::Start()
 {
-    WallBase::Start();
+	WallBase::Start();
 
-    auto renderer = new RendererComponent;
-    renderer->SetModel(PrecacheManager::Instance().GetWallModel());
+	auto renderer = new RendererComponent;
+	renderer->SetModel(PrecacheManager::Instance().GetWallModel());
 
-    AddComponent(renderer);
+	AddComponent(renderer);
 
-    auto collider = new IColliderComponent;
-    AddComponent(collider);
+	auto collider = new IColliderComponent;
+	AddComponent(collider);
 
-    collider->AddEdict(UTIL_CreateEdict("info_target"), true);
+	collider->AddEdict(UTIL_CreateEdict("info_target"), true);
 
-    for (auto pEntity : collider->GetEdicts(true))
-    {
-        auto model = (char *)STRING(UTIL_AllocString(renderer->GetModel()));
-        SET_MODEL(pEntity, model);
-    }
-	
+	for (auto pEntity : collider->GetEdicts(true))
+	{
+		auto model = (char *)STRING(UTIL_AllocString(renderer->GetModel()));
+		SET_MODEL(pEntity, model);
+	}
+
 	auto triggerZone = new StabilityComponent;
 	AddComponent(triggerZone);
 }
@@ -60,8 +60,8 @@ AimTestResult WallFull::AimTest(ray ray)
 			continue;
 		}
 
-		// remove if object isn't foundation
-		if (dynamic_cast<FoundationBase *>(*it->lock()) == nullptr)
+		if (dynamic_cast<FoundationBase *>(*it->lock()) == nullptr &&
+			dynamic_cast<WallBase *>(*it->lock()) == nullptr)
 		{
 			it->reset();
 			it = objects.erase(it);

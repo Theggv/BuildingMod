@@ -27,7 +27,7 @@ public:
     virtual void Update() override;
     virtual void StateUpdated() override;
 
-    void ConnectFoundations(FoundationBase *other);
+    void Connect(GameObject *other) override;
 
     static const double m_ModelSize;
 

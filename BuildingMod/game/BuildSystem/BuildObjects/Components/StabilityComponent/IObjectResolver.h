@@ -6,6 +6,7 @@
 #include <game/Geometry.h>
 #include <game/BuildSystem/BuildObjects/AimTestResult.h>
 #include <game/BuildSystem/BuildObjects/GameObject.h>
+#include <game/BuildSystem/ObjectManager.h>
 
 #include "../VisualizerComponent.h"
 
@@ -24,6 +25,9 @@ public:
 
     virtual void AddConnection(GameObject *object, GameObject *bindable);
     virtual bool HasConnection(GameObject *object, GameObject *bindable, vec3 pos);
+    virtual bool HasConnection(int zoneId);
+    virtual void RemoveConnection(GameObject *object, GameObject *bindable);
+    virtual void RemoveConnections(GameObject *object);
 
     virtual bool CanResolve(GameObject *object, GameObject *bindable) = 0;
 
@@ -36,7 +40,7 @@ protected:
     IConnectionPoints *m_Handler = nullptr;
 
     vector<vector<Triangle>> m_Zones;
-    map<int, GameObject *> m_Connections;
+    map<int, p_GameObjectWeak_t> m_Connections;
 
 private:
     IObjectResolver *m_Successor = nullptr;

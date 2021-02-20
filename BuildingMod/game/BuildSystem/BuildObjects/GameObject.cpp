@@ -2,6 +2,8 @@
 #include <game/BuildSystem/ObjectManager.h>
 #include <Server/FrameState.h>
 
+#include <game/BuildSystem/BuildObjects/Components/IStabilityComponent.h>
+
 // initial object id
 static int m_IdGenerator = 1024;
 
@@ -140,4 +142,16 @@ GameObject::GameObjectObserver::~GameObjectObserver()
 void GameObject::GameObjectObserver::Update()
 {
 	m_GameObject->UpdateTransform();
+}
+
+void GameObject::Connect(GameObject *other)
+{
+	auto thisStability = this->GetComponent<IStabilityComponent>();
+	auto otherStability = other->GetComponent<IStabilityComponent>();
+
+	if (thisStability != nullptr)
+		thisStability->AddConnection(other);
+
+	if (otherStability != nullptr)
+		otherStability->AddConnection(this);
 }

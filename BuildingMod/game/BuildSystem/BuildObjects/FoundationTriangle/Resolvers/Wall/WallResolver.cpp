@@ -37,26 +37,16 @@ void WallResolver::GenerateZones()
     }
 }
 
-bool WallResolver::HasConnection(TriangleZones zone)
-{
-    if (m_Connections.find(static_cast<int>(zone)) == m_Connections.end())
-        return false;
-
-    return true;
-}
-
 vector<Triangle> WallResolver::GenerateZone(int zoneId)
 {
     std::vector<Triangle> triangles;
 
     // Return empty list if zone is not empty
-    if (HasConnection(static_cast<TriangleZones>(zoneId)))
+    if (HasConnection(zoneId))
         return triangles;
 
     auto minHeight = -30;
     auto maxHeight = 30;
-
-    // smari shemu, down
 
     auto a = vec2(0, 2 * FoundationTriangle::m_Height / 3);
     auto b = a.Transform(mat4::RotationMatrix(-120));
@@ -65,30 +55,25 @@ vector<Triangle> WallResolver::GenerateZone(int zoneId)
     switch (static_cast<TriangleZones>(zoneId))
     {
     case TriangleZones::RIGHT:
+        return Shape({vec3(a.x, a.y, minHeight),
+                      vec3(a.x, a.y, maxHeight),
+                      vec3(b.x, b.y, maxHeight),
+                      vec3(b.x, b.y, minHeight)})
+            .Triangulate();
 
-        triangles = Shape({vec3(a.x, a.y, minHeight),
-                           vec3(a.x, a.y, maxHeight),
-                           vec3(b.x, b.y, maxHeight),
-                           vec3(b.x, b.y, minHeight)})
-                        .Triangulate();
-        break;
     case TriangleZones::DOWN:
-
-        triangles = Shape({vec3(b.x, b.y, minHeight),
-                           vec3(b.x, b.y, maxHeight),
-                           vec3(c.x, c.y, maxHeight),
-                           vec3(c.x, c.y, minHeight)})
-                        .Triangulate();
-        break;
+        return Shape({vec3(b.x, b.y, minHeight),
+                      vec3(b.x, b.y, maxHeight),
+                      vec3(c.x, c.y, maxHeight),
+                      vec3(c.x, c.y, minHeight)})
+            .Triangulate();
 
     case TriangleZones::LEFT:
-
-        triangles = Shape({vec3(c.x, c.y, minHeight),
-                           vec3(c.x, c.y, maxHeight),
-                           vec3(a.x, a.y, maxHeight),
-                           vec3(a.x, a.y, minHeight)})
-                        .Triangulate();
-        break;
+        return Shape({vec3(c.x, c.y, minHeight),
+                      vec3(c.x, c.y, maxHeight),
+                      vec3(a.x, a.y, maxHeight),
+                      vec3(a.x, a.y, minHeight)})
+            .Triangulate();
     }
 
     return triangles;
