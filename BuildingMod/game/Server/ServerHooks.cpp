@@ -158,13 +158,13 @@ void CBasePlayer_PostThink(IReGameHook_CBasePlayer_PostThink *chain, CBasePlayer
 		char buffer[190];
 		int len;
 
-		len = sprintf_s(
+		len = snprintf(
 			buffer, sizeof(buffer), "[%s #%d] Connections: ",
 			className, object->Id);
 
 		for (auto connection : stability->GetConnections())
 		{
-			len += sprintf_s(
+			len += snprintf(
 				buffer + len, sizeof(buffer) - len, "%d ",
 				(*connection.lock())->Id);
 		}
