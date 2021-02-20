@@ -29,6 +29,8 @@ public:
     virtual void RemoveConnection(GameObject *object, GameObject *bindable);
     virtual void RemoveConnections(GameObject *object);
 
+    vector<p_GameObjectWeak_t> GetConnections();
+
     virtual bool CanResolve(GameObject *object, GameObject *bindable) = 0;
 
 protected:

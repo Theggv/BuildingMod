@@ -34,3 +34,8 @@ void IStabilityComponent::RemoveConnection(GameObject *object)
 {
     m_ObjectResolver->RemoveConnection(m_Parent, object);
 }
+
+vector<p_GameObjectWeak_t> IStabilityComponent::GetConnections()
+{
+    return m_ObjectResolver->GetConnections();
+}

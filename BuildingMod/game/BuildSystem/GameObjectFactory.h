@@ -8,8 +8,6 @@
 class GameObjectFactory
 {
 public:
-    GameObjectFactory();
-
     GameObject* CreateFoundationSquare(edict_t *owner);
     GameObject* CreateFoundationTriangle(edict_t *owner);
     GameObject* CreateWall(edict_t *owner);

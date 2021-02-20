@@ -4,6 +4,8 @@
 #include <game/Utility/EdictFlags.h>
 #include <game/Utility/Utility.h>
 
+#include <game/BuildSystem/BuildObjects/Components/IStabilityComponent.h>
+
 #ifndef MAX_PLAYERS
 #define MAX_PLAYERS 32
 #endif // !MAX_PLAYERS
@@ -142,14 +144,32 @@ void CBasePlayer_PostThink(IReGameHook_CBasePlayer_PostThink *chain, CBasePlayer
 		auto object = *ptr;
 		auto className = typeid(*object).name();
 
-		EdictFlags::SetPlayerSelectedObject(pPlayer->edict(), object->Id);
+		// EdictFlags::SetPlayerSelectedObject(pPlayer->edict(), object->Id);
 
-		//char buffer[190];
-		//sprintf_s(buffer, sizeof(buffer), "[%s #%d] Stability: %.0f%s Attached: %d Stability: %d Other: %d",
-		//	className, object->GetIndex(), object->GetStability(), "%%", object->GetAttachedObjects().size(),
-		//	object->GetStabilityObjects().size(), object->GetOtherObjects().size());
+		auto stability = object->GetComponent<IStabilityComponent>();
 
-		//UTIL_ClientPrint(pPlayer->edict(), MessageDest::PrintCenter, buffer);
+		if (stability == nullptr)
+		{
+			ptr.reset();
+			chain->callOriginal(pPlayer);
+			return;
+		}
+
+		char buffer[190];
+		int len;
+
+		len = sprintf_s(
+			buffer, sizeof(buffer), "[%s #%d] Connections: ",
+			className, object->Id);
+
+		for (auto connection : stability->GetConnections())
+		{
+			len += sprintf_s(
+				buffer + len, sizeof(buffer) - len, "%d ",
+				(*connection.lock())->Id);
+		}
+
+		UTIL_ClientPrint(pPlayer->edict(), MessageDest::PrintCenter, buffer);
 
 		ptr.reset();
 	}

@@ -33,12 +33,12 @@ void IObjectResolver::AddConnection(GameObject *object, GameObject *bindable)
 
     if (m_Connections.find(zoneId) != m_Connections.end())
     {
-        m_Connections[zoneId] = ObjectManager::Instance().GetPtr(object->Id);
+        m_Connections[zoneId] = ObjectManager::Instance().GetPtr(bindable->Id);
     }
     else
     {
         m_Connections.insert(pair<int, p_GameObjectWeak_t>(
-            zoneId, ObjectManager::Instance().GetPtr(object->Id)));
+            zoneId, ObjectManager::Instance().GetPtr(bindable->Id)));
     }
 
     GenerateZones();
@@ -117,6 +117,25 @@ void IObjectResolver::RemoveConnections(GameObject *object)
 
         stability->RemoveConnection(object);
     }
+}
+
+vector<p_GameObjectWeak_t> IObjectResolver::GetConnections()
+{
+    vector<p_GameObjectWeak_t> connections;
+    IObjectResolver *resolver = this;
+
+    do
+    {
+        for (auto connection : resolver->m_Connections)
+        {
+            connections.push_back(connection.second);
+        }
+
+        resolver = resolver->m_Successor;
+
+    } while (resolver != nullptr);
+
+    return connections;
 }
 
 AimTestResult IObjectResolver::TryConnect(ray ray, GameObject *object, GameObject *bindable)

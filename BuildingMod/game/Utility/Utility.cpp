@@ -8,7 +8,7 @@ int IsEntValid(int index)
 	return IsEntValid(INDEXENT(index));
 }
 
-int IsEntValid(edict_t* pEntity)
+int IsEntValid(edict_t *pEntity)
 {
 	if (FNullEnt(pEntity))
 		return 0;
@@ -19,7 +19,7 @@ int IsEntValid(edict_t* pEntity)
 	return 1;
 }
 
-edict_t* UTIL_GetAimingEntity(int index, float triggerDistance)
+edict_t *UTIL_GetAimingEntity(int index, float triggerDistance)
 {
 	auto pEntity = INDEXENT(index);
 
@@ -48,13 +48,16 @@ p_GameObjectWeak_t UTIL_GetAimingObject(int index, float triggerDistance)
 
 	auto entIndex = ENTINDEX(pEntity);
 
-	if (ObjectManager::Instance().Has(entIndex))
-		return ObjectManager::Instance().GetPtr(entIndex);
-	else if (pEntity->v.iuser4 != 0)
-	{
-		if (ObjectManager::Instance().Has(pEntity->v.iuser4))
-			return ObjectManager::Instance().GetPtr(pEntity->v.iuser4);
-	}
+	if (ObjectManager::Instance().HasEdict(pEntity))
+		return ObjectManager::Instance().GetPtrByEdict(pEntity);
+
+	// legacy probably, idk
+	//
+	// else if (pEntity->v.iuser4 != 0)
+	// {
+	// 	if (ObjectManager::Instance().Has(pEntity->v.iuser4))
+	// 		return ObjectManager::Instance().GetPtr(pEntity->v.iuser4);
+	// }
 
 	return p_GameObjectWeak_t();
 }
@@ -82,11 +85,10 @@ Vector UTIL_GetEndPoint(int index, float triggerDistance)
 	return Vector(
 		roundf(vSrc.x + vDest.x * multiplier),
 		roundf(vSrc.y + vDest.y * multiplier),
-		roundf(vSrc.z + vDest.z * multiplier)
-	);
+		roundf(vSrc.z + vDest.z * multiplier));
 }
 
-edict_t* UTIL_CreateEdict(string className)
+edict_t *UTIL_CreateEdict(string className)
 {
 	auto pEntity = CREATE_NAMED_ENTITY(UTIL_AllocString(className));
 
@@ -115,7 +117,7 @@ string_t UTIL_AllocString(string str)
 
 	if (it != m_AllocatedStrings.end())
 		return (*it).second;
-	
+
 	auto alloc = ALLOC_STRING(str.c_str());
 
 	m_AllocatedStrings.insert(pair<string, string_t>(str, alloc));
@@ -128,13 +130,13 @@ void UTIL_ClearAllocStrings()
 	m_AllocatedStrings.clear();
 }
 
-void UTIL_ClientPrint(edict_t* pEntity, MessageDest msg_dest, char* msg)
+void UTIL_ClientPrint(edict_t *pEntity, MessageDest msg_dest, char *msg)
 {
 	if (!g_MsgTextMsg)
-		return;				// :TODO: Maybe output a warning log?
+		return; // :TODO: Maybe output a warning log?
 
 	char c = msg[190];
-	msg[190] = 0;			// truncate without checking with strlen()
+	msg[190] = 0; // truncate without checking with strlen()
 
 	if (pEntity)
 		MESSAGE_BEGIN(MSG_ONE, g_MsgTextMsg, NULL, pEntity);
@@ -154,7 +156,6 @@ Vector UTIL_Rotate(Vector vec, float angle)
 
 	return Vector(
 		vec.x * angle_cos + vec.y * angle_sin,
-		- vec.x * angle_sin + vec.y * angle_cos,
-		vec.z
-	);
+		-vec.x * angle_sin + vec.y * angle_cos,
+		vec.z);
 }
