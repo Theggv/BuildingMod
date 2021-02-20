@@ -4,19 +4,25 @@
 #include <boost/test/included/unit_test.hpp>
 #include <game/BuildSystem/BuildObjects/GameObject.h>
 
+class GameObjectMock : public GameObject
+{
+public:
+	inline void Connect(GameObject *other) override {}
+};
+
 BOOST_AUTO_TEST_CASE(GameObjectDestructTest)
 {
-	auto object = new GameObject;
+	auto object = new GameObjectMock;
 	delete object;
 }
 
 BOOST_AUTO_TEST_CASE(GameObjectIdGeneratorTest)
 {
-	auto vec = vector<GameObject*>();
+	auto vec = vector<GameObject *>();
 
 	for (int i = 0; i < 10; ++i)
 	{
-		vec.push_back(new GameObject);
+		vec.push_back(new GameObjectMock);
 
 		if (i > 0)
 		{
@@ -27,21 +33,10 @@ BOOST_AUTO_TEST_CASE(GameObjectIdGeneratorTest)
 	vec.clear();
 }
 
-unsigned int CalculuationTestHelper(GameObject* object, float x, float y)
+unsigned int CalculuationTestHelper(GameObject *object, float x, float y)
 {
 	object->GetTransform()->GetPosition()->x(x);
 	object->GetTransform()->GetPosition()->y(y);
 
 	return object->GetWorldPositionFlags();
 }
-
-// BOOST_AUTO_TEST_CASE(WorldPositionCalculationTest)
-// {
-// 	auto object = new GameObject;
-
-// 	BOOST_CHECK_EQUAL(CalculuationTestHelper(object, -3230.1f, -2289.3f), 9168);
-// 	BOOST_CHECK_EQUAL(CalculuationTestHelper(object, 4095.0f, 4095.0f), 16383);
-// 	BOOST_CHECK_EQUAL(CalculuationTestHelper(object, -4095.0f, -4095.0f), 0);
-
-// 	delete object;
-// }
