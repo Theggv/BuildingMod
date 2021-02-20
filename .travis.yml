@@ -27,9 +27,9 @@ script:
   - ctest -C Debug --output-on-failure
 
 before-deploy:
-  - mkdir dist/modules
-  - cp BuildingMod/building_amxx_i386.so dist/modules/building_amxx_i386.so
-  - zip -r -9 ${TRAVIS_BUILD_DIR}-${TRAVIS_TAG}-linux.zip ./dist
+  - mkdir assets/addons/amxmodx/modules
+  - cp BuildingMod/building_amxx_i386.so assets/addons/amxmodx/modules/building_amxx_i386.so
+  - zip -r -9 ${TRAVIS_BUILD_DIR}-${TRAVIS_TAG}-linux.zip ./assets
 
 deploy:
   provider: releases
