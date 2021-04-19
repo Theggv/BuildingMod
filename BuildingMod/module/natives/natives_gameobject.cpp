@@ -1,6 +1,6 @@
 #include "natives_gameobject.h"
 
-#include <game/BuildSystem/BuildObjects/GameObject.h>
+#include <game/BuildSystem/GameObject.h>
 
 #include <game/BuildSystem/ObjectManager.h>
 #include <game/BuildSystem/GameObjectFactory.h>

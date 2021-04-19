@@ -54,7 +54,7 @@ endif()
 
 # Setup shared library
 
-add_library(${PROJECT} SHARED ${PCH} ${COMMON_HEADERS} ${SRC} ${SRC_DEPS} "BuildingMod.def")
+add_library(${PROJECT} SHARED ${PCH} ${COMMON_HEADERS} ${SRC} ${SRC_DEPS})
 target_include_directories(${PROJECT} PUBLIC ${SRC_DIRS})
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
@@ -86,7 +86,7 @@ endif()
 
 #Setup static library
 
-add_library(building_amxx_static STATIC ${PCH} ${COMMON_HEADERS} ${SRC} ${SRC_DEPS} "BuildingMod.def")
+add_library(building_amxx_static STATIC ${PCH} ${COMMON_HEADERS} ${SRC} ${SRC_DEPS})
 target_include_directories(building_amxx_static PUBLIC ${SRC_DIRS})
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")

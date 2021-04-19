@@ -2,7 +2,7 @@
 #define _BUILDSYSTEM_OBJECTMANAGER_
 
 #include <pch.h>
-#include <game/BuildSystem/BuildObjects/GameObject.h>
+#include <game/BuildSystem/GameObject.h>
 
 #include <game/Geometry.h>
 

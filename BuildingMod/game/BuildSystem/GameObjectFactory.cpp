@@ -1,9 +1,9 @@
 #include "GameObjectFactory.h"
 
 // Game objects
-#include <game/BuildSystem/BuildObjects/FoundationSquare/FoundationSquare.h>
-#include <game/BuildSystem/BuildObjects/FoundationTriangle/FoundationTriangle.h>
-#include <game/BuildSystem/BuildObjects/WallFull/WallFull.h>
+#include <game/BuildSystem/BuildingObjects/FoundationSquare/FoundationSquare.h>
+#include <game/BuildSystem/BuildingObjects/FoundationTriangle/FoundationTriangle.h>
+#include <game/BuildSystem/BuildingObjects/WallFull/WallFull.h>
 
 GameObject *GameObjectFactory::CreateFoundationSquare(edict_t *owner)
 {

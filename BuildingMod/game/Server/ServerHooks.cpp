@@ -4,7 +4,7 @@
 #include <game/Utility/EdictFlags.h>
 #include <game/Utility/Utility.h>
 
-#include <game/BuildSystem/BuildObjects/Components/IStabilityComponent.h>
+#include <game/BuildSystem/Components/IStabilityComponent.h>
 
 #ifndef MAX_PLAYERS
 #define MAX_PLAYERS 32

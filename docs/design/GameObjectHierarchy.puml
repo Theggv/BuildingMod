@@ -1,0 +1,71 @@
+@startuml GameObject
+
+together {
+	abstract class GameObject {
+		+int Id
+		....
+		+BuildState GetState()
+		+bool TrySetState(BuildState state)
+
+		+{abstract} Connect(GameObject* other)
+
+		+void AddComponent(T* component)
+		+T* GetComponent()
+
+		..Events..
+		+void OnStart()
+		+void OnDelete()
+		+void OnUpdate()
+		+void OnStateUpdate()
+		+int OnFullPackUpdate(args, bool isPost)
+		+void OnTransformUpdate()
+
+		__private data__
+		-List<IComponent> components
+		-BuildState state
+	}
+
+	note left of GameObject: Не управляет своим состоянием.\nСозданием и удалением объектов\nзанимается фабрика.
+
+	enum BuildState {
+		STATE_NONE
+		STATE_SOLID
+		STATE_CAN_BUILD
+		STATE_CANNOT_BUILD
+	}
+}
+
+GameObject *-right- BuildState
+
+abstract class BuildingObject extends GameObject {
+	#{abstract}void AimHandler()
+	#{abstract}ATR AimTest(ray ray)
+
+	#Shape GetShape()
+	#{abstract}Shape GetShape(ATR result)
+}
+
+class FoundationBase implements BuildingObject {
+	+int ModelSize
+
+	#int MinHeight
+	#int MaxHeight
+
+	#{abstract}ATR TraceGroundTest(ATR result)
+	#{abstract}ATR MinHeightTest(ATR aimTest, ATR groundTest)
+	#{abstract}ATR MaxHeightTest(ATR aimTest, ATR groundTest)
+
+	-ATR IntersectionTest(ATR result)
+}
+
+class WallBase implements BuildingObject {
+	+int ModelSize
+
+	-ATR IntersectionTest(ATR result)
+}
+
+class CeilingBase implements BuildingObject {
+	+int ModelSize
+}
+
+@enduml
