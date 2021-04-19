@@ -2,7 +2,7 @@
 
 #include <pch.h>
 #include <boost/test/included/unit_test.hpp>
-#include <game/BuildSystem/BuildObjects/GameObject.h>
+#include <game/BuildSystem/GameObject.h>
 
 class GameObjectMock : public GameObject
 {
