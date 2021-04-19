@@ -16,7 +16,7 @@ public:
 	void AddEdict(edict_t *edict, bool isVisible);
 	set<edict_t *> GetEdicts(bool isVisible);
 
-	virtual void UpdateTransform() override;
+	virtual void OnTransformUpdate() override;
 };
 
 #endif // !_BUILDINGOBJECTS_COMPONENTS_TRIANGLECOLLIDER_

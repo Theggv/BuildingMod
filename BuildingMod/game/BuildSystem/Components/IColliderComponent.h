@@ -21,8 +21,8 @@ public:
 	virtual void AddEdict(edict_t *edict, bool isVisible);
 	virtual set<edict_t *> GetEdicts(bool isVisible);
 
-	virtual void UpdateTransform() override;
-	virtual void StateUpdated() override;
+	virtual void OnTransformUpdate() override;
+	virtual void OnStateUpdated() override;
 
 protected:
 	set<edict_t *> m_VisibleEdicts;

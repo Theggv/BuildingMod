@@ -36,7 +36,7 @@ set<edict_t *> IColliderComponent::GetEdicts(bool isVisible)
 	return isVisible ? m_VisibleEdicts : m_InvisibleEdicts;
 }
 
-void IColliderComponent::UpdateTransform()
+void IColliderComponent::OnTransformUpdate()
 {
 	for (auto pEntity : m_VisibleEdicts)
 	{
@@ -51,7 +51,7 @@ void IColliderComponent::UpdateTransform()
 	}
 }
 
-void IColliderComponent::StateUpdated()
+void IColliderComponent::OnStateUpdated()
 {
 	auto state = m_Parent->GetState();
 

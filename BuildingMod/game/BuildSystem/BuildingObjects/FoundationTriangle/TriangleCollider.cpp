@@ -36,7 +36,7 @@ set<edict_t *> TriangleCollider::GetEdicts(bool isVisible)
 	return isVisible ? m_VisibleEdicts : m_InvisibleEdicts;
 }
 
-void TriangleCollider::UpdateTransform()
+void TriangleCollider::OnTransformUpdate()
 {
 	for (auto pEntity : m_VisibleEdicts)
 	{

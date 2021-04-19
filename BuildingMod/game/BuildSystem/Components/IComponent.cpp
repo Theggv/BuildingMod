@@ -8,19 +8,19 @@ IComponent::~IComponent()
 {
 }
 
-void IComponent::Start()
+void IComponent::OnStart()
 {
 }
 
-void IComponent::Update()
+void IComponent::OnUpdate()
 {
 }
 
-void IComponent::UpdateTransform()
+void IComponent::OnTransformUpdate()
 {
 }
 
-void IComponent::StateUpdated()
+void IComponent::OnStateUpdated()
 {
 }
 

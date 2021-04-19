@@ -25,44 +25,30 @@ public:
 	/// </summary>
 	const int Id;
 
-	// Unity-like Start
-	virtual void Start();
-	// Unity-like Update
-	virtual void Update();
+	virtual void OnStart();
+	virtual void OnUpdate();
 
 	/// <summary>
 	/// Called from AddToFullPack. Entity state saved in FrameState class
 	/// </summary>
 	/// <param name="isPost">Is post call</param>
 	/// <returns>return 1 if entity state was changed, 0 otherwise</returns>
-	virtual int UpdateFullPack(AddToFullPackArgs args, bool isPost);
+	virtual int OnUpdateFullPack(AddToFullPackArgs args, bool isPost);
+
 	// Called when parent's transform was updated
-	virtual void UpdateTransform();
+	virtual void OnTransformUpdate();
 
-	virtual void StateUpdated();
+	virtual void OnStateUpdated();
 
-	/// <summary>
-	/// Get transform of the object
-	/// </summary>
-	/// <returns></returns>
 	Transform *GetTransform();
 
+	// TODO: uznat' che eta hernya delaet
 	unsigned long GetWorldPositionFlags();
 
-	/// <summary>
-	/// Get Component by type
-	/// </summary>
-	/// <typeparam name="T">IComponent without pointer</typeparam>
-	/// <returns>Returns IComponent if component exists, nullptr otherwise</returns>
+
 	template <class T>
 	T *GetComponent();
 
-	/// <summary>
-	/// Add new component to the object
-	/// </summary>
-	/// <typeparam name="T">IComponent</typeparam>
-	/// <param name="component"></param>
-	/// <returns>Returns true if added successfully</returns>
 	template <class T>
 	bool AddComponent(const T component);
 

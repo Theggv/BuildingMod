@@ -15,7 +15,7 @@ class WallFull : public WallBase
 public:
     WallFull(edict_t *owner);
 
-    virtual void Start() override;
+    virtual void OnStart() override;
 
 protected:
     static const double m_Height;

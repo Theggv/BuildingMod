@@ -9,7 +9,7 @@ class VisualizerComponent : public IComponent
 {
 public:
     /**
-     * @param updateRate Update rate in seconds 
+     * @param updateRate OnUpdate rate in seconds 
      * */
     VisualizerComponent(double updateRate = 0.2);
     ~VisualizerComponent();

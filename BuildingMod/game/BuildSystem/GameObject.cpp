@@ -28,19 +28,19 @@ GameObject::~GameObject()
 	delete this->m_Transform;
 }
 
-void GameObject::Start()
+void GameObject::OnStart()
 {
 	for (auto component : m_Components)
-		component->Start();
+		component->OnStart();
 }
 
-void GameObject::Update()
+void GameObject::OnUpdate()
 {
 	for (auto component : m_Components)
-		component->Update();
+		component->OnUpdate();
 }
 
-int GameObject::UpdateFullPack(AddToFullPackArgs args, bool isPost)
+int GameObject::OnUpdateFullPack(AddToFullPackArgs args, bool isPost)
 {
 	if (m_State != BuildState::STATE_SOLID)
 		return 0;
@@ -69,18 +69,18 @@ int GameObject::UpdateFullPack(AddToFullPackArgs args, bool isPost)
 	return 0;
 }
 
-void GameObject::UpdateTransform()
+void GameObject::OnTransformUpdate()
 {
 	UpdateWorldPosition();
 
 	for (auto component : m_Components)
-		component->UpdateTransform();
+		component->OnTransformUpdate();
 }
 
-void GameObject::StateUpdated()
+void GameObject::OnStateUpdated()
 {
 	for (auto component : m_Components)
-		component->StateUpdated();
+		component->OnStateUpdated();
 
 	if (m_State == BuildState::STATE_SOLID)
 	{
@@ -116,7 +116,7 @@ bool GameObject::TrySetState(BuildState state)
 		return false;
 
 	m_State = state;
-	StateUpdated();
+	OnStateUpdated();
 
 	return true;
 }
@@ -141,7 +141,7 @@ GameObject::GameObjectObserver::~GameObjectObserver()
 
 void GameObject::GameObjectObserver::Update()
 {
-	m_GameObject->UpdateTransform();
+	m_GameObject->OnTransformUpdate();
 }
 
 void GameObject::Connect(GameObject *other)

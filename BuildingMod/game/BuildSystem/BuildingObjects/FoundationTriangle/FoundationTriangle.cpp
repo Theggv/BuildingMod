@@ -20,9 +20,9 @@ FoundationTriangle::FoundationTriangle(edict_t *owner) : FoundationBase(owner)
 {
 }
 
-void FoundationTriangle::Start()
+void FoundationTriangle::OnStart()
 {
-	GameObject::Start();
+	GameObject::OnStart();
 
 	auto renderer = new RendererComponent;
 	renderer->SetModel(PrecacheManager::Instance().GetFoundationTriangleModel());
@@ -52,9 +52,9 @@ void FoundationTriangle::Start()
 	AddComponent(triggerZone);
 }
 
-void FoundationTriangle::Update()
+void FoundationTriangle::OnUpdate()
 {
-	GameObject::Update();
+	GameObject::OnUpdate();
 
 	if (m_State != BuildState::STATE_SOLID)
 	{

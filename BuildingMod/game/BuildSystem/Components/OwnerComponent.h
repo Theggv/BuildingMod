@@ -10,8 +10,8 @@ public:
 	OwnerComponent(edict_t *owner);
 	~OwnerComponent();
 
-	virtual void Update() override;
-	virtual void StateUpdated() override;
+	virtual void OnUpdate() override;
+	virtual void OnStateUpdated() override;
 
 	/// <summary>
 	/// Get current owner

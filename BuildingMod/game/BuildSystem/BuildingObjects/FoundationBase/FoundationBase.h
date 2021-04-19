@@ -23,9 +23,9 @@ class FoundationBase : public GameObject
 public:
     FoundationBase(edict_t *owner);
 
-    virtual void Start() override;
-    virtual void Update() override;
-    virtual void StateUpdated() override;
+    virtual void OnStart() override;
+    virtual void OnUpdate() override;
+    virtual void OnStateUpdated() override;
 
     void Connect(GameObject *other) override;
 

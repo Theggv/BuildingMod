@@ -23,14 +23,14 @@ FoundationBase::FoundationBase(edict_t *owner)
     AddComponent(visualizer);
 }
 
-void FoundationBase::Start()
+void FoundationBase::OnStart()
 {
-    GameObject::Start();
+    GameObject::OnStart();
 }
 
-void FoundationBase::Update()
+void FoundationBase::OnUpdate()
 {
-    GameObject::Update();
+    GameObject::OnUpdate();
 
     if (m_State != BuildState::STATE_SOLID)
     {
@@ -38,11 +38,11 @@ void FoundationBase::Update()
     }
 }
 
-void FoundationBase::StateUpdated()
+void FoundationBase::OnStateUpdated()
 {
-    GameObject::StateUpdated();
+    GameObject::OnStateUpdated();
 
-    // Update Connections
+    // OnUpdate Connections
 
     if (GetState() != BuildState::STATE_SOLID)
         return;

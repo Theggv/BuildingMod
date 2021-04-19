@@ -31,8 +31,8 @@ void ObjectManager::Add(GameObject *object)
 	m_Objects.insert(pair<int, p_GameObject_t>(
 		object->Id, boost::make_shared<GameObject *>(object)));
 
-	// Start object
-	object->Start();
+	// OnStart object
+	object->OnStart();
 }
 
 void ObjectManager::Remove(GameObject *object)

@@ -107,7 +107,7 @@ void CBasePlayer_PreThink(IReGameHook_CBasePlayer_PreThink *chain, CBasePlayer *
 	auto gameObjectPtr = manager.GetPtr(objectId).lock();
 
 	if (gameObjectPtr != nullptr)
-		(*gameObjectPtr)->Update();
+		(*gameObjectPtr)->OnUpdate();
 
 	gameObjectPtr.reset();
 
@@ -207,7 +207,7 @@ int SV_CreatePacketEntities(IRehldsHook_SV_CreatePacketEntities *chain, sv_delta
 
 		// Save state
 		// FrameState::Instance().SetState({state, host}, false);
-		// gameObject->UpdateFullPack(false);
+		// gameObject->OnUpdateFullPack(false);
 	}
 
 	int index = 0;

@@ -27,7 +27,7 @@ struct AddToFullPackArgs
 
 /// <summary>
 /// Helper class for AddToFullPack args.
-/// Can be used inside GameObject.Update method
+/// Can be used inside GameObject.OnUpdate method
 /// </summary>
 class FrameState
 {

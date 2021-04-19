@@ -29,9 +29,9 @@ class FoundationTriangle : public FoundationBase
 public:
 	FoundationTriangle(edict_t *owner);
 
-	virtual void Start() override;
-	virtual void Update() override;
-	// virtual int UpdateFullPack(bool isPost) override;
+	virtual void OnStart() override;
+	virtual void OnUpdate() override;
+	// virtual int OnUpdateFullPack(bool isPost) override;
 
 	static const double m_Height;
 

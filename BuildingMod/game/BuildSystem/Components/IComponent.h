@@ -11,14 +11,10 @@ public:
 	IComponent();
 	virtual ~IComponent();
 
-	// Unity-like Start
-	virtual void Start();
-	// Unity-like Update
-	virtual void Update();
-	// Called when parent's transform was updated
-	virtual void UpdateTransform();
-	// State updated
-	virtual void StateUpdated();
+	virtual void OnStart();
+	virtual void OnUpdate();
+	virtual void OnTransformUpdate();
+	virtual void OnStateUpdated();
 
 	/// <summary>
 	/// Set parent of component.

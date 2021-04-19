@@ -67,7 +67,7 @@ cell AMX_NATIVE_CALL Building_CreateObject(AMX *amx, cell *params)
 	{
 		ObjectManager::Instance().Add(object);
 		EdictFlags::SetPlayerSelectedObject(player, object->Id);
-		object->Update();
+		object->OnUpdate();
 	}
 
 	return 0;

@@ -24,14 +24,14 @@ WallBase::WallBase(edict_t *owner)
     AddComponent(visualizer);
 }
 
-void WallBase::Start()
+void WallBase::OnStart()
 {
-    GameObject::Start();
+    GameObject::OnStart();
 }
 
-void WallBase::Update()
+void WallBase::OnUpdate()
 {
-    GameObject::Update();
+    GameObject::OnUpdate();
 
     if (m_State != BuildState::STATE_SOLID)
     {
@@ -39,11 +39,11 @@ void WallBase::Update()
     }
 }
 
-void WallBase::StateUpdated()
+void WallBase::OnStateUpdated()
 {
-    GameObject::StateUpdated();
+    GameObject::OnStateUpdated();
 
-    // Update Connections
+    // OnUpdate Connections
 
     if (GetState() != BuildState::STATE_SOLID)
         return;

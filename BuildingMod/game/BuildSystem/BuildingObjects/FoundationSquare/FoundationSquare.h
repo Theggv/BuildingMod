@@ -26,7 +26,7 @@ class FoundationSquare : public FoundationBase
 public:
 	FoundationSquare(edict_t *owner);
 
-	virtual void Start() override;
+	virtual void OnStart() override;
 
 protected:
 	virtual AimTestResult TraceGroundTest(AimTestResult &result) override;

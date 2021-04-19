@@ -15,9 +15,9 @@ FoundationSquare::FoundationSquare(edict_t *owner) : FoundationBase(owner)
 {
 }
 
-void FoundationSquare::Start()
+void FoundationSquare::OnStart()
 {
-	FoundationBase::Start();
+	FoundationBase::OnStart();
 
 	auto renderer = new RendererComponent;
 	renderer->SetModel(PrecacheManager::Instance().GetFoundationSquareModel());

@@ -12,12 +12,12 @@ OwnerComponent::~OwnerComponent()
 {
 }
 
-void OwnerComponent::Update()
+void OwnerComponent::OnUpdate()
 {
-	IComponent::Update();
+	IComponent::OnUpdate();
 }
 
-void OwnerComponent::StateUpdated()
+void OwnerComponent::OnStateUpdated()
 {
 	if (m_Parent->GetState() == BuildState::STATE_SOLID)
 	{

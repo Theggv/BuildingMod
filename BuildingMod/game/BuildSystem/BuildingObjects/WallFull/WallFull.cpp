@@ -21,9 +21,9 @@ WallFull::WallFull(edict_t *owner) : WallBase(owner)
 {
 }
 
-void WallFull::Start()
+void WallFull::OnStart()
 {
-	WallBase::Start();
+	WallBase::OnStart();
 
 	auto renderer = new RendererComponent;
 	renderer->SetModel(PrecacheManager::Instance().GetWallModel());
