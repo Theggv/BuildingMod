@@ -5,6 +5,7 @@
 #include <game/BuildSystem/GameObject.h>
 #include <game/Geometry.h>
 #include <Utility/AimTestResult.h>
+#include "ConnectionTypes.h"
 
 using namespace std;
 
@@ -25,6 +26,8 @@ public:
      * returns zoneId if success, -1 otherwise
      * */
     virtual int GetZoneIdByPosition(GameObject *object, GameObject *bindable, vec3 pos) = 0;
+
+    virtual ConnectionTypes GetTypeByZone(int zoneId) = 0;
 
 protected:
     AimTestResult CallNext(GameObject *object, GameObject *bindable, int zoneId);

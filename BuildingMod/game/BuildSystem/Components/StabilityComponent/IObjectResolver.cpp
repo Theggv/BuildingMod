@@ -8,12 +8,14 @@ IObjectResolver::~IObjectResolver()
 	delete m_Handler;
 }
 
-void IObjectResolver::SetSuccessor(IObjectResolver* successor)
+void IObjectResolver::SetSuccessor(IObjectResolver *successor)
 {
 	m_Successor = successor;
 }
 
-void IObjectResolver::AddConnection(GameObject* object, GameObject* bindable)
+void IObjectResolver::AddConnection(
+	GameObject *object,
+	GameObject *bindable)
 {
 	if (!CanResolve(object, bindable))
 	{
@@ -31,20 +33,25 @@ void IObjectResolver::AddConnection(GameObject* object, GameObject* bindable)
 	if (zoneId < 0)
 		return;
 
+	auto type = m_Handler->GetTypeByZone(zoneId);
+
 	if (m_Connections.find(zoneId) != m_Connections.end())
 	{
 		m_Connections[zoneId] = ObjectManager::Instance().GetPtr(bindable->Id);
 	}
 	else
 	{
-		m_Connections.insert(pair<int, p_GameObjectWeak_t>(
-			zoneId, ObjectManager::Instance().GetPtr(bindable->Id)));
+		m_Connections.insert(
+			{zoneId, ObjectManager::Instance().GetPtr(bindable->Id)});
 	}
 
 	GenerateZones();
 }
 
-bool IObjectResolver::HasConnection(GameObject* object, GameObject* bindable, vec3 pos)
+bool IObjectResolver::HasConnection(
+	GameObject *object,
+	GameObject *bindable,
+	vec3 pos)
 {
 	if (!CanResolve(object, bindable))
 	{
@@ -67,13 +74,13 @@ bool IObjectResolver::HasConnection(int zoneId)
 	if (m_Connections.find(zoneId) != m_Connections.end())
 	{
 		return !m_Connections[zoneId].empty() &&
-			!m_Connections[zoneId].expired();
+			   !m_Connections[zoneId].expired();
 	}
 
 	return false;
 }
 
-void IObjectResolver::RemoveConnection(GameObject* object, GameObject* bindable)
+void IObjectResolver::RemoveConnection(GameObject *object, GameObject *bindable)
 {
 	if (!CanResolve(object, bindable))
 	{
@@ -99,7 +106,7 @@ void IObjectResolver::RemoveConnection(GameObject* object, GameObject* bindable)
 	GenerateZones();
 }
 
-void IObjectResolver::RemoveConnections(GameObject* object)
+void IObjectResolver::RemoveConnections(GameObject *object)
 {
 	for (auto connection : m_Connections)
 	{
@@ -119,26 +126,27 @@ void IObjectResolver::RemoveConnections(GameObject* object)
 	}
 }
 
-vector<p_GameObjectWeak_t> IObjectResolver::GetConnections()
+vector<Connection> IObjectResolver::GetConnections()
 {
-	vector<p_GameObjectWeak_t> connections;
-	IObjectResolver* resolver = this;
+	throw exception("Not implemented");
+	// vector<Connection> connections;
+	// IObjectResolver *resolver = this;
 
-	do
-	{
-		for (auto connection : resolver->m_Connections)
-		{
-			connections.push_back(connection.second);
-		}
+	// do
+	// {
+	// 	for (auto connection : resolver->m_Connections)
+	// 	{
+	// 		connections.push_back(connection.second);
+	// 	}
 
-		resolver = resolver->m_Successor;
+	// 	resolver = resolver->m_Successor;
 
-	} while (resolver != nullptr);
+	// } while (resolver != nullptr);
 
-	return connections;
+	// return connections;
 }
 
-AimTestResult IObjectResolver::TryConnect(ray ray, GameObject* object, GameObject* bindable)
+AimTestResult IObjectResolver::TryConnect(ray ray, GameObject *object, GameObject *bindable)
 {
 	if (!CanResolve(object, bindable))
 		return CallNext(ray, object, bindable);
@@ -192,7 +200,7 @@ AimTestResult IObjectResolver::TryConnect(ray ray, GameObject* object, GameObjec
 	return m_Handler->GetConnectionPoint(object, bindable, minZone);
 }
 
-vector<Triangle> IObjectResolver::GetTransformedZone(GameObject* object, int zoneId)
+vector<Triangle> IObjectResolver::GetTransformedZone(GameObject *object, int zoneId)
 {
 	vector<Triangle> tries;
 
@@ -201,9 +209,9 @@ vector<Triangle> IObjectResolver::GetTransformedZone(GameObject* object, int zon
 	vec3 rot = *object->GetTransform()->GetRotation();
 
 	mat4 mat = mat4::RotationMatrix(90 - rot.y) *
-		mat4::TranslateMatrix(pos);
+			   mat4::TranslateMatrix(pos);
 
-	for (auto& triangle : m_Zones[zoneId])
+	for (auto &triangle : m_Zones[zoneId])
 	{
 		tries.push_back(triangle.Transform(mat));
 	}
@@ -211,7 +219,7 @@ vector<Triangle> IObjectResolver::GetTransformedZone(GameObject* object, int zon
 	return tries;
 }
 
-AimTestResult IObjectResolver::CallNext(ray ray, GameObject* object, GameObject* bindable)
+AimTestResult IObjectResolver::CallNext(ray ray, GameObject *object, GameObject *bindable)
 {
 	if (m_Successor != nullptr)
 		return m_Successor->TryConnect(ray, object, bindable);

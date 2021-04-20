@@ -8,6 +8,7 @@
 #include <game/Geometry.h>
 #include <Utility/AimTestResult.h>
 
+#include "ConnectionTypes.h"
 #include "../VisualizerComponent.h"
 
 using namespace std;
@@ -24,12 +25,17 @@ public:
     virtual AimTestResult TryConnect(ray ray, GameObject *object, GameObject *bindable);
 
     virtual void AddConnection(GameObject *object, GameObject *bindable);
-    virtual bool HasConnection(GameObject *object, GameObject *bindable, vec3 pos);
+
     virtual bool HasConnection(int zoneId);
+    virtual bool HasConnection(
+        GameObject *object,
+        GameObject *bindable,
+        vec3 pos);
+
     virtual void RemoveConnection(GameObject *object, GameObject *bindable);
     virtual void RemoveConnections(GameObject *object);
 
-    vector<p_GameObjectWeak_t> GetConnections();
+    vector<Connection> GetConnections();
 
     virtual bool CanResolve(GameObject *object, GameObject *bindable) = 0;
 
@@ -42,7 +48,7 @@ protected:
     IConnectionPoints *m_Handler = nullptr;
 
     vector<vector<Triangle>> m_Zones;
-    map<int, p_GameObjectWeak_t> m_Connections;
+    map<int, p_GameObjectWeak_t> m_Connections; // [key - zoneId, value - ptr]
 
 private:
     IObjectResolver *m_Successor = nullptr;

@@ -1,0 +1,7 @@
+@startuml Stability System
+
+interface IStabilityComponent {
+
+}
+
+@enduml

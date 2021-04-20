@@ -31,7 +31,7 @@ public:
     virtual bool HasConnection(GameObject *object, vec3 pos);
     virtual void RemoveConnection(GameObject *object);
 
-    vector<p_GameObjectWeak_t> GetConnections();
+    set<Connection> GetConnections();
 
     virtual void CalculateStability() = 0;
 

@@ -6,10 +6,15 @@
 #include <game/BuildSystem/GameObject.h>
 #include <game/BuildSystem/ObjectManager.h>
 
+// Components
+#include <game/BuildSystem/Components/OwnerComponent.h>
+
 class BuildingObject : public GameObject
 {
 public:
 	BuildingObject(edict_t *owner);
+	
+	void Connect(GameObject *other) override;
 
 protected:
 	virtual void AimHandler() = 0;

@@ -166,7 +166,7 @@ void CBasePlayer_PostThink(IReGameHook_CBasePlayer_PostThink *chain, CBasePlayer
 		{
 			len += snprintf(
 				buffer + len, sizeof(buffer) - len, "%d ",
-				(*connection.lock())->Id);
+				(*connection.ptr.lock())->Id);
 		}
 
 		UTIL_ClientPrint(pPlayer->edict(), MessageDest::PrintCenter, buffer);
