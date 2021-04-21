@@ -17,9 +17,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
-    - name: Checkout submodules
-      uses: textbook/git-checkout-submodule-action@master
+      with:
+        submodules: true
     
     - name: Install packages
       run: sudo apt-get install gcc-7-multilib g++-7-multilib zip libc6-dev
