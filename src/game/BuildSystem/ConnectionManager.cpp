@@ -69,64 +69,82 @@ bool ConnectionManager::AddLinkAdditional(GameObject *object, GameObject *other)
 	return true;
 }
 
-vector<p_GameObjectWeak_t> ConnectionManager::GetChildren(GameObject *parent)
+map<int, p_GameObjectWeak_t> ConnectionManager::GetChildren(GameObject *parent)
 {
-	auto list = vector<p_GameObjectWeak_t>();
+	auto list = map<int, p_GameObjectWeak_t>();
 
 	if (m_Children.find(parent->Id) != m_Children.end())
 	{
 		for (auto pair : m_Children[parent->Id])
-			list.push_back(pair.second);
-	}
-
-	return list;
-}
-
-vector<p_GameObjectWeak_t> ConnectionManager::GetParents(GameObject *child)
-{
-	auto list = vector<p_GameObjectWeak_t>();
-
-	if (m_Parents.find(child->Id) != m_Parents.end())
-	{
-		for (auto pair : m_Parents[child->Id])
-			list.push_back(pair.second);
-	}
-
-	return list;
-}
-
-vector<p_GameObjectWeak_t> ConnectionManager::GetAdditionals(GameObject *object)
-{
-	auto list = vector<p_GameObjectWeak_t>();
-
-	for (auto index : m_Additionals)
-	{
-		if (index.firstIndex == object->Id ||
-			index.secondIndex == object->Id)
 		{
-			if (index.firstIndex == object->Id)
-				list.push_back(index.GetSecondPtr());
-			else
-				list.push_back(index.GetFirstPtr());
+			// Check for valid ptr
+			if (pair.second.expired())
+				continue;
+
+			list.insert({(*pair.second.lock())->Id, pair.second});
 		}
 	}
 
 	return list;
 }
 
-vector<p_GameObjectWeak_t> ConnectionManager::GetIndepentent(GameObject *object)
+map<int, p_GameObjectWeak_t> ConnectionManager::GetParents(GameObject *child)
 {
-	auto list = vector<p_GameObjectWeak_t>();
+	auto list = map<int, p_GameObjectWeak_t>();
 
-	for (auto index : m_Independent)
+	if (m_Parents.find(child->Id) != m_Parents.end())
 	{
+		for (auto pair : m_Parents[child->Id])
+		{
+			// Check for valid ptr
+			if (pair.second.expired())
+				continue;
+
+			list.insert({(*pair.second.lock())->Id, pair.second});
+		}
+	}
+
+	return list;
+}
+
+map<int, p_GameObjectWeak_t> ConnectionManager::GetAdditionals(GameObject *object)
+{
+	auto list = map<int, p_GameObjectWeak_t>();
+
+	for (auto index : m_Additionals)
+	{
+		if (!index.IsValid())
+			continue;
+
 		if (index.firstIndex == object->Id ||
 			index.secondIndex == object->Id)
 		{
 			if (index.firstIndex == object->Id)
-				list.push_back(index.GetSecondPtr());
+				list.insert({index.secondIndex, index.GetSecondPtr()});
 			else
-				list.push_back(index.GetFirstPtr());
+				list.insert({index.firstIndex, index.GetFirstPtr()});
+		}
+	}
+
+	return list;
+}
+
+map<int, p_GameObjectWeak_t> ConnectionManager::GetIndepentent(GameObject *object)
+{
+	auto list = map<int, p_GameObjectWeak_t>();
+
+	for (auto index : m_Independent)
+	{
+		if (!index.IsValid())
+			continue;
+
+		if (index.firstIndex == object->Id ||
+			index.secondIndex == object->Id)
+		{
+			if (index.firstIndex == object->Id)
+				list.insert({index.secondIndex, index.GetSecondPtr()});
+			else
+				list.insert({index.firstIndex, index.GetFirstPtr()});
 		}
 	}
 
@@ -142,17 +160,17 @@ set<Connection, ConnectionOrdering> ConnectionManager::GetAllLinks(GameObject *o
 	auto additionals = GetAdditionals(object);
 	auto indepentent = GetIndepentent(object);
 
-	for (auto ptr : children)
-		list.insert({ConnectionTypes::Child, ptr});
+	for (auto [key, value] : children)
+		list.insert({ConnectionTypes::Child, value});
 
-	for (auto ptr : parents)
-		list.insert({ConnectionTypes::Parent, ptr});
+	for (auto [key, value] : parents)
+		list.insert({ConnectionTypes::Parent, value});
 
-	for (auto ptr : additionals)
-		list.insert({ConnectionTypes::Additional, ptr});
+	for (auto [key, value] : additionals)
+		list.insert({ConnectionTypes::Additional, value});
 
-	for (auto ptr : indepentent)
-		list.insert({ConnectionTypes::Independent, ptr});
+	for (auto [key, value] : indepentent)
+		list.insert({ConnectionTypes::Independent, value});
 
 	return list;
 }

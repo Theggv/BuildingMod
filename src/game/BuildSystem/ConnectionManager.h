@@ -16,10 +16,10 @@ public:
 	bool AddLinkIndependent(GameObject *object, GameObject *other);
 	bool AddLinkAdditional(GameObject *object, GameObject *other);
 
-	vector<p_GameObjectWeak_t> GetChildren(GameObject *parent);
-	vector<p_GameObjectWeak_t> GetParents(GameObject *child);
-	vector<p_GameObjectWeak_t> GetAdditionals(GameObject *object);
-	vector<p_GameObjectWeak_t> GetIndepentent(GameObject *object);
+	map<int, p_GameObjectWeak_t> GetChildren(GameObject *parent);
+	map<int, p_GameObjectWeak_t> GetParents(GameObject *child);
+	map<int, p_GameObjectWeak_t> GetAdditionals(GameObject *object);
+	map<int, p_GameObjectWeak_t> GetIndepentent(GameObject *object);
 
 	ConnectionTypes GetRelationship(GameObject *object, GameObject *other);
 
@@ -50,6 +50,11 @@ private:
 		inline p_GameObjectWeak_t GetSecondPtr()
 		{
 			return secondPtr;
+		}
+
+		inline bool IsValid()
+		{
+			return !firstPtr.expired() && !secondPtr.expired();
 		}
 
 	private:
