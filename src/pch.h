@@ -17,6 +17,7 @@
 #include <map>
 #include <set>
 #include <list>
+#include <memory>
 
 // Metamod
 #include <cssdk/dlls/extdll.h>
