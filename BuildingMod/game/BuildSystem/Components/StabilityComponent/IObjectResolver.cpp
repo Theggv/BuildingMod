@@ -66,24 +66,6 @@ void IObjectResolver::AddConnection(
 	GenerateZones();
 }
 
-bool IObjectResolver::HasConnection(
-	GameObject *object,
-	GameObject *bindable,
-	vec3 pos)
-{
-	if (!CanResolve(object, bindable))
-	{
-		if (m_Successor != nullptr)
-			return m_Successor->HasConnection(object, bindable, pos);
-	}
-
-	auto zoneId = m_Handler->GetZoneIdByPosition(
-		object,
-		bindable, pos);
-
-	return HasConnection(zoneId);
-}
-
 bool IObjectResolver::HasConnection(int zoneId)
 {
 	if (zoneId < 0)
@@ -142,26 +124,6 @@ void IObjectResolver::RemoveConnections(GameObject *object)
 
 		stability->RemoveConnection(object);
 	}
-}
-
-vector<Connection> IObjectResolver::GetConnections()
-{
-	throw exception("Not implemented");
-	// vector<Connection> connections;
-	// IObjectResolver *resolver = this;
-
-	// do
-	// {
-	// 	for (auto connection : resolver->m_Connections)
-	// 	{
-	// 		connections.push_back(connection.second);
-	// 	}
-
-	// 	resolver = resolver->m_Successor;
-
-	// } while (resolver != nullptr);
-
-	// return connections;
 }
 
 AimTestResult IObjectResolver::TryConnect(ray ray, GameObject *object, GameObject *bindable)

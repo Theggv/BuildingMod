@@ -18,7 +18,7 @@ BOOST_AUTO_TEST_CASE(GameObjectDestructTest)
 
 BOOST_AUTO_TEST_CASE(GameObjectIdGeneratorTest)
 {
-	auto vec = vector<GameObject *>();
+	vector<GameObject *> vec;
 
 	for (int i = 0; i < 10; ++i)
 	{
@@ -30,7 +30,11 @@ BOOST_AUTO_TEST_CASE(GameObjectIdGeneratorTest)
 		}
 	}
 
+	for (auto obj : vec)
+		delete obj;
+
 	vec.clear();
+	vector<GameObject *>().swap(vec);
 }
 
 unsigned int CalculuationTestHelper(GameObject *object, float x, float y)

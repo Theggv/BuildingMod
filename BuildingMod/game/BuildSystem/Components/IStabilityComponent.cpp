@@ -26,19 +26,12 @@ void IStabilityComponent::AddConnection(GameObject *object)
     m_ObjectResolver->AddConnection(m_Parent, object);
 }
 
-bool IStabilityComponent::HasConnection(
-    GameObject *object,
-    vec3 pos)
-{
-    return m_ObjectResolver->HasConnection(m_Parent, object, pos);
-}
-
 void IStabilityComponent::RemoveConnection(GameObject *object)
 {
     m_ObjectResolver->RemoveConnection(m_Parent, object);
 }
 
-set<Connection> IStabilityComponent::GetConnections()
+set<Connection, ConnectionOrdering> IStabilityComponent::GetConnections()
 {
     return ConnectionManager::Instance().GetAllLinks(m_Parent);
     // return m_ObjectResolver->GetConnections();

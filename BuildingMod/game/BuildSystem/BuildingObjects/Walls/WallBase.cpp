@@ -67,12 +67,6 @@ void WallBase::OnStateUpdated()
     }
 }
 
-void WallBase::Connect(GameObject *other)
-{
-    this->GetComponent<IStabilityComponent>()->AddConnection(other);
-    other->GetComponent<IStabilityComponent>()->AddConnection(this);
-}
-
 void WallBase::AimHandler()
 {
     auto ownerComponent = GetComponent<OwnerComponent>();

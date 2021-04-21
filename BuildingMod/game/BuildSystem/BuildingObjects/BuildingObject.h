@@ -14,8 +14,6 @@ class BuildingObject : public GameObject
 public:
 	BuildingObject(edict_t *owner);
 	
-	void Connect(GameObject *other) override;
-
 protected:
 	virtual void AimHandler() = 0;
 	virtual AimTestResult AimTest(ray ray) = 0;

@@ -8,9 +8,9 @@
 class GameObjectFactory
 {
 public:
-    GameObject* CreateFoundationSquare(edict_t *owner);
-    GameObject* CreateFoundationTriangle(edict_t *owner);
-    GameObject* CreateWall(edict_t *owner);
+    GameObject *CreateFoundationSquare(edict_t *owner);
+    GameObject *CreateFoundationTriangle(edict_t *owner);
+    GameObject *CreateWall(edict_t *owner);
 };
 
 #endif // !_BUILDSYSTEM_GAMEOBJECTFACTORY_

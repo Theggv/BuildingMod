@@ -21,7 +21,9 @@ public:
 	set<p_GameObjectWeak_t> GetAdditionals(GameObject *object);
 	set<p_GameObjectWeak_t> GetIndepentent(GameObject *object);
 
-	set<Connection> GetAllLinks(GameObject *object);
+	ConnectionTypes GetRelationship(GameObject *object, GameObject *other);
+
+	set<Connection, ConnectionOrdering> GetAllLinks(GameObject *object);
 
 	void RemoveLinks(GameObject *object);
 
@@ -38,6 +40,8 @@ private:
 			secondPtr = ObjectManager::Instance().GetPtr(secondIndex);
 		}
 
+		Index() : Index(0, 0) {}
+
 		inline p_GameObjectWeak_t GetFirstPtr()
 		{
 			return firstPtr;
@@ -48,39 +52,25 @@ private:
 			return secondPtr;
 		}
 
-		inline bool operator==(const Index &rhs)
-		{
-			return (firstIndex == rhs.firstIndex &&
-					secondIndex == rhs.secondIndex) ||
-				   (firstIndex == rhs.secondIndex &&
-					secondIndex == rhs.firstIndex);
-		}
-
-		inline bool operator!=(const Index &rhs)
-		{
-			return !((firstIndex == rhs.firstIndex &&
-					  secondIndex == rhs.secondIndex) ||
-					 (firstIndex == rhs.secondIndex &&
-					  secondIndex == rhs.firstIndex));
-		}
-
-		friend bool operator<(const Index &lhs, const Index &rhs)
-		{
-			return min(lhs.firstIndex, lhs.secondIndex) < min(rhs.firstIndex, rhs.secondIndex);
-		}
-
-		friend bool operator>(const Index &lhs, const Index &rhs)
-		{
-			return max(lhs.firstIndex, lhs.secondIndex) > max(rhs.firstIndex, rhs.secondIndex);
-		}
-
 	private:
 		p_GameObjectWeak_t firstPtr;
 		p_GameObjectWeak_t secondPtr;
 	};
 
-	set<Index> m_Independent;
-	set<Index> m_Additionals;
+	struct IndexOrdering
+	{
+		// impl of < operator
+		bool operator()(Index const &lhs, Index const &rhs) const
+		{
+			if (lhs.firstIndex == rhs.firstIndex)
+				return lhs.secondIndex < rhs.secondIndex;
+
+			return lhs.firstIndex < rhs.firstIndex;
+		}
+	};
+
+	set<Index, IndexOrdering> m_Independent;
+	set<Index, IndexOrdering> m_Additionals;
 	map<int, map<int, p_GameObjectWeak_t>> m_Parents;
 	map<int, map<int, p_GameObjectWeak_t>> m_Children;
 

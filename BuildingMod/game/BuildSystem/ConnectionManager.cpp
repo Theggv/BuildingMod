@@ -2,11 +2,6 @@
 
 ConnectionManager::ConnectionManager()
 {
-	m_Additionals = set<Index>();
-	m_Independent = set<Index>();
-
-	m_Children = map<int, map<int, p_GameObjectWeak_t>>();
-	m_Parents = map<int, map<int, p_GameObjectWeak_t>>();
 }
 
 ConnectionManager::~ConnectionManager()
@@ -22,6 +17,9 @@ ConnectionManager &ConnectionManager::Instance()
 
 bool ConnectionManager::AddLinkParentChild(GameObject *parent, GameObject *child)
 {
+	if (GetRelationship(parent, child) != ConnectionTypes::Unknown)
+		return false;
+
 	if (m_Children.find(parent->Id) == m_Children.end())
 		m_Children.insert({parent->Id, map<int, p_GameObjectWeak_t>()});
 
@@ -41,6 +39,9 @@ bool ConnectionManager::AddLinkParentChild(GameObject *parent, GameObject *child
 
 bool ConnectionManager::AddLinkIndependent(GameObject *object, GameObject *other)
 {
+	if (GetRelationship(object, other) != ConnectionTypes::Unknown)
+		return false;
+
 	auto index = Index(object->Id, other->Id);
 
 	// Check for duplicates
@@ -54,6 +55,9 @@ bool ConnectionManager::AddLinkIndependent(GameObject *object, GameObject *other
 
 bool ConnectionManager::AddLinkAdditional(GameObject *object, GameObject *other)
 {
+	if (GetRelationship(object, other) != ConnectionTypes::Unknown)
+		return false;
+
 	auto index = Index(object->Id, other->Id);
 
 	// Check for duplicates
@@ -129,9 +133,9 @@ set<p_GameObjectWeak_t> ConnectionManager::GetIndepentent(GameObject *object)
 	return list;
 }
 
-set<Connection> ConnectionManager::GetAllLinks(GameObject *object)
+set<Connection, ConnectionOrdering> ConnectionManager::GetAllLinks(GameObject *object)
 {
-	auto list = set<Connection>();
+	auto list = set<Connection, ConnectionOrdering>();
 
 	auto children = GetChildren(object);
 	auto parents = GetParents(object);
@@ -156,4 +160,23 @@ set<Connection> ConnectionManager::GetAllLinks(GameObject *object)
 void ConnectionManager::RemoveLinks(GameObject *object)
 {
 	// TODO: implement
+}
+
+ConnectionTypes ConnectionManager::GetRelationship(GameObject *object, GameObject *other)
+{
+	if (m_Independent.find(Index(object->Id, other->Id)) != m_Independent.end())
+		return ConnectionTypes::Independent;
+
+	if (m_Additionals.find(Index(object->Id, other->Id)) != m_Additionals.end())
+		return ConnectionTypes::Additional;
+
+	if (m_Children.find(object->Id) != m_Children.end() &&
+		m_Children[object->Id].find(other->Id) != m_Children[object->Id].end())
+		return ConnectionTypes::Child;
+
+	if (m_Children.find(other->Id) != m_Children.end() &&
+		m_Children[other->Id].find(object->Id) != m_Children[other->Id].end())
+		return ConnectionTypes::Parent;
+
+	return ConnectionTypes::Unknown;
 }

@@ -27,15 +27,9 @@ public:
     virtual void AddConnection(GameObject *object, GameObject *bindable);
 
     virtual bool HasConnection(int zoneId);
-    virtual bool HasConnection(
-        GameObject *object,
-        GameObject *bindable,
-        vec3 pos);
 
     virtual void RemoveConnection(GameObject *object, GameObject *bindable);
     virtual void RemoveConnections(GameObject *object);
-
-    vector<Connection> GetConnections();
 
     virtual bool CanResolve(GameObject *object, GameObject *bindable) = 0;
 

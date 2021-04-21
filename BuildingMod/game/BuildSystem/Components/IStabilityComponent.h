@@ -28,10 +28,9 @@ public:
     virtual AimTestResult TryConnect(ray ray, GameObject *object);
 
     virtual void AddConnection(GameObject *object);
-    virtual bool HasConnection(GameObject *object, vec3 pos);
     virtual void RemoveConnection(GameObject *object);
 
-    set<Connection> GetConnections();
+    set<Connection, ConnectionOrdering> GetConnections();
 
     virtual void CalculateStability() = 0;
 

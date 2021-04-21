@@ -5,6 +5,7 @@
 
 enum class ConnectionTypes
 {
+	Unknown,	// Изначальное состояние (нет соединения)
 	Child,		// Стабильность зависит от родительского объекта
 	Additional, // Добавляет стабильность соседним объектам
 	Parent,		// Влияет на стабильность дочерних объектов
@@ -15,9 +16,16 @@ struct Connection
 {
 	ConnectionTypes type;
 	p_GameObjectWeak_t ptr;
+};
 
-	friend bool operator<(const Connection &lhs, const Connection &rhs)
+struct ConnectionOrdering
+{
+	// impl of < operator
+	bool operator()(Connection const &lhs, Connection const &rhs) const
 	{
+		if (&lhs.ptr == &rhs.ptr)
+			return lhs.type < rhs.type;
+
 		return lhs.ptr < rhs.ptr;
 	}
 };

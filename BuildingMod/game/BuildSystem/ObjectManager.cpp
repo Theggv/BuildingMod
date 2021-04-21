@@ -60,6 +60,13 @@ bool ObjectManager::HasEdict(edict_t *edict)
 
 void ObjectManager::Clear()
 {
+	for (size_t i = 0; i < 64 * 64; i++)
+	{
+		m_ObjectsMapIndex[i].clear();
+	}
+
+	m_ObjectsEdictIndex.clear();
+
 	auto it = m_Objects.begin();
 
 	while (it != m_Objects.end())
@@ -98,41 +105,10 @@ p_GameObjectWeak_t ObjectManager::GetPtrByEdict(edict_t *edict)
 
 unsigned long ObjectManager::CalculateWorldPosition(float x, float y)
 {
-	// [-4096; 4096] -> [0; 8192]
-
 	auto _x = (unsigned int)(x + 4096) / 128;
 	auto _y = (unsigned int)(y + 4096) / 128;
 
 	return _x + _y * 64;
-
-	// old impl
-
-	// [-4096; 4096] -> [0; 8192]
-
-	// auto _x = (unsigned int)(x + 4096);
-	// auto _y = (unsigned int)(y + 4096);
-
-	// unsigned long position = 0;
-
-	// unsigned int flags = 0;
-	// unsigned int gridSize = 4096;
-
-	// for (int i = 0; i < 7; ++i)
-	// {
-	// 	flags = ((_x >= gridSize) << 1) | (_y >= gridSize);
-
-	// 	position |= flags << (i * 2);
-
-	// 	if (_x >= gridSize)
-	// 		_x -= gridSize;
-
-	// 	if (_y >= gridSize)
-	// 		_y -= gridSize;
-
-	// 	gridSize /= 2;
-	// }
-
-	// return position;
 }
 
 void ObjectManager::SetMapIndex(GameObject *object)
