@@ -1,24 +1,8 @@
-project(tests)
+# Utility tests
+add_subdirectory(Game)
 
-if(WIN32 AND NOT USE_CUSTOM_BOOST_PATH)
-	include_directories(${Boost_INCLUDE_DIRS})
-elseif(USE_CUSTOM_BOOST_PATH)
-	include_directories(${CUSTOM_BOOST_PATH})
-endif()
+# Memory tests
+add_subdirectory(Memory)
 
-file(GLOB TESTS_SOURCE "*.cpp")
-
-foreach(test ${TESTS_SOURCE})
-	get_filename_component(test_name ${test} NAME_WE)
-
-	add_executable(${test_name} ${test})
-
-	if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-		set_target_properties(${test_name} PROPERTIES PREFIX "" COMPILE_FLAGS "-m32" LINK_FLAGS "-m32" POSITION_INDEPENDENT_CODE ON)
-	endif()
-
-	target_link_libraries(${test_name} building_amxx_static)
-
-	add_test(${test_name} ${test_name})
-endforeach()
-
+# Utility tests
+add_subdirectory(Utility)

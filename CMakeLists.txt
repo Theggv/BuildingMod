@@ -1,12 +1,4 @@
-﻿# CMakeList.txt: проект CMake для BuildingMod; включите исходный код и определения,
-# укажите здесь логику для конкретного проекта.
-#
-cmake_minimum_required (VERSION 3.8)
-
-# THIS HAS TO COME BEFORE THE PROJECT LINE
-# set(CMAKE_C_COMPILER "/usr/lib/gcc")
-# set(CMAKE_CXX_COMPILER "/usr/lib/g++")
-# THIS HAS TO COME BEFORE THE PROJECT LINE
+﻿cmake_minimum_required (VERSION 3.8)
 
 project (building_amxx VERSION 1.0.0 LANGUAGES CXX)
 set(PROJECT building_amxx)
@@ -18,24 +10,19 @@ include(GNUInstallDirs)
 
 # Boost setup
 
-set(BOOST_ROOT "./deps/boost")
-set(BOOST_INCLUDE_DIR "./deps")
-set(Boost_INCLUDE_DIR "./deps")
-find_package(Boost)
-
+add_subdirectory(external/boost-cmake)
 
 # Dependencies
 set(CMAKE_INCLUDE_PATH
-	"deps"
-	"deps/boost"
-	"deps/metamod"
-	"deps/cssdk/common"
-	"deps/cssdk/dlls"
-	"deps/cssdk/engine"
-	"deps/cssdk/game_shared"
-	"deps/cssdk/pm_shared"
-	"deps/cssdk/public"
-	"BuildingMod"
+	"external"
+	"external/metamod"
+	"external/cssdk/common"
+	"external/cssdk/dlls"
+	"external/cssdk/engine"
+	"external/cssdk/game_shared"
+	"external/cssdk/pm_shared"
+	"external/cssdk/public"
+	"src"
 )
 
 add_definitions(
@@ -49,13 +36,11 @@ add_definitions(
 
 include_directories(
 	${CMAKE_INCLUDE_PATH}
-	${BOOST_INCLUDE_DIR}
+	${CMAKE_BINARY_DIR}/_deps/boost-src
 )
 
 # Src
-add_subdirectory(BuildingMod)
+add_subdirectory(src)
 
 # Tests
-include(CTest)
-enable_testing()
 add_subdirectory(test)
