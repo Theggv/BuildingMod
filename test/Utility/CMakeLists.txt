@@ -12,6 +12,6 @@ add_test(
 	NAME
 		UtilityTests 
 	COMMAND
-		${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/UtilityTests
+		UtilityTests
 )
 

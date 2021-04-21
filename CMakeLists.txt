@@ -43,4 +43,7 @@ include_directories(
 add_subdirectory(src)
 
 # Tests
+include(CTest)
+enable_testing()
+
 add_subdirectory(test)
