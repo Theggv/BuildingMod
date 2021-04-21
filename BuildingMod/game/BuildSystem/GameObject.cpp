@@ -19,7 +19,12 @@ GameObject::GameObject() : Id(m_IdGenerator)
 
 GameObject::~GameObject()
 {
-	// Trick to clear memory allocated by stl container
+	for (auto component : m_Components)
+		delete component;
+
+	m_Components.clear();
+
+	// Trick to clear memory allocated by STL container
 	set<IComponent *>().swap(m_Components);
 
 	delete this->m_TransformObserver;

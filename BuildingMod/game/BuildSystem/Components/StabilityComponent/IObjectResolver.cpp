@@ -2,10 +2,13 @@
 #include "IConnectionPoints.h"
 #include "../IStabilityComponent.h"
 
+#include <game/BuildSystem/ConnectionManager.h>
+
 IObjectResolver::~IObjectResolver()
 {
 	delete m_Successor;
 	delete m_Handler;
+	delete m_Visualizer;
 }
 
 void IObjectResolver::SetSuccessor(IObjectResolver *successor)
@@ -43,6 +46,21 @@ void IObjectResolver::AddConnection(
 	{
 		m_Connections.insert(
 			{zoneId, ObjectManager::Instance().GetPtr(bindable->Id)});
+	}
+
+	switch (type)
+	{
+	case ConnectionTypes::Additional:
+		ConnectionManager::Instance().AddLinkAdditional(object, bindable);
+		break;
+
+	case ConnectionTypes::Child:
+		ConnectionManager::Instance().AddLinkParentChild(object, bindable);
+		break;
+
+	case ConnectionTypes::Independent:
+		ConnectionManager::Instance().AddLinkIndependent(object, bindable);
+		break;
 	}
 
 	GenerateZones();

@@ -42,7 +42,6 @@ public:
 
 	Transform *GetTransform();
 
-	// TODO: uznat' che eta hernya delaet
 	unsigned long GetWorldPositionFlags();
 
 
@@ -55,7 +54,7 @@ public:
 	BuildState GetState();
 	bool TrySetState(BuildState state);
 
-	virtual void Connect(GameObject *other) = 0;
+	virtual void Connect(GameObject *other);
 
 protected:
 	set<IComponent *> m_Components;

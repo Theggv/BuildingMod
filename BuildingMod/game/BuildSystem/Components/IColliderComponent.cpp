@@ -15,8 +15,8 @@ IColliderComponent::~IColliderComponent()
 	for (auto edict : m_InvisibleEdicts)
 		REMOVE_ENTITY(edict);
 
-	m_VisibleEdicts.clear();
-	m_InvisibleEdicts.clear();
+	set<edict_t*>().swap(m_VisibleEdicts);
+	set<edict_t*>().swap(m_InvisibleEdicts);
 
 	delete m_Shape;
 }
@@ -61,7 +61,6 @@ void IColliderComponent::OnStateUpdated()
 		for (auto pEntity : m_VisibleEdicts)
 		{
 			pEntity->v.solid = SOLID_BBOX;
-			// pEntity->v.solid = SOLID_NOT;
 
 			SET_SIZE(pEntity, Vector(-64, -64, 0), Vector(64, 64, 128));
 
@@ -72,7 +71,6 @@ void IColliderComponent::OnStateUpdated()
 		for (auto pEntity : m_InvisibleEdicts)
 		{
 			pEntity->v.solid = SOLID_BBOX;
-			// pEntity->v.solid = SOLID_NOT;
 
 			SET_SIZE(pEntity, Vector(-64, -64, 0), Vector(64, 64, 128));
 		}
@@ -92,7 +90,8 @@ void IColliderComponent::OnStateUpdated()
 		for (auto pEntity : m_InvisibleEdicts)
 			pEntity->v.solid = SOLID_NOT;
 
-		break;
+		break;\
+		
 	case BuildState::STATE_CAN_BUILD:
 		for (auto pEntity : m_VisibleEdicts)
 		{
