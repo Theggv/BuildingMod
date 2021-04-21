@@ -52,10 +52,12 @@ include_directories(
 	${BOOST_INCLUDE_DIR}
 )
 
-include(CTest)
-enable_testing()
+
 
 # Src
 add_subdirectory(BuildingMod)
-add_subdirectory(test)
 
+# Tests
+include(CTest)
+enable_testing()
+add_subdirectory(test)
