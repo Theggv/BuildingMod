@@ -112,6 +112,7 @@ if(UNIX)
 		-D_vsnwprintf=vswprintf
 	)
 
+	target_link_libraries(building_amxx_static dl)
 	set_property(TARGET building_amxx_static PROPERTY LIBRARY_OUTPUT_NAME building_amxx_i386_static)
 else()
 	set_target_properties(building_amxx_static PROPERTIES PREFIX "")

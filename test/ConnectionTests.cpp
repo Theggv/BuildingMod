@@ -1,12 +1,11 @@
 #define BOOST_TEST_MODULE ConnectionTests
 
 #include <pch.h>
-
 #include <boost/test/included/unit_test.hpp>
+
 #include <game/BuildSystem/BuildingObjects/Objects.h>
 #include <game/BuildSystem/BuildingObjects/Foundations/FoundationSquare/StabilityComponent.h>
 #include <game/BuildSystem/BuildingObjects/Walls/WallFull/StabilityComponent.h>
-#include <game/BuildSystem/GameObjectFactory.h>
 #include <game/BuildSystem/ConnectionManager.h>
 
 class FoundationSquareMock : public FoundationSquare

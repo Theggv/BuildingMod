@@ -52,8 +52,6 @@ include_directories(
 	${BOOST_INCLUDE_DIR}
 )
 
-
-
 # Src
 add_subdirectory(BuildingMod)
 
