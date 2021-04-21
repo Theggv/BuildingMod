@@ -58,19 +58,20 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C $BUILD_TYPE
       
-    - name: Generate artifact
-      env:
-        ARCHIVE_NAME: BuildingMod-$BUILD_TYPE-linux.zip
+    - name: Prepare artifacts
       run: |
-        mkdir data\assets\addons\amxmodx\modules; |
-        cp BuildingMod\$BUILD_TYPE\building_amxx_i386.so data\assets\addons\amxmodx\modules\building_amxx_i386.so; |
-        7z a $ARCHIVE_NAME data/assets
+        mkdir publish
+        mkdir publish\linux32
+        mkdir publish\linux32\$BUILD_TYPE
+        mkdir publish\assets
+        move BuildingMod\$BUILD_TYPE\building_amxx_i386.so publish\linux32\$BUILD_TYPE\building_amxx_i386.so
+        move data\assets publish\assets
         
-    - name: Upload artifact
+    - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: building_amxx
-        path: $ARCHIVE_NAME
+        name: linux32
+        path: publish/*
       
   build-win:
     runs-on: windows-latest
@@ -124,16 +125,17 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C $BUILD_TYPE
       
-    - name: Generate artifact
-      env:
-        ARCHIVE_NAME: BuildingMod-$BUILD_TYPE-win.zip
+    - name: Prepare artifacts
       run: |
-        mkdir data\assets\addons\amxmodx\modules; |
-        cp BuildingMod\$BUILD_TYPE\building_amxx.dll data\assets\addons\amxmodx\modules\building_amxx.dll; |
-        7z a $ARCHIVE_NAME data/assets;
+        mkdir publish
+        mkdir publish\win32
+        mkdir publish\win32\$BUILD_TYPE
+        mkdir publish\assets
+        move BuildingMod\$BUILD_TYPE\building_amxx.dll publish\win32\$BUILD_TYPE\building_amxx.dll
+        move data\assets publish\assets
         
-    - name: Upload artifact
+    - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: building_amxx
-        path: $ARCHIVE_NAME
+        name: win32
+        path: publish/*
