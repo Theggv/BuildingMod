@@ -30,9 +30,10 @@ add_definitions(
 	-DHAVE_STRONG_TYPEDEF
 	-DNO_MSVC8_AUTO_COMPAT
 	-DHAVE_STDINT_H
-	-D_DEBUG
 	-D_MBCS
 )
+
+add_compile_options("$<$<CONFIG:DEBUG>:-DDEBUG>")
 
 include_directories(
 	${CMAKE_INCLUDE_PATH}
