@@ -6,7 +6,7 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 	set_target_properties(UtilityTests PROPERTIES PREFIX "" COMPILE_FLAGS "-m32" LINK_FLAGS "-m32" POSITION_INDEPENDENT_CODE ON)
 endif()
 
-target_link_libraries(UtilityTests building_amxx_static Boost::unit_test_framework)
+target_link_libraries(UtilityTests building_amxx_static)
 
 add_test(
 	NAME

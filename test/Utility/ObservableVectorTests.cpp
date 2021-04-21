@@ -1,7 +1,8 @@
-#define BOOST_TEST_MODULE ObservableVector
+#define BOOST_TEST_NO_LIB
 
 #include <pch.h>
 #include <boost/test/unit_test.hpp>
+
 #include <game/Utility/IObserver.h>
 #include <game/Utility/ObservableVector.h>
 
@@ -12,6 +13,8 @@ public:
     bool IsUpdated;
     virtual void Update() override { IsUpdated = true; }
 };
+
+BOOST_AUTO_TEST_SUITE(ObservableVectorTests)
 
 BOOST_AUTO_TEST_CASE(ObservableVectorCreate)
 {
@@ -35,3 +38,5 @@ BOOST_AUTO_TEST_CASE(TransformObserverTest)
 {
 
 }
+
+BOOST_AUTO_TEST_SUITE_END()

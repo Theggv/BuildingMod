@@ -1,4 +1,6 @@
-﻿#include <pch.h>
+﻿#define BOOST_TEST_NO_LIB
+
+#include <pch.h>
 #include <boost/test/unit_test.hpp>
 
 #include <game/BuildSystem/GameObject.h>
