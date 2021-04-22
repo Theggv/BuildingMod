@@ -1,5 +1,3 @@
-#define BOOST_TEST_NO_LIB
-
 #include <pch.h>
 #include <boost/test/unit_test.hpp>
 
@@ -7,7 +5,7 @@
 
 BOOST_AUTO_TEST_SUITE(TransformTests)
 
-BOOST_AUTO_TEST_CASE(TransformCreateTest)
+BOOST_AUTO_TEST_CASE(TransformCreateSuite)
 {
 	auto transform = new Transform;
 	delete transform;

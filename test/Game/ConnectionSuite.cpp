@@ -1,5 +1,3 @@
-#define BOOST_TEST_NO_LIB
-
 #include <pch.h>
 #include <boost/test/unit_test.hpp>
 
@@ -49,7 +47,7 @@ void MakeSolid(GameObject *object)
 	object->TrySetState(BuildState::STATE_SOLID);
 }
 
-BOOST_AUTO_TEST_SUITE(ConnectionTests)
+BOOST_AUTO_TEST_SUITE(ConnectionSuite)
 
 BOOST_AUTO_TEST_CASE(ConnectionManagerTest)
 {
@@ -129,12 +127,103 @@ BOOST_AUTO_TEST_CASE(ComplexConnectionTest)
 	auto links3 = ConnectionManager::Instance().GetAdditionals(wall1);
 	auto links4 = ConnectionManager::Instance().GetParents(wall1);
 
-	// TODO not implemented yet
-	// BOOST_CHECK_EQUAL(links3.size(), 1); 
+	BOOST_CHECK_EQUAL(links3.size(), 1);
 	BOOST_CHECK_EQUAL(links4.size(), 2);
 
 	delete foundation1;
 	delete foundation2;
+
+	delete wall1;
+	delete wall2;
+
+	ObjectManager::Instance().Clear();
+}
+
+BOOST_AUTO_TEST_CASE(BasicAdditionalConnectionTest)
+{
+	auto wall1 = InitObject(new WallFullMock(nullptr));
+	MakeSolid(wall1);
+
+	// Стена изначально расположена параллельно оси y
+	auto wall2 = InitObject(new WallFullMock(nullptr));
+	wall2->GetTransform()->GetPosition()->y(FoundationSquare::m_ModelSize);
+	MakeSolid(wall2);
+
+	auto wall1Links = ConnectionManager::Instance().GetAdditionals(wall1);
+	auto wall2Links = ConnectionManager::Instance().GetAdditionals(wall2);
+
+	BOOST_CHECK_EQUAL(wall1Links.size(), 1);
+	BOOST_CHECK_EQUAL(wall2Links.size(), 1);
+
+	delete wall1;
+	delete wall2;
+
+	ObjectManager::Instance().Clear();
+}
+
+BOOST_AUTO_TEST_CASE(BasicAdditionalConnectionTest2)
+{
+	auto wall1 = InitObject(new WallFullMock(nullptr));
+	wall1->GetTransform()->GetRotation()->y(90); // Параллельно x
+	MakeSolid(wall1);
+
+	// Стена изначально расположена параллельно оси y
+	auto wall2 = InitObject(new WallFullMock(nullptr));
+	wall2->GetTransform()->GetRotation()->y(90); // Параллельно x
+	wall2->GetTransform()->GetPosition()->x(FoundationSquare::m_ModelSize);
+	MakeSolid(wall2);
+
+	auto wall1Links = ConnectionManager::Instance().GetAdditionals(wall1);
+	auto wall2Links = ConnectionManager::Instance().GetAdditionals(wall2);
+
+	BOOST_CHECK_EQUAL(wall1Links.size(), 1);
+	BOOST_CHECK_EQUAL(wall2Links.size(), 1);
+
+	delete wall1;
+	delete wall2;
+
+	ObjectManager::Instance().Clear();
+}
+
+BOOST_AUTO_TEST_CASE(BasicAdditionalConnectionTest3)
+{
+	auto wall1 = InitObject(new WallFullMock(nullptr));
+	wall1->GetTransform()->GetRotation()->y(90); // Параллельно x
+	MakeSolid(wall1);
+
+	// Стена изначально расположена параллельно оси y
+	auto wall2 = InitObject(new WallFullMock(nullptr));
+	wall2->GetTransform()->GetRotation()->y(90); // Параллельно x
+	wall2->GetTransform()->GetPosition()->y(FoundationSquare::m_ModelSize);
+	MakeSolid(wall2);
+
+	auto wall1Links = ConnectionManager::Instance().GetAdditionals(wall1);
+	auto wall2Links = ConnectionManager::Instance().GetAdditionals(wall2);
+
+	BOOST_CHECK_EQUAL(wall1Links.size(), 0);
+	BOOST_CHECK_EQUAL(wall2Links.size(), 0);
+
+	delete wall1;
+	delete wall2;
+
+	ObjectManager::Instance().Clear();
+}
+
+BOOST_AUTO_TEST_CASE(BasicAdditionalConnectionTest4)
+{
+	auto wall1 = InitObject(new WallFullMock(nullptr));
+	MakeSolid(wall1);
+
+	// Стена изначально расположена параллельно оси y
+	auto wall2 = InitObject(new WallFullMock(nullptr));
+	wall2->GetTransform()->GetPosition()->z(FoundationSquare::m_ModelSize);
+	MakeSolid(wall2);
+
+	auto wall1Links = ConnectionManager::Instance().GetAdditionals(wall1);
+	auto wall2Links = ConnectionManager::Instance().GetAdditionals(wall2);
+
+	BOOST_CHECK_EQUAL(wall1Links.size(), 0);
+	BOOST_CHECK_EQUAL(wall2Links.size(), 0);
 
 	delete wall1;
 	delete wall2;

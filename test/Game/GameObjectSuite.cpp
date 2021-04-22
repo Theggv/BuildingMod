@@ -1,5 +1,3 @@
-#define BOOST_TEST_NO_LIB
-
 #include <pch.h>
 #include <boost/test/unit_test.hpp>
 
@@ -11,7 +9,7 @@ public:
 	inline void Connect(GameObject *other) override {}
 };
 
-BOOST_AUTO_TEST_SUITE(GameObjectTests)
+BOOST_AUTO_TEST_SUITE(GameObjectSuite)
 
 BOOST_AUTO_TEST_CASE(GameObjectDestructTest)
 {

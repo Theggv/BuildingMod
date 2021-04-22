@@ -1,3 +1,2 @@
-#define BOOST_TEST_NO_LIB 
-#define BOOST_TEST_MODULE "Game Tests"
+#define BOOST_TEST_MODULE "GameTests"
 #include <boost/test/included/unit_test.hpp>

@@ -1,6 +1,4 @@
-﻿#define BOOST_TEST_NO_LIB
-
-#include <pch.h>
+﻿#include <pch.h>
 #include <boost/test/unit_test.hpp>
 
 #include <game/BuildSystem/GameObject.h>
@@ -12,7 +10,7 @@ public:
 	void Connect(GameObject *other) override {}
 };
 
-BOOST_AUTO_TEST_SUITE(ComponentsTests)
+BOOST_AUTO_TEST_SUITE(ComponentsSuite)
 
 BOOST_AUTO_TEST_CASE(GameObjectMemoryTest)
 {

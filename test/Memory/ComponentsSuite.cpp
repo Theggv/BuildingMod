@@ -1,6 +1,4 @@
-﻿#define BOOST_TEST_NO_LIB
-
-#include <pch.h>
+﻿#include <pch.h>
 #include <boost/test/unit_test.hpp>
 
 #include <game/BuildSystem/Components/IComponent.h>
@@ -50,7 +48,7 @@ public:
 	}
 };
 
-BOOST_AUTO_TEST_SUITE(ComponentsTests)
+BOOST_AUTO_TEST_SUITE(ComponentsSuite)
 
 BOOST_AUTO_TEST_CASE(IComponentMemoryTest)
 {

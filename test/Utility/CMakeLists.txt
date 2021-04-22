@@ -1,5 +1,6 @@
 ﻿file(GLOB_RECURSE TESTS_SOURCE "*.cpp")
 
+add_definitions(-DBOOST_TEST_NO_LIB)
 add_executable(UtilityTests ${TESTS_SOURCE})
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")

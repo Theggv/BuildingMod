@@ -1,5 +1,3 @@
-#define BOOST_TEST_NO_LIB
-
 #include <pch.h>
 #include <boost/test/unit_test.hpp>
 
@@ -14,7 +12,7 @@ public:
     virtual void Update() override { IsUpdated = true; }
 };
 
-BOOST_AUTO_TEST_SUITE(ObservableVectorTests)
+BOOST_AUTO_TEST_SUITE(ObservableVectorSuite)
 
 BOOST_AUTO_TEST_CASE(ObservableVectorCreate)
 {

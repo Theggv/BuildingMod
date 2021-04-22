@@ -1,12 +1,10 @@
-#define BOOST_TEST_NO_LIB
-
 #include <pch.h>
 #include <boost/test/unit_test.hpp>
 
 #include <game/BuildSystem/ObjectManager.h>
 #include <game/Geometry.h>
 
-BOOST_AUTO_TEST_SUITE(GeometryTests)
+BOOST_AUTO_TEST_SUITE(GeometrySuite)
 
 BOOST_AUTO_TEST_CASE(GeometryTriangleTriangleInterTest)
 {
