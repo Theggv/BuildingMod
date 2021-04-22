@@ -76,7 +76,7 @@ bool Shape::IsIntersect(Shape other)
     for (size_t i = 0; i < _initialPoints.size(); ++i)
     {
         size_t j = (i == _initialPoints.size() - 1) ? 0 : i + 1;
-        
+
         auto vec = _initialPoints[i] - _initialPoints[j];
         auto normal = vec2(-vec.y, vec.x);
 
@@ -133,4 +133,9 @@ std::vector<Triangle> Shape::Triangulate()
     }
 
     return triangles;
+}
+
+std::vector<vec3> Shape::GetPoints(bool transformed)
+{
+    return transformed ? _transformedPoints : _initialPoints;
 }

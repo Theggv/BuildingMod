@@ -24,6 +24,11 @@ public:
 	vec2 GetCenter();
 
 	std::vector<Triangle> Triangulate();
+	/**
+	 * Get all points of shape
+	 * @param transformed Initial (false) or transformed (true) points 
+	 */
+	std::vector<vec3> GetPoints(bool transformed = true);
 
 private:
 	std::vector<vec3> _initialPoints;

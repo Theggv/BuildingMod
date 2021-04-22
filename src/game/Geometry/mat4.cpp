@@ -16,10 +16,13 @@ mat4::mat4(std::vector<double> matrix)
 
 mat4 mat4::RotationMatrix(double angleDegrees)
 {
-    double angleRad = angleDegrees * M_PI / 180;
+    double angleRad = angleDegrees * acos(0.0) / 90;
 
-    return mat4({cos(angleRad), -sin(angleRad), 0, 0,
-                 sin(angleRad), cos(angleRad), 0, 0,
+    double cos_ = cos(angleRad);
+    double sin_ = sin(angleRad);
+
+    return mat4({cos_, -sin_, 0, 0,
+                 sin_, cos_, 0, 0,
                  0, 0, 1, 0,
                  0, 0, 0, 1});
 }

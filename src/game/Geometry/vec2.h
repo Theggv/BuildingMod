@@ -56,4 +56,9 @@ public:
 	int operator!=(vec2);
 };
 
+inline bool IsEqual(double a, double b)
+{
+	return fabs(a - b) < 1e-7;
+}
+
 #endif // !_GAME_GEOMETRY_VEC2_H_

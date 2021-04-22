@@ -154,7 +154,7 @@ vec3 operator/(vec3 vec, double s)
 
 int vec3::operator==(vec3 vec)
 {
-    return (x == vec.x) && (y == vec.y) && (z == vec.z);
+    return IsEqual(x, vec.x) && IsEqual(y, vec.y) && IsEqual(z, vec.z);
 }
 
 int vec3::operator!=(vec3 vec)

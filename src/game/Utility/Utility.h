@@ -11,6 +11,8 @@ extern map<string, string_t> m_AllocatedStrings;
 int IsEntValid(int index);
 int IsEntValid(edict_t* pEntity);
 
+bool IsEqual(double a, double b);
+
 enum MessageDest
 {
 	PrintNofity = 1,

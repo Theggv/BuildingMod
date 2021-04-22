@@ -140,7 +140,7 @@ vec2 operator/(vec2 vec, double s)
 
 int vec2::operator==(vec2 vec)
 {
-	return (x == vec.x) && (y == vec.y);
+	return IsEqual(x, vec.x) && IsEqual(y, vec.y);
 }
 
 int vec2::operator!=(vec2 vec)
