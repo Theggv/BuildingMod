@@ -1,0 +1,5 @@
+LIBRARY building_amxx_i386
+EXPORTS
+	GiveFnptrsToDll			@1
+SECTIONS
+	.data READ WRITE

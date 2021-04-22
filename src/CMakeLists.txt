@@ -54,7 +54,7 @@ endif()
 
 # Setup shared library
 
-add_library(${PROJECT} SHARED ${PCH} ${COMMON_HEADERS} ${SRC} ${SRC_DEPS})
+add_library(${PROJECT} SHARED ${PCH} ${COMMON_HEADERS} ${SRC} ${SRC_DEPS} "BuildingMod.def")
 target_include_directories(${PROJECT} PUBLIC ${SRC_DIRS})
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
