@@ -100,8 +100,8 @@ AimTestResult WallFull::AimTest(ray ray)
 
 Shape WallFull::GetShape(AimTestResult res)
 {
-	auto half = m_ModelSize / 2 - 1;
-	auto full = m_ModelSize - 1;
+	auto half = m_ModelSize / 2;
+	auto full = m_ModelSize;
 
 	std::vector<vec3> points = {
 		vec3(-half, 0, 0),

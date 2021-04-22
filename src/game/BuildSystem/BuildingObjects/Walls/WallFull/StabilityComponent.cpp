@@ -1,15 +1,20 @@
 #include "StabilityComponent.h"
 
 // Object resolvers
+#include "../Resolvers/AdditionalResolver.h"
 #include "Resolvers/Wall/WallResolver.h"
 
+using namespace WallsResolvers;
 using namespace WallFullResolvers;
 
 StabilityComponent::StabilityComponent()
 {
+    auto additionalResolver = new AdditionalResolver;
     auto wallResolver = new WallResolver;
 
-    m_ObjectResolver = wallResolver;
+    additionalResolver->SetSuccessor(wallResolver);
+
+    m_ObjectResolver = additionalResolver;
 }
 
 void StabilityComponent::CalculateStability()

@@ -67,10 +67,10 @@ private:
 		// impl of < operator
 		bool operator()(Index const &lhs, Index const &rhs) const
 		{
-			if (lhs.firstIndex == rhs.firstIndex)
-				return lhs.secondIndex < rhs.secondIndex;
+			if (min(lhs.firstIndex, lhs.secondIndex) == min(rhs.firstIndex, rhs.secondIndex))
+				return max(lhs.firstIndex, lhs.secondIndex) < max(rhs.firstIndex, rhs.secondIndex);
 
-			return lhs.firstIndex < rhs.firstIndex;
+			return min(lhs.firstIndex, lhs.secondIndex) < min(rhs.firstIndex, rhs.secondIndex);
 		}
 	};
 

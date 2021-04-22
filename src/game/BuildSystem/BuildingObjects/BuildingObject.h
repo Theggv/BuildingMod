@@ -13,12 +13,12 @@ class BuildingObject : public GameObject
 {
 public:
 	BuildingObject(edict_t *owner);
-	
+
+	virtual Shape GetShape();
 protected:
 	virtual void AimHandler() = 0;
 	virtual AimTestResult AimTest(ray ray) = 0;
 
-	virtual Shape GetShape();
 	virtual Shape GetShape(AimTestResult result) = 0;
 };
 

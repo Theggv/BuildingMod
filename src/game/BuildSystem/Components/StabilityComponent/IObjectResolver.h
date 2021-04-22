@@ -44,7 +44,7 @@ protected:
     vector<vector<Triangle>> m_Zones;
     map<int, p_GameObjectWeak_t> m_Connections; // [key - zoneId, value - ptr]
 
-private:
+protected:
     IObjectResolver *m_Successor = nullptr;
     VisualizerComponent *m_Visualizer = new VisualizerComponent(0.2);
 };

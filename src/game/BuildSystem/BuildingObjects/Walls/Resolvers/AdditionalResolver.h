@@ -15,6 +15,7 @@ namespace WallsResolvers
 {
 	class AdditionalResolver : public IObjectResolver
 	{
+
 	public:
 		AdditionalResolver();
 
@@ -26,6 +27,9 @@ namespace WallsResolvers
 
 	protected:
 		void GenerateZones() override;
+
+	private:
+		bool IsTouch(Shape, Shape);
 	};
 }
 
