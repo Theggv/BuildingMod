@@ -11,7 +11,7 @@
 
 using namespace std;
 
-namespace WallsResolvers
+namespace WallBaseResolvers
 {
 	class AdditionalResolver : public IObjectResolver
 	{

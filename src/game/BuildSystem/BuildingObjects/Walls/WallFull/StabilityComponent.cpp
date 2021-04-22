@@ -4,7 +4,7 @@
 #include "../Resolvers/AdditionalResolver.h"
 #include "Resolvers/Wall/WallResolver.h"
 
-using namespace WallsResolvers;
+using namespace WallBaseResolvers;
 using namespace WallFullResolvers;
 
 StabilityComponent::StabilityComponent()
@@ -15,9 +15,4 @@ StabilityComponent::StabilityComponent()
     additionalResolver->SetSuccessor(wallResolver);
 
     m_ObjectResolver = additionalResolver;
-}
-
-void StabilityComponent::CalculateStability()
-{
-    m_Stability = 1.0;
 }

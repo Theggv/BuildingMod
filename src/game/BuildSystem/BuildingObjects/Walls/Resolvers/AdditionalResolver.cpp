@@ -1,7 +1,7 @@
 #include "AdditionalResolver.h"
 #include <game/BuildSystem/ConnectionManager.h>
 
-using namespace WallsResolvers;
+using namespace WallBaseResolvers;
 
 AdditionalResolver::AdditionalResolver()
 {

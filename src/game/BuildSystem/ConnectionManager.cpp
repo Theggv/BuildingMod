@@ -1,4 +1,5 @@
 #include "ConnectionManager.h"
+#include <game/BuildSystem/Components/IStabilityComponent.h>
 
 ConnectionManager::ConnectionManager()
 {
@@ -34,7 +35,17 @@ bool ConnectionManager::AddLinkParentChild(GameObject *parent, GameObject *child
 		{parent->Id,
 		 ObjectManager::Instance().GetPtr(parent->Id)});
 
-	return res1.second && res2.second;
+	auto res = res1.second && res2.second;
+
+	if (res)
+	{
+		auto stability = parent->GetComponent<IStabilityComponent>();
+
+		if (stability != nullptr)
+			stability->CalculateStability();
+	}
+
+	return res;
 }
 
 bool ConnectionManager::AddLinkIndependent(GameObject *object, GameObject *other)
@@ -65,6 +76,12 @@ bool ConnectionManager::AddLinkAdditional(GameObject *object, GameObject *other)
 		return false;
 
 	m_Additionals.insert(index);
+
+	if (object->GetComponent<IStabilityComponent>() != nullptr)
+		object->GetComponent<IStabilityComponent>()->CalculateStability();
+
+	if (other->GetComponent<IStabilityComponent>() != nullptr)
+		other->GetComponent<IStabilityComponent>()->CalculateStability();
 
 	return true;
 }

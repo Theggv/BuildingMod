@@ -16,7 +16,13 @@ StabilityComponent::StabilityComponent()
     m_ObjectResolver = foundationResolver;
 }
 
-void StabilityComponent::CalculateStability()
+void StabilityComponent::CalculateStability(int cycle)
 {
+    // prevent random loop recursion
+    if (cycle >= 100)
+        return;
+
     m_Stability = 1.0;
+
+    UpdateDependentObjects(cycle + 1);
 }

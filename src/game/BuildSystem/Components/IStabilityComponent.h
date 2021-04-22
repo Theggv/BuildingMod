@@ -19,26 +19,28 @@ class IComponent;
 class IStabilityComponent : public IComponent
 {
 public:
-    IStabilityComponent();
-    virtual ~IStabilityComponent();
+	IStabilityComponent();
+	virtual ~IStabilityComponent();
 
-    /**
+	/**
      * object - объект, который необходимо прибиндить
      * */
-    virtual AimTestResult TryConnect(ray ray, GameObject *object);
+	virtual AimTestResult TryConnect(ray ray, GameObject *object);
 
-    virtual void AddConnection(GameObject *object);
-    virtual void RemoveConnection(GameObject *object);
+	virtual void AddConnection(GameObject *object);
+	virtual void RemoveConnection(GameObject *object);
 
-    set<Connection, ConnectionOrdering> GetConnections();
+	set<Connection, ConnectionOrdering> GetConnections();
 
-    virtual void CalculateStability() = 0;
+	virtual void CalculateStability(int cycle = 0) = 0;
 
-    double GetStability();
+	double GetStability();
 
 protected:
-    IObjectResolver *m_ObjectResolver = nullptr;
-    double m_Stability;
+	void UpdateDependentObjects(int cycle = 0);
+
+	IObjectResolver *m_ObjectResolver = nullptr;
+	double m_Stability;
 };
 
 #endif // !_BUILDINGOBJECTS_COMPONENTS_ISTABILITYCOMPONENT_

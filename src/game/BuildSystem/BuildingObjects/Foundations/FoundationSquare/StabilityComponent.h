@@ -18,7 +18,7 @@ namespace FoundationSquareResolvers
     public:
         StabilityComponent();
 
-        virtual void CalculateStability() override;
+        virtual void CalculateStability(int cycle = 0) override;
     };
 }
 

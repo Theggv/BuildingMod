@@ -14,13 +14,13 @@
 class StabilityComponentMock : public IStabilityComponent
 {
 public:
-	virtual void CalculateStability() override {}
+	virtual void CalculateStability(int cycle = 0) override {}
 };
 
 class ObjectResolverMock : public IObjectResolver
 {
 public:
-	virtual bool CanResolve(GameObject *object, GameObject *bindable) override
+	virtual bool CanResolve(GameObject* object, GameObject* bindable) override
 	{
 		return false;
 	}
@@ -32,12 +32,12 @@ protected:
 class ConnectionPointsMock : public IConnectionPoints
 {
 public:
-	virtual AimTestResult GetConnectionPoint(GameObject *object, GameObject *bindable, int zoneId) override
+	virtual AimTestResult GetConnectionPoint(GameObject* object, GameObject* bindable, int zoneId) override
 	{
 		return AimTestResult(false);
 	}
 
-	virtual int GetZoneIdByPosition(GameObject *object, GameObject *bindable, vec3 pos) override
+	virtual int GetZoneIdByPosition(GameObject* object, GameObject* bindable, vec3 pos) override
 	{
 		return 0;
 	}

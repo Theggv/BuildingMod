@@ -8,15 +8,21 @@ using namespace FoundationTriangleResolvers;
 
 StabilityComponent::StabilityComponent()
 {
-    auto foundationResolver = new FoundationResolver;
-    auto wallResolver = new WallResolver;
+	auto foundationResolver = new FoundationResolver;
+	auto wallResolver = new WallResolver;
 
-    foundationResolver->SetSuccessor(wallResolver);
+	foundationResolver->SetSuccessor(wallResolver);
 
-    m_ObjectResolver = foundationResolver;
+	m_ObjectResolver = foundationResolver;
 }
 
-void StabilityComponent::CalculateStability()
+void StabilityComponent::CalculateStability(int cycle)
 {
-    m_Stability = 1.0;
+	// prevent random loop recursion
+	if (cycle >= 100)
+		return;
+
+	m_Stability = 1.0;
+
+	UpdateDependentObjects(cycle + 1);
 }
