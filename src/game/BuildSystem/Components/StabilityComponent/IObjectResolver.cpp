@@ -168,13 +168,13 @@ AimTestResult IObjectResolver::TryConnect(ray ray, GameObject *object, GameObjec
 	if (minZone == -1)
 		return AimTestResult(false);
 
-	// if (m_Visualizer != nullptr)
-	// {
-	//     if (!m_Visualizer->IsEnabled())
-	//         m_Visualizer->Enable();
+	if (m_Visualizer != nullptr)
+	{
+	    if (!m_Visualizer->IsEnabled())
+	        m_Visualizer->Enable();
 
-	//     m_Visualizer->Visualize(GetTransformedZone(object, minZone));
-	// }
+	    m_Visualizer->Visualize(GetTransformedZone(object, minZone));
+	}
 
 	return m_Handler->GetConnectionPoint(object, bindable, minZone);
 }
@@ -187,7 +187,7 @@ vector<Triangle> IObjectResolver::GetTransformedZone(GameObject *object, int zon
 	vec3 pos = *object->GetTransform()->GetPosition();
 	vec3 rot = *object->GetTransform()->GetRotation();
 
-	mat4 mat = mat4::RotationMatrix(90 - rot.y) *
+	mat4 mat = mat4::RotationMatrix(rot.y) *
 			   mat4::TranslateMatrix(pos);
 
 	for (auto &triangle : m_Zones[zoneId])

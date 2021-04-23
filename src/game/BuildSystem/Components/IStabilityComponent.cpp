@@ -11,6 +11,16 @@ IStabilityComponent::~IStabilityComponent()
 	delete m_ObjectResolver;
 }
 
+void IStabilityComponent::OnStateUpdated()
+{
+	IComponent::OnStateUpdated();
+
+	if (m_Parent->GetState() != BuildState::STATE_SOLID)
+		return;
+
+	CalculateStability();
+}
+
 void IStabilityComponent::UpdateDependentObjects(int cycle)
 {
 	// prevent random loop recursion

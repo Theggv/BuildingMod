@@ -22,6 +22,8 @@ public:
 	IStabilityComponent();
 	virtual ~IStabilityComponent();
 
+	void OnStateUpdated() override;
+
 	/**
      * object - объект, который необходимо прибиндить
      * */

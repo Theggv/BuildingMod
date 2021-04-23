@@ -25,7 +25,7 @@ void WallFull::OnStart()
 {
 	WallBase::OnStart();
 
-	auto renderer = new RendererComponent;
+	auto renderer = new RendererComponent(-90);
 	renderer->SetModel(PrecacheManager::Instance().GetWallModel());
 
 	AddComponent(renderer);
@@ -45,7 +45,7 @@ void WallFull::OnStart()
 	AddComponent(triggerZone);
 }
 
-// NOTE - idk is it works
+// NOTE - idk does it work
 AimTestResult WallFull::AimTest(ray ray)
 {
 	auto objects = ObjectManager::Instance().GetObjectsInArea(ray.GetOrigin());
@@ -104,19 +104,15 @@ Shape WallFull::GetShape(AimTestResult res)
 	auto full = m_ModelSize;
 
 	std::vector<vec3> points = {
-		vec3(-half, 0, 0),
-		vec3(half, 0, 0),
-		vec3(half, 0, full),
-		vec3(-half, 0, full),
+		vec3(0, -half, 0),
+		vec3(0, half, 0),
+		vec3(0, half, full),
+		vec3(0, -half, full),
 	};
 
-	mat4 mat = mat4::RotationMatrix(90 - res.m_Angle) *
-			   mat4::TranslateMatrix(res.m_Origin);
+	Shape shape(points);
+	shape.SetAngle(res.m_Angle);
+	shape.SetPosition(res.m_Origin);
 
-	for (size_t i = 0; i < points.size(); i++)
-	{
-		points[i] = points[i].Transform(mat);
-	}
-
-	return Shape(points);
+	return shape;
 }

@@ -16,121 +16,121 @@ const double WallBase::m_ModelSize = 112;
 
 WallBase::WallBase(edict_t *owner) : BuildingObject(owner)
 {
-    auto visualizer = new VisualizerComponent(0.3);
-    visualizer->Disable();
+	auto visualizer = new VisualizerComponent(0.3);
+	visualizer->Disable();
 
-    AddComponent(visualizer);
+	AddComponent(visualizer);
 }
 
 void WallBase::OnStart()
 {
-    BuildingObject::OnStart();
+	BuildingObject::OnStart();
 }
 
 void WallBase::OnUpdate()
 {
-    BuildingObject::OnUpdate();
+	BuildingObject::OnUpdate();
 
-    if (m_State != BuildState::STATE_SOLID)
-    {
-        AimHandler();
-    }
+	if (m_State != BuildState::STATE_SOLID)
+	{
+		AimHandler();
+	}
 }
 
 void WallBase::OnStateUpdated()
 {
-    BuildingObject::OnStateUpdated();
+	BuildingObject::OnStateUpdated();
 
-    // OnUpdate Connections
+	// OnUpdate Connections
 
-    if (GetState() != BuildState::STATE_SOLID)
-        return;
+	if (GetState() != BuildState::STATE_SOLID)
+		return;
 
-    auto objects = ObjectManager::Instance().GetObjectsInArea(
-        *GetTransform()->GetPosition());
+	auto objects = ObjectManager::Instance().GetObjectsInArea(
+		*GetTransform()->GetPosition());
 
-    for (auto object : objects)
-    {
-        if (object.expired())
-            continue;
+	for (auto object : objects)
+	{
+		if (object.expired())
+			continue;
 
-        auto gameObject = *object.lock();
+		auto gameObject = *object.lock();
 
-        if (gameObject->Id == this->Id)
-            continue;
+		if (gameObject->Id == this->Id)
+			continue;
 
-        if (dynamic_cast<FoundationBase *>(gameObject) != nullptr ||
-            dynamic_cast<WallBase *>(gameObject) != nullptr)
-        {
-            Connect(gameObject);
-        }
-    }
+		if (dynamic_cast<FoundationBase *>(gameObject) != nullptr ||
+			dynamic_cast<WallBase *>(gameObject) != nullptr)
+		{
+			Connect(gameObject);
+		}
+	}
 }
 
 void WallBase::AimHandler()
 {
-    auto ownerComponent = GetComponent<OwnerComponent>();
+	auto ownerComponent = GetComponent<OwnerComponent>();
 
-    auto viewPoint = ownerComponent->GetAimDest(250.0);
+	auto viewPoint = ownerComponent->GetAimDest(250.0);
 
-    auto aimRay = ownerComponent->GetAimRay(viewPoint, 500.0);
-    auto angles = ownerComponent->GetViewAngles();
+	auto aimRay = ownerComponent->GetAimRay(viewPoint, 500.0);
+	auto angles = ownerComponent->GetViewAngles();
 
-    auto aimTest = AimTest(aimRay);
-    auto interTest = IntersectionTest(aimTest);
+	auto aimTest = AimTest(aimRay);
+	auto interTest = IntersectionTest(aimTest);
 
-    if (aimTest.m_IsPassed && interTest.m_IsPassed)
-    {
-        TrySetState(BuildState::STATE_CAN_BUILD);
+	if (aimTest.m_IsPassed && interTest.m_IsPassed)
+	{
+		TrySetState(BuildState::STATE_CAN_BUILD);
 
-        GetTransform()->GetPosition()->setVector(interTest.m_Origin);
-        GetTransform()->GetRotation()->y(interTest.m_Angle);
-    }
-    else
-    {
-        TrySetState(BuildState::STATE_CANNOT_BUILD);
+		GetTransform()->GetPosition()->setVector(interTest.m_Origin);
+		GetTransform()->GetRotation()->y(interTest.m_Angle);
+	}
+	else
+	{
+		TrySetState(BuildState::STATE_CANNOT_BUILD);
 
-        GetTransform()->GetPosition()->setVector(viewPoint);
-        GetTransform()->GetRotation()->y(angles.y);
-    }
+		GetTransform()->GetPosition()->setVector(viewPoint);
+		GetTransform()->GetRotation()->y(angles.y);
+	}
 }
 
 AimTestResult WallBase::IntersectionTest(AimTestResult result)
 {
-    // zaglushka
-    return result;
+	// zaglushka
+	return result;
 
-    // Skip test if previous was failed
-    if (!result.m_IsPassed)
-        return result;
+	// Skip test if previous was failed
+	if (!result.m_IsPassed)
+		return result;
 
-    auto objects = ObjectManager::Instance().GetObjectsInArea(result.m_Origin);
+	auto objects = ObjectManager::Instance().GetObjectsInArea(result.m_Origin);
 
-    auto shape = GetShape(AimTestResult(
-        result.m_IsPassed,
-        result.m_Origin,
-        result.m_Angle + 180));
+	auto shape = GetShape(AimTestResult(
+		result.m_IsPassed,
+		result.m_Origin,
+		result.m_Angle));
 
-    for (auto object : objects)
-    {
-        if (object.expired())
-            continue;
+	for (auto object : objects)
+	{
+		if (object.expired())
+			continue;
 
-        auto gameObject = *object.lock();
+		auto gameObject = *object.lock();
 
-        if (gameObject->Id == this->Id)
-            continue;
+		if (gameObject->Id == this->Id)
+			continue;
 
-        auto wall = dynamic_cast<WallBase *>(gameObject);
+		auto wall = dynamic_cast<WallBase *>(gameObject);
 
-        if (wall != nullptr)
-        {
-            auto otherShape = wall->GetShape();
+		if (wall != nullptr)
+		{
+			auto otherShape = wall->GetShape();
 
-            if (shape.IsIntersect(otherShape))
-                return AimTestResult(false, result.m_Origin, result.m_Angle);
-        }
-    }
+			if (shape.IsIntersect(otherShape))
+				return AimTestResult(false, result.m_Origin, result.m_Angle);
+		}
+	}
 
-    return AimTestResult(true, result.m_Origin, result.m_Angle);
+	return AimTestResult(true, result.m_Origin, result.m_Angle);
 }

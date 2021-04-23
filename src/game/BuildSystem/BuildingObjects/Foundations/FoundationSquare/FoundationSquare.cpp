@@ -161,13 +161,17 @@ Shape FoundationSquare::GetShape(AimTestResult res)
 		vec3(-half, half),
 	};
 
-	mat4 mat = mat4::RotationMatrix(90 - res.m_Angle) *
-			   mat4::TranslateMatrix(res.m_Origin);
+	Shape shape(points);
+	shape.SetAngle(res.m_Angle);
+	shape.SetPosition(res.m_Origin);
 
-	for (size_t i = 0; i < points.size(); i++)
-	{
-		points[i] = points[i].Transform(mat);
-	}
+	// mat4 mat = mat4::RotationMatrix(90 - res.m_Angle) *
+	// 		   mat4::TranslateMatrix(res.m_Origin);
 
-	return Shape(points);
+	// for (size_t i = 0; i < points.size(); i++)
+	// {
+	// 	points[i] = points[i].Transform(mat);
+	// }
+
+	return shape;
 }

@@ -15,19 +15,19 @@
 class WallBase : public BuildingObject
 {
 public:
-    WallBase(edict_t *owner);
+	WallBase(edict_t *owner);
 
-    virtual void OnStart() override;
-    virtual void OnUpdate() override;
-    virtual void OnStateUpdated() override;
+	virtual void OnStart() override;
+	virtual void OnUpdate() override;
+	virtual void OnStateUpdated() override;
 
-    static const double m_ModelSize;
+	static const double m_ModelSize;
 
 protected:
-    virtual void AimHandler() override;
+	virtual void AimHandler() override;
 
 private:
-    AimTestResult IntersectionTest(AimTestResult result);
+	AimTestResult IntersectionTest(AimTestResult result);
 };
 
 #endif // !_BUILDINGOBJECTS_WALLBASE_

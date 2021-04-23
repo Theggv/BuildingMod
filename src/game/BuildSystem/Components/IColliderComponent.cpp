@@ -1,5 +1,6 @@
 #include "IColliderComponent.h"
 #include <Utility/EdictFlags.h>
+#include "RendererComponent.h"
 
 IColliderComponent::IColliderComponent()
 {
@@ -15,8 +16,8 @@ IColliderComponent::~IColliderComponent()
 	for (auto edict : m_InvisibleEdicts)
 		REMOVE_ENTITY(edict);
 
-	set<edict_t*>().swap(m_VisibleEdicts);
-	set<edict_t*>().swap(m_InvisibleEdicts);
+	set<edict_t *>().swap(m_VisibleEdicts);
+	set<edict_t *>().swap(m_InvisibleEdicts);
 
 	delete m_Shape;
 }
@@ -38,16 +39,21 @@ set<edict_t *> IColliderComponent::GetEdicts(bool isVisible)
 
 void IColliderComponent::OnTransformUpdate()
 {
+	auto renderer = m_Parent->GetComponent<RendererComponent>();
+	double fixAngle = renderer != nullptr ? renderer->GetFixAngle() : 0;
+
 	for (auto pEntity : m_VisibleEdicts)
 	{
 		SET_ORIGIN(pEntity, GetParent()->GetTransform()->GetPosition()->ToRound());
 		pEntity->v.angles = *GetParent()->GetTransform()->GetRotation();
+		pEntity->v.angles.y = pEntity->v.angles.y + fixAngle;
 	}
 
 	for (auto pEntity : m_InvisibleEdicts)
 	{
 		SET_ORIGIN(pEntity, GetParent()->GetTransform()->GetPosition()->ToRound());
 		pEntity->v.angles = *GetParent()->GetTransform()->GetRotation();
+		pEntity->v.angles.y = pEntity->v.angles.y + fixAngle;
 	}
 }
 
@@ -90,8 +96,8 @@ void IColliderComponent::OnStateUpdated()
 		for (auto pEntity : m_InvisibleEdicts)
 			pEntity->v.solid = SOLID_NOT;
 
-		break;\
-		
+		break;
+
 	case BuildState::STATE_CAN_BUILD:
 		for (auto pEntity : m_VisibleEdicts)
 		{

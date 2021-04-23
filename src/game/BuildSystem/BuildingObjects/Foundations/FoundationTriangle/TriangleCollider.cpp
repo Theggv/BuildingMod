@@ -1,5 +1,6 @@
 #include "TriangleCollider.h"
 #include <Utility/EdictFlags.h>
+#include <game/BuildSystem/Components/RendererComponent.h>
 
 TriangleCollider::TriangleCollider()
 {
@@ -38,10 +39,14 @@ set<edict_t *> TriangleCollider::GetEdicts(bool isVisible)
 
 void TriangleCollider::OnTransformUpdate()
 {
+	auto renderer = m_Parent->GetComponent<RendererComponent>();
+	double fixAngle = renderer != nullptr ? renderer->GetFixAngle() : 0;
+
 	for (auto pEntity : m_VisibleEdicts)
 	{
 		SET_ORIGIN(pEntity, GetParent()->GetTransform()->GetPosition()->ToRound());
 		pEntity->v.angles = *GetParent()->GetTransform()->GetRotation();
+		pEntity->v.angles.y = pEntity->v.angles.y + fixAngle;
 	}
 
 	int i = 1;
@@ -52,6 +57,11 @@ void TriangleCollider::OnTransformUpdate()
 		pEntity->v.angles = *GetParent()->GetTransform()->GetRotation();
 
 		// set y
-		pEntity->v.angles.y = GetParent()->GetTransform()->GetRotation()->y() + (120 * i++);
+		auto y = GetParent()->GetTransform()->GetRotation()->y() + (120 * i++);
+
+		while (y > 180)
+			y -= 360;
+
+		pEntity->v.angles.y = y + fixAngle;
 	}
 }

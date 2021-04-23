@@ -16,7 +16,7 @@ AimTestResult WallPoints::GetConnectionPoint(
     vec3 pos = *foundation->GetTransform()->GetPosition();
     vec3 rot = *foundation->GetTransform()->GetRotation();
 
-    mat4 mat = mat4::RotationMatrix(90 - rot.y) *
+    mat4 mat = mat4::RotationMatrix(rot.y) *
                mat4::TranslateMatrix(pos);
 
     switch (static_cast<SquareZones>(zoneId))
@@ -58,7 +58,7 @@ int WallPoints::GetZoneIdByPosition(GameObject *object, GameObject *bindable, ve
     vec3 objectPos = *foundation->GetTransform()->GetPosition();
     vec3 objectRot = *foundation->GetTransform()->GetRotation();
 
-    mat4 mat = mat4::RotationMatrix(90 - objectRot.y) *
+    mat4 mat = mat4::RotationMatrix(objectRot.y) *
                mat4::TranslateMatrix(objectPos);
 
     vector<vec3> positions = {

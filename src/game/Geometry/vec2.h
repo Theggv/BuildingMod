@@ -58,7 +58,7 @@ public:
 
 inline bool IsEqual(double a, double b)
 {
-	return fabs(a - b) < 1e-7;
+	return fabs(a - b) < 1e-3;
 }
 
 #endif // !_GAME_GEOMETRY_VEC2_H_

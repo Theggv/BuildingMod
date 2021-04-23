@@ -24,7 +24,7 @@ void FoundationTriangle::OnStart()
 {
 	GameObject::OnStart();
 
-	auto renderer = new RendererComponent;
+	auto renderer = new RendererComponent(180);
 	renderer->SetModel(PrecacheManager::Instance().GetFoundationTriangleModel());
 
 	AddComponent(renderer);
@@ -182,13 +182,9 @@ Shape FoundationTriangle::GetShape(AimTestResult res)
 		vec3(v.Transform(mat4::RotationMatrix(-120))),
 	};
 
-	mat4 mat = mat4::RotationMatrix(-90 - res.m_Angle) *
-			   mat4::TranslateMatrix(res.m_Origin);
+	Shape shape(points);
+	shape.SetAngle(res.m_Angle);
+	shape.SetPosition(res.m_Origin);
 
-	for (size_t i = 0; i < points.size(); i++)
-	{
-		points[i] = points[i].Transform(mat);
-	}
-
-	return Shape(points);
+	return shape;
 }

@@ -21,7 +21,7 @@ public:
 	void SetAngle(double);
 
 	bool IsIntersect(Shape other);
-	vec2 GetCenter();
+	vec3 GetCenter();
 
 	std::vector<Triangle> Triangulate();
 	/**

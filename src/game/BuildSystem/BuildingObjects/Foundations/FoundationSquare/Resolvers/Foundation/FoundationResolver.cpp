@@ -132,7 +132,7 @@ vector<Triangle> FoundationResolver::GetTransformedZone(GameObject *object, int 
     vec3 pos = *object->GetTransform()->GetPosition();
     vec3 rot = *object->GetTransform()->GetRotation();
 
-    mat4 mat = mat4::RotationMatrix(90 - rot.y) *
+    mat4 mat = mat4::RotationMatrix(rot.y) *
                mat4::TranslateMatrix(pos);
 
     for (auto &triangle : m_Zones[zoneId])

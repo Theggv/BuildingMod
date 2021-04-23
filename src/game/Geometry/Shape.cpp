@@ -16,18 +16,19 @@ Shape::Shape(std::vector<vec3> points)
     }
 }
 
-vec2 Shape::GetCenter()
+vec3 Shape::GetCenter()
 {
-    double x = 0, y = 0;
+    double x = 0, y = 0, z = 0;
     size_t pointsCount = _initialPoints.size();
 
     for (auto point : _initialPoints)
     {
         x += point.x;
         y += point.y;
+        z += point.z;
     }
 
-    return vec2(x / pointsCount, y / pointsCount);
+    return vec3(x / pointsCount, y / pointsCount, z / pointsCount);
 }
 
 vec3 Shape::GetPosition()
@@ -38,6 +39,8 @@ vec3 Shape::GetPosition()
 void Shape::SetPosition(vec3 pos)
 {
     _position = pos;
+
+    Transform();
 }
 
 double Shape::GetAngle()
@@ -48,16 +51,19 @@ double Shape::GetAngle()
 void Shape::SetAngle(double angle)
 {
     _angle = angle;
+
+    Transform();
 }
 
 void Shape::Transform()
 {
     auto center = GetCenter();
 
-    auto transformMatrix = mat4::TranslateMatrix(_position) *
-                           mat4::TranslateMatrix(-center) *
-                           mat4::RotationMatrix(_angle) *
-                           mat4::TranslateMatrix(center);
+    auto transformMatrix =
+        mat4::TranslateMatrix(-center) *
+        mat4::RotationMatrix(_angle) *
+        mat4::TranslateMatrix(_position) *
+        mat4::TranslateMatrix(center);
 
     for (size_t i = 0; i < _initialPoints.size(); ++i)
     {

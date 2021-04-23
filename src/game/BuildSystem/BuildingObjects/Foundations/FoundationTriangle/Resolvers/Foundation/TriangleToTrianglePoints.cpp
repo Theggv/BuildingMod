@@ -20,7 +20,7 @@ AimTestResult TriangleToTrianglePoints::GetConnectionPoint(
     vec3 pos = *foundation->GetTransform()->GetPosition();
     vec3 rot = *foundation->GetTransform()->GetRotation();
 
-    mat4 mat = mat4::RotationMatrix(-90 - rot.y) *
+    mat4 mat = mat4::RotationMatrix(rot.y - 90) *
                mat4::TranslateMatrix(pos);
 
     switch (zone)
@@ -29,17 +29,17 @@ AimTestResult TriangleToTrianglePoints::GetConnectionPoint(
 
         return AimTestResult(true,
                              newPos.Transform(mat4::RotationMatrix(-60) * mat),
-                             rot.y + 60 + 180);
+                             rot.y + 60);
     case TriangleZones::DOWN:
 
         return AimTestResult(true,
                              newPos.Transform(mat4::RotationMatrix(180) * mat),
-                             rot.y + 180 + 180);
+                             rot.y + 180);
     case TriangleZones::LEFT:
 
         return AimTestResult(true,
                              newPos.Transform(mat4::RotationMatrix(60) * mat),
-                             rot.y - 60 + 180);
+                             rot.y - 60);
 
     default:
         return AimTestResult(false);
@@ -58,7 +58,7 @@ int TriangleToTrianglePoints::GetZoneIdByPosition(GameObject *object, GameObject
     vec3 objectPos = *foundation->GetTransform()->GetPosition();
     vec3 objectRot = *foundation->GetTransform()->GetRotation();
 
-    mat4 mat = mat4::RotationMatrix(-90 - objectRot.y) *
+    mat4 mat = mat4::RotationMatrix(objectRot.y - 90) *
                mat4::TranslateMatrix(objectPos);
 
     vector<vec3> positions = {

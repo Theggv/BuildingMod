@@ -45,22 +45,8 @@ void AdditionalResolver::AddConnection(GameObject *object, GameObject *bindable)
 
 bool AdditionalResolver::IsTouch(Shape s1, Shape s2)
 {
-	struct vec3Ordering
-	{
-		// impl of < operator
-		bool operator()(vec3 const &lhs, vec3 const &rhs) const
-		{
-			if (lhs.x == rhs.x)
-				if (lhs.y == rhs.y)
-					return lhs.z < rhs.z;
-				else
-					return lhs.y < rhs.y;
-			return lhs.x < rhs.x;
-		}
-	};
-
 	// Найти все точки, лежащие на одной прямой
-	set<vec3, vec3Ordering> v1, v2;
+	set<vec3, vec3> v1, v2;
 
 	for (auto p1 : s1.GetPoints())
 	{

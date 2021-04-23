@@ -1,6 +1,6 @@
 #include "StabilityComponentBase.h"
 #include <game/BuildSystem/ConnectionManager.h>
-#include <iostream>
+#include <game/BuildSystem/BuildingObjects/BuildingObject.h>
 
 using namespace WallBaseResolvers;
 
@@ -37,7 +37,23 @@ void StabilityComponentBase::CalculateStability(int cycle)
 
 	auto additionals = ConnectionManager::Instance().GetAdditionals(m_Parent);
 
-	double additionalStability = 0.0;
+	// Get unique points
+	vector<vec3> uniquePoints;
+
+	for (auto point : dynamic_cast<WallBase *>(m_Parent)->GetShape().GetPoints())
+	{
+		bool isUnique = true;
+		for (auto p : uniquePoints)
+		{
+			if (vec2(p) == vec2(point))
+				isUnique = false;
+		}
+
+		if (isUnique)
+			uniquePoints.push_back(point);
+	}
+
+	vector<double> additionalStability(uniquePoints.size());
 	double additionalCoef = 0.1;
 
 	for (auto link : additionals)
@@ -54,10 +70,29 @@ void StabilityComponentBase::CalculateStability(int cycle)
 		if (stability == nullptr)
 			continue;
 
-		additionalStability += stability->GetStability() * additionalCoef;
+		for (auto point : dynamic_cast<BuildingObject *>(object)->GetShape().GetPoints())
+		{
+			bool handled = false;
+
+			for (size_t i = 0; i < uniquePoints.size(); ++i)
+			{
+				if (vec2(point) == vec2(uniquePoints[i]))
+				{
+					additionalStability[i] = max(additionalStability[i], stability->GetStability());
+					handled = true;
+					break;
+				}
+			}
+
+			if (handled)
+				break;
+		}
 	}
 
-	auto newStability = parentStability * parentCoef + additionalStability;
+	auto newStability = parentStability * parentCoef;
+
+	for (auto stab : additionalStability)
+		newStability += stab * additionalCoef;
 
 	// It can't be possible, but for sure
 	if (newStability > 1.0)
