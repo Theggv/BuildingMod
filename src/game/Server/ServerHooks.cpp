@@ -5,6 +5,7 @@
 #include <game/Utility/Utility.h>
 
 #include <game/BuildSystem/Components/IStabilityComponent.h>
+#include <game/BuildSystem/BuildingObjects/BuildingObject.h>
 
 #ifndef MAX_PLAYERS
 #define MAX_PLAYERS 32
@@ -132,16 +133,29 @@ void CBasePlayer_PostThink(IReGameHook_CBasePlayer_PostThink *chain, CBasePlayer
 	{
 		players[index] = 0;
 
-		auto ptr = UTIL_GetAimingObject(index).lock();
+		auto ptr = UTIL_GetAimingObject(index);
 
-		if (ptr == nullptr)
+		if (ptr.expired())
 		{
-			ptr.reset();
+			char buffer[190];
+			int len;
+
+			len = snprintf(
+				buffer, sizeof(buffer), "Origin: (%.1f %.1f %.1f) Angles: (%.1f %.1f %.1f)",
+				pPlayer->edict()->v.origin.x,
+				pPlayer->edict()->v.origin.y,
+				pPlayer->edict()->v.origin.z,
+				pPlayer->edict()->v.v_angle.x,
+				pPlayer->edict()->v.v_angle.y,
+				pPlayer->edict()->v.v_angle.z);
+
+			UTIL_ClientPrint(pPlayer->edict(), MessageDest::PrintCenter, buffer);
+
 			chain->callOriginal(pPlayer);
 			return;
 		}
 
-		auto object = *ptr;
+		auto object = *ptr.lock();
 		auto className = typeid(*object).name();
 
 		// EdictFlags::SetPlayerSelectedObject(pPlayer->edict(), object->Id);
@@ -159,17 +173,74 @@ void CBasePlayer_PostThink(IReGameHook_CBasePlayer_PostThink *chain, CBasePlayer
 		int len;
 
 		len = snprintf(
-			buffer, sizeof(buffer), "[%s #%d] Stability: %.0f%% Connections: ",
-			className, object->Id, stability->GetStability() * 100);
+			buffer, sizeof(buffer), "[#%d] Stab: %.0f \nConn: ",
+			object->Id, stability->GetStability() * 100);
 
 		for (auto connection : stability->GetConnections())
 		{
+			string type;
+
+			switch (connection.type)
+			{
+			case ConnectionTypes::Child:
+				type = "C";
+				break;
+			case ConnectionTypes::Parent:
+				type = "P";
+				break;
+			case ConnectionTypes::Additional:
+				type = "A";
+				break;
+			case ConnectionTypes::Independent:
+				type = "I";
+				break;
+			default:
+				type = "U";
+				break;
+			}
+
 			len += snprintf(
-				buffer + len, sizeof(buffer) - len, "%d(%d)",
-				(*connection.ptr.lock())->Id, connection.type);
+				buffer + len, sizeof(buffer) - len, "%d(%s) ",
+				(*connection.ptr.lock())->Id, type.c_str());
 		}
 
-		UTIL_ClientPrint(pPlayer->edict(), MessageDest::PrintCenter, buffer);
+		auto buildingObject = dynamic_cast<BuildingObject *>(object);
+
+		if (buildingObject != nullptr)
+		{
+			auto pos = buildingObject->GetShape().GetPosition();
+
+			len += snprintf(
+				buffer + len, sizeof(buffer) - len, "\nPosition: (%.1f %.1f %.1f)",
+				pos.x, pos.y, pos.z);
+
+			len += snprintf(
+				buffer + len, sizeof(buffer) - len, "\nAngle: %.1f",
+				buildingObject->GetShape().GetAngle());
+
+			len += snprintf(
+				buffer + len, sizeof(buffer) - len, "\nPoints:");
+
+			for (auto point : buildingObject->GetShape().GetPoints())
+			{
+				len += snprintf(
+					buffer + len, sizeof(buffer) - len, "\n(%.1f %.1f %.1f)",
+					point.x, point.y, point.z);
+			}
+		}
+
+		hudtextparms_t params;
+		params.channel = 0;
+		params.effect = 0;
+		params.x = -1.0;
+		params.y = -1.0;
+		params.holdTime = 1;
+		params.fxTime = 0;
+		params.fadeinTime = 0;
+		params.fadeoutTime = 0;
+
+		// UTIL_ClientPrint(pPlayer->edict(), MessageDest::PrintCenter, buffer);
+		UTIL_HudMessage(pPlayer->edict(), params, buffer);
 
 		ptr.reset();
 	}
