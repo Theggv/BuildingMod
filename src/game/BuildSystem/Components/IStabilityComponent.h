@@ -35,11 +35,11 @@ public:
 	set<Connection, ConnectionOrdering> GetConnections();
 
 	virtual void CalculateStability(int cycle = 0) = 0;
+	void UpdateDependentObjects(int cycle = 0);
 
 	double GetStability();
 
 protected:
-	void UpdateDependentObjects(int cycle = 0);
 
 	IObjectResolver *m_ObjectResolver = nullptr;
 	double m_Stability;

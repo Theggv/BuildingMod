@@ -75,5 +75,4 @@ void IStabilityComponent::RemoveConnection(GameObject *object)
 set<Connection, ConnectionOrdering> IStabilityComponent::GetConnections()
 {
 	return ConnectionManager::Instance().GetAllLinks(m_Parent);
-	// return m_ObjectResolver->GetConnections();
 }

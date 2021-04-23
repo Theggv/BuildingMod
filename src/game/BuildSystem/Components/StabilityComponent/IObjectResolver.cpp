@@ -72,9 +72,7 @@ bool IObjectResolver::HasConnection(int zoneId)
 		return false;
 
 	if (m_Connections.find(zoneId) != m_Connections.end())
-	{
 		return !m_Connections[zoneId].expired();
-	}
 
 	return false;
 }
@@ -170,10 +168,10 @@ AimTestResult IObjectResolver::TryConnect(ray ray, GameObject *object, GameObjec
 
 	if (m_Visualizer != nullptr)
 	{
-	    if (!m_Visualizer->IsEnabled())
-	        m_Visualizer->Enable();
+		if (!m_Visualizer->IsEnabled())
+			m_Visualizer->Enable();
 
-	    m_Visualizer->Visualize(GetTransformedZone(object, minZone));
+		m_Visualizer->Visualize(GetTransformedZone(object, minZone));
 	}
 
 	return m_Handler->GetConnectionPoint(object, bindable, minZone);

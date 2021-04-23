@@ -42,7 +42,7 @@ bool ConnectionManager::AddLinkParentChild(GameObject *parent, GameObject *child
 		auto stability = parent->GetComponent<IStabilityComponent>();
 
 		if (stability != nullptr)
-			stability->CalculateStability();
+			stability->UpdateDependentObjects();
 	}
 
 	return res;

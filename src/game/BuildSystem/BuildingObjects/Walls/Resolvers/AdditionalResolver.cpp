@@ -27,6 +27,9 @@ void AdditionalResolver::GenerateZones()
 
 AimTestResult AdditionalResolver::TryConnect(ray ray, GameObject *object, GameObject *bindable)
 {
+	if (m_Successor != nullptr)
+		return m_Successor->TryConnect(ray, object, bindable);
+
 	return AimTestResult(false);
 }
 

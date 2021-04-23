@@ -22,13 +22,12 @@ namespace WallFullResolvers
 
     protected:
         void GenerateZones() override;
-        bool HasConnection(SquareZones squareZone);
+        vector<Triangle> GenerateZone();
 
-        SquareZones GetZoneById(int zoneId);
-        HeightZones GetHeightById(int zoneId);
-        int GetZoneId(int zone, int height);
+        // has only 1 zone (up)
+        bool HasConnection();
 
-        vector<Triangle> GenerateZone(int zoneId);
+        bool IsTouch(Shape s1, Shape s2);
     };
 }
 

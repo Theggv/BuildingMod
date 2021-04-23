@@ -173,8 +173,12 @@ void CBasePlayer_PostThink(IReGameHook_CBasePlayer_PostThink *chain, CBasePlayer
 		int len;
 
 		len = snprintf(
-			buffer, sizeof(buffer), "[#%d] Stab: %.0f \nConn: ",
+			buffer, sizeof(buffer), "[#%d] Stability: %.0f%%",
 			object->Id, stability->GetStability() * 100);
+
+		if (stability->GetConnections().size() > 0)
+			len += snprintf(
+				buffer + len, sizeof(buffer) - len, "\nConnections: ");
 
 		for (auto connection : stability->GetConnections())
 		{
@@ -183,50 +187,25 @@ void CBasePlayer_PostThink(IReGameHook_CBasePlayer_PostThink *chain, CBasePlayer
 			switch (connection.type)
 			{
 			case ConnectionTypes::Child:
-				type = "C";
+				type = "Child";
 				break;
 			case ConnectionTypes::Parent:
-				type = "P";
+				type = "Parent";
 				break;
 			case ConnectionTypes::Additional:
-				type = "A";
+				type = "Add";
 				break;
 			case ConnectionTypes::Independent:
-				type = "I";
+				type = "Ind";
 				break;
 			default:
-				type = "U";
+				type = "Unknown";
 				break;
 			}
 
 			len += snprintf(
-				buffer + len, sizeof(buffer) - len, "%d(%s) ",
+				buffer + len, sizeof(buffer) - len, "\n%d(%s)",
 				(*connection.ptr.lock())->Id, type.c_str());
-		}
-
-		auto buildingObject = dynamic_cast<BuildingObject *>(object);
-
-		if (buildingObject != nullptr)
-		{
-			auto pos = buildingObject->GetShape().GetPosition();
-
-			len += snprintf(
-				buffer + len, sizeof(buffer) - len, "\nPosition: (%.1f %.1f %.1f)",
-				pos.x, pos.y, pos.z);
-
-			len += snprintf(
-				buffer + len, sizeof(buffer) - len, "\nAngle: %.1f",
-				buildingObject->GetShape().GetAngle());
-
-			len += snprintf(
-				buffer + len, sizeof(buffer) - len, "\nPoints:");
-
-			for (auto point : buildingObject->GetShape().GetPoints())
-			{
-				len += snprintf(
-					buffer + len, sizeof(buffer) - len, "\n(%.1f %.1f %.1f)",
-					point.x, point.y, point.z);
-			}
 		}
 
 		hudtextparms_t params;
