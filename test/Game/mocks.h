@@ -8,40 +8,19 @@
 class FoundationSquareMock : public FoundationSquare
 {
 public:
-	FoundationSquareMock(edict_t *owner) : FoundationSquare(owner) {}
+	FoundationSquareMock(edict_t *owner);
 
-	inline virtual void OnStart() override
-	{
-		FoundationBase::OnStart();
-
-		auto stability = new FoundationSquareResolvers::StabilityComponent;
-		AddComponent(stability);
-	}
+	virtual void OnStart() override;
 };
 
 class WallFullMock : public WallFull
 {
 public:
-	WallFullMock(edict_t *owner) : WallFull(owner) {}
+	WallFullMock(edict_t *owner);
 
-	inline virtual void OnStart() override
-	{
-		WallBase::OnStart();
-
-		auto stability = new WallFullResolvers::StabilityComponent;
-		AddComponent(stability);
-	}
+	virtual void OnStart() override;
 };
 
-template <class T = GameObject>
-T *InitObject(T *object)
-{
-	ObjectManager::Instance().Add(object);
-	return object;
-}
+GameObject *InitObject(GameObject *object);
 
-inline void MakeSolid(GameObject *object)
-{
-	object->TrySetState(BuildState::STATE_CAN_BUILD);
-	object->TrySetState(BuildState::STATE_SOLID);
-}
+void MakeSolid(GameObject *object);
