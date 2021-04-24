@@ -4,12 +4,12 @@
 using namespace FoundationTriangleResolvers;
 
 AimTestResult WallPoints::GetConnectionPoint(
-    GameObject *object, GameObject *bindable, int zoneId)
+    p_GameObject_t object, p_GameObject_t bindable, int zoneId)
 {
-    if (dynamic_cast<WallBase *>(bindable) == nullptr)
+    if (dynamic_pointer_cast<WallBase>(bindable) == nullptr)
         return CallNext(object, bindable, zoneId);
 
-    auto foundation = dynamic_cast<FoundationTriangle *>(object);
+    auto foundation = dynamic_pointer_cast<FoundationTriangle>(object);
 
     vec3 newPos = vec3(0, foundation->m_Height / 3, 0);
 
@@ -41,12 +41,12 @@ AimTestResult WallPoints::GetConnectionPoint(
     return AimTestResult(false);
 }
 
-int WallPoints::GetZoneIdByPosition(GameObject *object, GameObject *bindable, vec3 pos)
+int WallPoints::GetZoneIdByPosition(p_GameObject_t object, p_GameObject_t bindable, vec3 pos)
 {
-    if (dynamic_cast<WallBase *>(bindable) == nullptr)
+    if (dynamic_pointer_cast<WallBase>(bindable) == nullptr)
         return CallNext(object, bindable, pos);
 
-    auto foundation = dynamic_cast<FoundationTriangle *>(object);
+    auto foundation = dynamic_pointer_cast<FoundationTriangle>(object);
 
     vec3 newPos = vec3(0, foundation->m_Height / 3, 0);
 

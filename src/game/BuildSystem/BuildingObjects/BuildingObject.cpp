@@ -1,7 +1,7 @@
 #include "BuildingObject.h"
 #include <game/BuildSystem/Components/IStabilityComponent.h>
 
-BuildingObject::BuildingObject(edict_t *owner)
+BuildingObject::BuildingObject(edict_t *owner) : GameObject()
 {
 	AddComponent(new OwnerComponent(owner));
 }

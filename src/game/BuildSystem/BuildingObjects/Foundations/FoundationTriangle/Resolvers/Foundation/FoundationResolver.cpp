@@ -32,10 +32,10 @@ void FoundationResolver::GenerateZones()
     }
 }
 
-bool FoundationResolver::CanResolve(GameObject *object, GameObject *bindable)
+bool FoundationResolver::CanResolve(p_GameObject_t object, p_GameObject_t bindable)
 {
-    if (dynamic_cast<FoundationTriangle *>(object) != nullptr &&
-        dynamic_cast<FoundationBase *>(bindable) != nullptr)
+    if (dynamic_pointer_cast<FoundationTriangle>(object) != nullptr &&
+        dynamic_pointer_cast<FoundationBase>(bindable) != nullptr)
         return true;
 
     return false;
@@ -128,7 +128,7 @@ vector<Triangle> FoundationResolver::GenerateZone(int zoneId)
     return triangles;
 }
 
-vector<Triangle> FoundationResolver::GetTransformedZone(GameObject *object, int zoneId)
+vector<Triangle> FoundationResolver::GetTransformedZone(p_GameObject_t object, int zoneId)
 {
     vector<Triangle> tries;
 

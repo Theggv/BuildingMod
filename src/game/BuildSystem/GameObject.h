@@ -2,7 +2,6 @@
 #define _BUILDSYSTEM_GAMEOBJECT_
 
 #include <pch.h>
-#include <game/BuildSystem/Components/IComponent.h>
 #include <game/Server/FrameState.h>
 
 #include <Utility/Transform.h>
@@ -44,7 +43,6 @@ public:
 
 	unsigned long GetWorldPositionFlags();
 
-
 	template <class T>
 	T *GetComponent();
 
@@ -54,7 +52,9 @@ public:
 	BuildState GetState();
 	bool TrySetState(BuildState state);
 
-	virtual void Connect(GameObject *other);
+	virtual void Connect(shared_ptr<GameObject> other);
+
+	shared_ptr<GameObject> GetSharedPtr();
 
 protected:
 	set<IComponent *> m_Components;
@@ -75,14 +75,14 @@ private:
 		GameObject *m_GameObject;
 	};
 
-	Transform *m_Transform;
-	IObserver *m_TransformObserver;
+	unique_ptr<Transform> m_Transform;
+	unique_ptr<IObserver> m_TransformObserver;
 
 	unsigned long m_WorldPosition = 0;
 };
 
 template <class T>
-inline T *GameObject::GetComponent()
+T *GameObject::GetComponent()
 {
 	// assert that T is IComponent
 	static_assert(is_base_of<IComponent, T>::value, "Type parameter must derive from IComponent");
@@ -97,7 +97,7 @@ inline T *GameObject::GetComponent()
 }
 
 template <class T>
-inline bool GameObject::AddComponent(const T component)
+bool GameObject::AddComponent(const T component)
 {
 	// assert that T is IComponent
 	using type = remove_pointer_t<T>;
@@ -112,5 +112,8 @@ inline bool GameObject::AddComponent(const T component)
 
 	return true;
 }
+
+typedef shared_ptr<GameObject> p_GameObject_t;
+typedef weak_ptr<GameObject> p_GameObjectWeak_t;
 
 #endif // !_BUILDSYSTEM_GAMEOBJECT_

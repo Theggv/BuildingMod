@@ -23,6 +23,7 @@ public cmd_Create(id) {
 	menu_additem(iMenu, "Triangle Foundation", "2");
 	menu_additem(iMenu, "Wall^n", "3");
 	menu_additem(iMenu, "Make solid", "50");
+	menu_additem(iMenu, "\rDelete object", "100");
 
 	if (is_user_connected(id) && pev_valid(id) == 2)
 		menu_display(id, iMenu, 0);
@@ -40,7 +41,7 @@ public cmd_Create(id) {
 	static szData[6], iAccess;
 	menu_item_getinfo(menu, item, iAccess, szData, charsmax(szData));
 
-	new iItem = str_to_num(s_Data);
+	new iItem = str_to_num(szData);
 
 	switch (iItem)
 	{
@@ -48,6 +49,7 @@ public cmd_Create(id) {
 		case 2: building_createobject(id, OBJECT_FOUNDATIONTRIANGLE);
 		case 3: building_createobject(id, OBJECT_WALL);
 		case 50: building_trymakesolid(id);
+		case 100: building_deleteobject(id, building_getaimobject(id));
 	}
 
 	cmd_Create(id);

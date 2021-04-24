@@ -18,9 +18,15 @@ namespace WallFullResolvers
         /**
      * zoneId = (squareZone << 4) + heightZone
      * */
-        AimTestResult GetConnectionPoint(GameObject *object, GameObject *bindable, int zoneId) override;
+        AimTestResult GetConnectionPoint(
+            p_GameObject_t object,
+            p_GameObject_t bindable,
+            int zoneId) override;
 
-        virtual int GetZoneIdByPosition(GameObject *object, GameObject *bindable, vec3 pos) override;
+        virtual int GetZoneIdByPosition(
+            p_GameObject_t object,
+            p_GameObject_t bindable,
+            vec3 pos) override;
 
         virtual ConnectionTypes GetTypeByZone(int zoneId) override;
     };

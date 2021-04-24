@@ -25,4 +25,6 @@ void StabilityComponent::CalculateStability(int cycle)
 	m_Stability = 1.0;
 
 	UpdateDependentObjects(cycle + 1);
+
+	OnStabilityCalculated();
 }

@@ -19,11 +19,18 @@ namespace WallBaseResolvers
 	public:
 		AdditionalResolver();
 
-		virtual AimTestResult TryConnect(ray ray, GameObject *object, GameObject *bindable) override;
+		virtual AimTestResult TryConnect(
+			ray ray,
+			p_GameObject_t object,
+			p_GameObject_t bindable) override;
 
-		virtual void AddConnection(GameObject *object, GameObject *bindable) override;
+		virtual void AddConnection(
+			p_GameObject_t object,
+			p_GameObject_t bindable) override;
 
-		virtual bool CanResolve(GameObject *object, GameObject *bindable) override;
+		virtual bool CanResolve(
+			p_GameObject_t object,
+			p_GameObject_t bindable) override;
 
 	protected:
 		void GenerateZones() override;

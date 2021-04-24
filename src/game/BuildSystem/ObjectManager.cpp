@@ -23,19 +23,21 @@ ObjectManager &ObjectManager::Instance()
 	return manager;
 }
 
-void ObjectManager::Add(GameObject *object)
+p_GameObject_t ObjectManager::Add(p_GameObject_t object)
 {
-	if (Has(object->Id))
-		return;
+	auto id = object->Id;
 
-	m_Objects.insert(pair<int, p_GameObject_t>(
-		object->Id, make_shared<GameObject *>(object)));
+	if (Has(id))
+		return Get(id);
 
-	// OnStart object
-	object->OnStart();
+	m_Objects.insert(
+		{id,
+		 move(object)});
+
+	return Get(id);
 }
 
-void ObjectManager::Remove(GameObject *object)
+void ObjectManager::Remove(p_GameObject_t object)
 {
 	auto id = object->Id;
 
@@ -77,12 +79,12 @@ void ObjectManager::Clear()
 	}
 }
 
-GameObject *ObjectManager::Get(int id)
+p_GameObject_t ObjectManager::Get(int id)
 {
 	if (!Has(id))
 		return nullptr;
 
-	return *m_Objects.at(id);
+	return m_Objects.at(id);
 }
 
 p_GameObjectWeak_t ObjectManager::GetPtr(int id)
@@ -111,14 +113,16 @@ unsigned long ObjectManager::CalculateWorldPosition(float x, float y)
 	return _x + _y * 64;
 }
 
-void ObjectManager::SetMapIndex(GameObject *object)
+void ObjectManager::SetMapIndex(p_GameObject_t object)
 {
 	auto id = object->Id;
 
 	auto index = object->GetWorldPositionFlags();
 
 	m_ObjectsMapIndex[index]
-		.insert(std::pair(id, p_GameObjectWeak_t(m_Objects.at(id))));
+		.insert(
+			{id,
+			 p_GameObjectWeak_t(object)});
 }
 
 aabb2 ObjectManager::GetAreaByIndex(unsigned long index)

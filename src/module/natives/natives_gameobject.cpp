@@ -6,6 +6,7 @@
 #include <game/BuildSystem/GameObjectFactory.h>
 
 #include <game/Utility/EdictFlags.h>
+#include <game/Utility/Utility.h>
 
 HLTypeConversion typeConversion;
 
@@ -43,7 +44,7 @@ cell AMX_NATIVE_CALL Building_CreateObject(AMX *amx, cell *params)
 	if (objectPtr != nullptr)
 		return 0;
 
-	GameObject *object = nullptr;
+	p_GameObject_t object;
 	GameObjectFactory *factory = new GameObjectFactory;
 
 	switch ((objectType_e)objectType)
@@ -65,8 +66,8 @@ cell AMX_NATIVE_CALL Building_CreateObject(AMX *amx, cell *params)
 
 	if (object != nullptr)
 	{
-		ObjectManager::Instance().Add(object);
 		EdictFlags::SetPlayerSelectedObject(player, object->Id);
+		object->OnStart();
 		object->OnUpdate();
 	}
 
@@ -86,12 +87,12 @@ cell AMX_NATIVE_CALL Building_DeleteObject(AMX *amx, cell *params)
 	auto objectId = params[arg_object_id];
 
 	edict_t *player = typeConversion.id_to_edict(id);
-	auto objectPtr = ObjectManager::Instance().GetPtr(objectId).lock();
+	auto ptr = ObjectManager::Instance().GetPtr(objectId);
 
-	if (objectPtr != nullptr)
+	if (ptr.expired())
 		return 0;
 
-	ObjectManager::Instance().Remove(*objectPtr);
+	ObjectManager::Instance().Remove(ptr.lock());
 
 	return 0;
 }
@@ -113,11 +114,29 @@ cell AMX_NATIVE_CALL Building_TryMakeSolid(AMX *amx, cell *params)
 	bool isSuccess = false;
 
 	if (objectPtr != nullptr)
-		isSuccess = (*objectPtr)->TrySetState(BuildState::STATE_SOLID);
+		isSuccess = objectPtr->TrySetState(BuildState::STATE_SOLID);
 
 	objectPtr.reset();
 
 	return isSuccess;
+}
+
+cell AMX_NATIVE_CALL Building_GetAimObject(AMX *amx, cell *params)
+{
+	enum args_e
+	{
+		arg_count,
+		arg_idcaller
+	};
+
+	edict_t *player = typeConversion.id_to_edict(params[arg_idcaller]);
+
+	auto object = UTIL_GetAimingObject(ENTINDEX(player));
+
+	if (object.expired())
+		return -1;
+
+	return object.lock()->Id;
 }
 
 AMX_NATIVE_INFO GameObject_Natives[] =
@@ -125,6 +144,7 @@ AMX_NATIVE_INFO GameObject_Natives[] =
 		{"building_createobject", Building_CreateObject},
 		{"building_deleteobject", Building_DeleteObject},
 		{"building_trymakesolid", Building_TryMakeSolid},
+		{"building_getaimobject", Building_GetAimObject},
 
 		{nullptr, nullptr},
 };

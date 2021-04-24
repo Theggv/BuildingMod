@@ -55,13 +55,14 @@ AimTestResult WallFull::AimTest(ray ray)
 	{
 		if (it->expired())
 		{
-			it->reset();
 			it = objects.erase(it);
 			continue;
 		}
 
-		if (dynamic_cast<FoundationBase *>(*it->lock()) == nullptr &&
-			dynamic_cast<WallBase *>(*it->lock()) == nullptr)
+		auto object = it->lock();
+
+		if (dynamic_pointer_cast<FoundationBase>(object) == nullptr &&
+			dynamic_pointer_cast<WallBase>(object) == nullptr)
 		{
 			it->reset();
 			it = objects.erase(it);
@@ -75,8 +76,8 @@ AimTestResult WallFull::AimTest(ray ray)
 		return AimTestResult(false, ray.GetDest(), ray.GetVectorAngle());
 
 	sort(objects.begin(), objects.end(), [&ray](const p_GameObjectWeak_t a_ptr, const p_GameObjectWeak_t b_ptr) {
-		vec3 posA = *(*a_ptr.lock())->GetTransform()->GetPosition();
-		vec3 posB = *(*b_ptr.lock())->GetTransform()->GetPosition();
+		vec3 posA = *(a_ptr.lock())->GetTransform()->GetPosition();
+		vec3 posB = *(b_ptr.lock())->GetTransform()->GetPosition();
 
 		auto distVec1 = posA - ray.GetOrigin();
 		auto distVec2 = posB - ray.GetOrigin();
@@ -86,10 +87,10 @@ AimTestResult WallFull::AimTest(ray ray)
 
 	for (auto &object_p : objects)
 	{
-		auto object = *object_p.lock();
+		auto object = object_p.lock();
 
 		auto stability = object->GetComponent<IStabilityComponent>();
-		auto result = stability->TryConnect(ray, this);
+		auto result = stability->TryConnect(ray, this->GetSharedPtr());
 
 		if (result.m_IsPassed)
 			return result;

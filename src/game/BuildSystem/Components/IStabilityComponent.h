@@ -23,14 +23,15 @@ public:
 	virtual ~IStabilityComponent();
 
 	void OnStateUpdated() override;
+	void OnStabilityCalculated();
 
 	/**
      * object - объект, который необходимо прибиндить
      * */
-	virtual AimTestResult TryConnect(ray ray, GameObject *object);
+	virtual AimTestResult TryConnect(ray ray, p_GameObject_t object);
 
-	virtual void AddConnection(GameObject *object);
-	virtual void RemoveConnection(GameObject *object);
+	virtual void AddConnection(p_GameObject_t object);
+	virtual void RemoveConnection(p_GameObject_t object);
 
 	set<Connection, ConnectionOrdering> GetConnections();
 
@@ -40,7 +41,6 @@ public:
 	double GetStability();
 
 protected:
-
 	IObjectResolver *m_ObjectResolver = nullptr;
 	double m_Stability;
 };

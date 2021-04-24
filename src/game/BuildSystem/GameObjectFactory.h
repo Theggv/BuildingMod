@@ -3,14 +3,17 @@
 
 #include <pch.h>
 
-#include <game/BuildSystem/ObjectManager.h>
+#include <game/BuildSystem/GameObject.h>
 
 class GameObjectFactory
 {
 public:
-    GameObject *CreateFoundationSquare(edict_t *owner);
-    GameObject *CreateFoundationTriangle(edict_t *owner);
-    GameObject *CreateWall(edict_t *owner);
+    p_GameObject_t CreateFoundationSquare(edict_t *owner);
+    p_GameObject_t CreateFoundationTriangle(edict_t *owner);
+    p_GameObject_t CreateWall(edict_t *owner);
+
+private:
+    p_GameObject_t AddToManager(p_GameObject_t ptr);
 };
 
 #endif // !_BUILDSYSTEM_GAMEOBJECTFACTORY_

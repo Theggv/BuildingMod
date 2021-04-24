@@ -14,10 +14,10 @@ WallResolver::WallResolver()
     GenerateZones();
 }
 
-bool WallResolver::CanResolve(GameObject *object, GameObject *bindable)
+bool WallResolver::CanResolve(p_GameObject_t object, p_GameObject_t bindable)
 {
-    if (dynamic_cast<FoundationSquare *>(object) != nullptr &&
-        dynamic_cast<WallBase *>(bindable) != nullptr)
+    if (dynamic_pointer_cast<FoundationSquare>(object) != nullptr &&
+        dynamic_pointer_cast<WallBase>(bindable) != nullptr)
         return true;
 
     return false;

@@ -2,12 +2,12 @@
 #include <game/BuildSystem/BuildingObjects/Foundations/Foundations.h>
 
 AimTestResult TriangleToSquarePoints::GetConnectionPoint(
-    GameObject *object, GameObject *bindable, int zoneId)
+    p_GameObject_t object, p_GameObject_t bindable, int zoneId)
 {
-    if (dynamic_cast<FoundationSquare *>(bindable) == nullptr)
+    if (dynamic_pointer_cast<FoundationSquare>(bindable) == nullptr)
         return CallNext(object, bindable, zoneId);
 
-    auto foundation = dynamic_cast<FoundationTriangle *>(object);
+    auto foundation = dynamic_pointer_cast<FoundationTriangle>(object);
 
     if (foundation == nullptr)
         return CallNext(object, bindable, zoneId);
@@ -50,12 +50,12 @@ AimTestResult TriangleToSquarePoints::GetConnectionPoint(
     }
 }
 
-int TriangleToSquarePoints::GetZoneIdByPosition(GameObject *object, GameObject *bindable, vec3 pos)
+int TriangleToSquarePoints::GetZoneIdByPosition(p_GameObject_t object, p_GameObject_t bindable, vec3 pos)
 {
-    if (dynamic_cast<FoundationSquare *>(bindable) == nullptr)
+    if (dynamic_pointer_cast<FoundationSquare>(bindable) == nullptr)
         return CallNext(object, bindable, pos);
 
-    auto foundation = dynamic_cast<FoundationTriangle *>(object);
+    auto foundation = dynamic_pointer_cast<FoundationTriangle>(object);
 
     vec3 newPos = vec3(0, foundation->m_ModelSize / 2 + FoundationTriangle::m_Height / 3, 0);
 

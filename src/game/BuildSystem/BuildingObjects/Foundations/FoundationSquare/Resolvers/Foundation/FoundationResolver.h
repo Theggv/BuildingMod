@@ -18,11 +18,11 @@ namespace FoundationSquareResolvers
     public:
         FoundationResolver();
 
-        virtual bool CanResolve(GameObject *object, GameObject *bindable) override;
+        virtual bool CanResolve(p_GameObject_t object, p_GameObject_t bindable) override;
 
     protected:
         void GenerateZones() override;
-        vector<Triangle> GetTransformedZone(GameObject *object, int zoneId) override;
+        vector<Triangle> GetTransformedZone(p_GameObject_t object, int zoneId) override;
 
     private:
         SquareZones GetZoneById(int zoneId);

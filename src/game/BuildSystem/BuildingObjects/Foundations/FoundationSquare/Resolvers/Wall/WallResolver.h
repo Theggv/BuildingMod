@@ -18,7 +18,7 @@ namespace FoundationSquareResolvers
     public:
         WallResolver();
 
-        virtual bool CanResolve(GameObject *object, GameObject *bindable) override;
+        virtual bool CanResolve(p_GameObject_t object, p_GameObject_t bindable) override;
 
     protected:
         void GenerateZones() override;

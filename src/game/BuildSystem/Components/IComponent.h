@@ -3,8 +3,6 @@
 
 #include <game/BuildSystem/GameObject.h>
 
-class GameObject;
-
 class IComponent
 {
 public:
@@ -21,10 +19,13 @@ public:
 	/// </summary>
 	/// <param name="parent"></param>
 	void SetParent(GameObject *parent);
-	GameObject *GetParent();
+	p_GameObject_t GetParent();
+
+	void SetValid(bool isValid);
 
 protected:
-	GameObject *m_Parent = nullptr;
+	p_GameObjectWeak_t m_Parent;
+	bool m_IsValid = true;
 };
 
 #endif // !_BUILDINGOBJECTS_COMPONENTS_ICOMPONENT_

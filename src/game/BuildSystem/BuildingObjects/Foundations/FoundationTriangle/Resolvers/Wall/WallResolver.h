@@ -18,8 +18,8 @@ namespace FoundationTriangleResolvers
     public:
         WallResolver();
 
-        virtual bool CanResolve(GameObject *object, GameObject *bindable) override;
-        vector<Triangle> GetTransformedZone(GameObject *object, int zoneId) override;
+        virtual bool CanResolve(p_GameObject_t object, p_GameObject_t bindable) override;
+        vector<Triangle> GetTransformedZone(p_GameObject_t object, int zoneId) override;
 
     protected:
         void GenerateZones() override;

@@ -29,7 +29,7 @@ void IColliderComponent::AddEdict(edict_t *edict, bool isVisible)
 	else
 		m_InvisibleEdicts.insert(edict);
 
-	EdictFlags::SetFlags(edict, m_Parent->Id);
+	EdictFlags::SetFlags(edict, GetParent()->Id);
 }
 
 set<edict_t *> IColliderComponent::GetEdicts(bool isVisible)
@@ -39,7 +39,7 @@ set<edict_t *> IColliderComponent::GetEdicts(bool isVisible)
 
 void IColliderComponent::OnTransformUpdate()
 {
-	auto renderer = m_Parent->GetComponent<RendererComponent>();
+	auto renderer = GetParent()->GetComponent<RendererComponent>();
 	double fixAngle = renderer != nullptr ? renderer->GetFixAngle() : 0;
 
 	for (auto pEntity : m_VisibleEdicts)
@@ -59,7 +59,7 @@ void IColliderComponent::OnTransformUpdate()
 
 void IColliderComponent::OnStateUpdated()
 {
-	auto state = m_Parent->GetState();
+	auto state = GetParent()->GetState();
 
 	switch (state)
 	{

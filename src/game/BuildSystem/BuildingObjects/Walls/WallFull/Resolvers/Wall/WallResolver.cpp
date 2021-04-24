@@ -14,13 +14,13 @@ WallResolver::WallResolver()
     GenerateZones();
 }
 
-bool WallResolver::CanResolve(GameObject *object, GameObject *bindable)
+bool WallResolver::CanResolve(p_GameObject_t object, p_GameObject_t bindable)
 {
-    if (dynamic_cast<WallBase *>(object) == nullptr ||
-        dynamic_cast<WallBase *>(bindable) == nullptr)
+    if (dynamic_pointer_cast<WallBase>(object) == nullptr ||
+        dynamic_pointer_cast<WallBase>(bindable) == nullptr)
         return false;
 
-    return !HasConnection();
+    return true;
 }
 
 void WallResolver::GenerateZones()

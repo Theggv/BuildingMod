@@ -53,17 +53,19 @@ void FoundationBase::OnStateUpdated()
 		if (object.expired())
 			continue;
 
-		auto gameObject = *object.lock();
+		auto gameObject = object.lock();
 
 		if (gameObject->Id == this->Id)
 			continue;
 
-		if (dynamic_cast<FoundationBase *>(gameObject) != nullptr ||
-			dynamic_cast<WallBase *>(gameObject) != nullptr)
+		if (dynamic_pointer_cast<FoundationBase>(gameObject) != nullptr ||
+			dynamic_pointer_cast<WallBase>(gameObject) != nullptr)
 		{
 			Connect(gameObject);
 		}
 	}
+
+	GetComponent<IStabilityComponent>()->OnStabilityCalculated();
 }
 
 void FoundationBase::AimHandler()
@@ -150,7 +152,7 @@ AimTestResult FoundationBase::IntersectionTest(AimTestResult result)
 		if (object.expired())
 			continue;
 
-		auto foundation = dynamic_cast<FoundationBase *>(*object.lock());
+		auto foundation = dynamic_pointer_cast<FoundationBase>(object.lock());
 
 		if (foundation == nullptr)
 		{

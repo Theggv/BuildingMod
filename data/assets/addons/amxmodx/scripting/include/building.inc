@@ -22,14 +22,34 @@ enum GameObjectType
 
 native building_ping();
 
-/*
+/**
 *	Spawn object with selected type
+*
+*	@noreturn
 */
 native building_createobject(id, GameObjectType:type);
 
-/*
+
+/**
+*	Delete object with given objectId
+*
+*	@param id - player id
+*	@param objectId - object id
+*	@return bool - is success
+*/
+native building_deleteobject(id, objectId);
+
+/**
 *	Trying to make selected game object solid
-*	@params:
-*		@id - id of the player
+*	@param id - player id
+*	@return bool - is success
 */
 native building_trymakesolid(id);
+
+/**
+*	Get object id by players aim
+*	
+*	@param id - player id
+*	@return int - object id or -1 if not success
+*/
+native building_getaimobject(id);

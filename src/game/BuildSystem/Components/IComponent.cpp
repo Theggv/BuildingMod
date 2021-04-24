@@ -1,4 +1,5 @@
 #include "IComponent.h"
+#include <game/BuildSystem/ObjectManager.h>
 
 IComponent::IComponent()
 {
@@ -26,10 +27,18 @@ void IComponent::OnStateUpdated()
 
 void IComponent::SetParent(GameObject *parent)
 {
-	m_Parent = parent;
+	m_Parent = ObjectManager::Instance().GetPtr(parent->Id);
 }
 
-GameObject *IComponent::GetParent()
+p_GameObject_t IComponent::GetParent()
 {
-	return m_Parent;
+	if (m_Parent.expired())
+		return nullptr;
+
+	return m_Parent.lock();
+}
+
+void IComponent::SetValid(bool isValid)
+{
+	m_IsValid = false;
 }

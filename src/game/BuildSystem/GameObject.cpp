@@ -2,6 +2,7 @@
 #include <game/BuildSystem/ObjectManager.h>
 #include <Server/FrameState.h>
 
+#include <game/BuildSystem/Components/IComponent.h>
 #include <game/BuildSystem/Components/IStabilityComponent.h>
 
 // initial object id
@@ -13,22 +14,30 @@ GameObject::GameObject() : Id(m_IdGenerator)
 
 	m_State = BuildState::STATE_NONE;
 	m_Components = set<IComponent *>();
-	m_Transform = new Transform();
-	m_TransformObserver = new GameObjectObserver(this);
+	m_Transform = make_unique<Transform>();
+	m_TransformObserver = make_unique<GameObjectObserver>(this);
+
+	ObjectManager::Instance().Add(shared_ptr<GameObject>(this));
 }
 
 GameObject::~GameObject()
 {
 	for (auto component : m_Components)
+	{
+		component->SetValid(false);
 		delete component;
+	}
 
 	m_Components.clear();
 
 	// Trick to clear memory allocated by STL container
 	set<IComponent *>().swap(m_Components);
 
-	delete this->m_TransformObserver;
-	delete this->m_Transform;
+	if (this->m_TransformObserver)
+		this->m_TransformObserver.reset();
+
+	if (this->m_Transform != nullptr)
+		this->m_Transform.reset();
 }
 
 void GameObject::OnStart()
@@ -89,13 +98,13 @@ void GameObject::OnStateUpdated()
 
 	if (m_State == BuildState::STATE_SOLID)
 	{
-		ObjectManager::Instance().SetMapIndex(this);
+		ObjectManager::Instance().SetMapIndex(ObjectManager::Instance().Get(Id));
 	}
 }
 
 Transform *GameObject::GetTransform()
 {
-	return m_Transform;
+	return m_Transform.get();
 }
 
 unsigned long GameObject::GetWorldPositionFlags()
@@ -133,7 +142,8 @@ void GameObject::UpdateWorldPosition()
 		m_Transform->GetPosition()->y());
 }
 
-GameObject::GameObjectObserver::GameObjectObserver(GameObject *object) : m_GameObject(object)
+GameObject::GameObjectObserver::GameObjectObserver(GameObject *object)
+	: m_GameObject(object)
 {
 	m_GameObject->GetTransform()->Attach(this);
 }
@@ -149,7 +159,7 @@ void GameObject::GameObjectObserver::Update()
 	m_GameObject->OnTransformUpdate();
 }
 
-void GameObject::Connect(GameObject *other)
+void GameObject::Connect(p_GameObject_t other)
 {
 	auto thisStability = this->GetComponent<IStabilityComponent>();
 	auto otherStability = other->GetComponent<IStabilityComponent>();
@@ -158,5 +168,11 @@ void GameObject::Connect(GameObject *other)
 		thisStability->AddConnection(other);
 
 	if (otherStability != nullptr)
-		otherStability->AddConnection(this);
+		otherStability->AddConnection(this->GetSharedPtr());
+}
+
+shared_ptr<GameObject> GameObject::GetSharedPtr()
+{
+	// return shared_from_this();
+	return ObjectManager::Instance().Get(Id);
 }

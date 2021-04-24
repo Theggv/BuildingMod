@@ -19,7 +19,7 @@ void OwnerComponent::OnUpdate()
 
 void OwnerComponent::OnStateUpdated()
 {
-	if (m_Parent->GetState() == BuildState::STATE_SOLID)
+	if (GetParent()->GetState() == BuildState::STATE_SOLID)
 	{
 		EdictFlags::SetPlayerSelectedObject(m_Owner, 0);
 	}

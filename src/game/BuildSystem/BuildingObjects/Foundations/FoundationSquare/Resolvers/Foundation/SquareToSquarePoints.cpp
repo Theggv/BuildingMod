@@ -1,12 +1,12 @@
 #include "SquareToSquarePoints.h"
 
 AimTestResult SquareToSquarePoints::GetConnectionPoint(
-    GameObject *object, GameObject *bindable, int zoneId)
+    p_GameObject_t object, p_GameObject_t bindable, int zoneId)
 {
-    if (dynamic_cast<FoundationSquare *>(bindable) == nullptr)
+    if (dynamic_pointer_cast<FoundationSquare>(bindable) == nullptr)
         return CallNext(object, bindable, zoneId);
 
-    auto foundation = dynamic_cast<FoundationSquare *>(object);
+    auto foundation = dynamic_pointer_cast<FoundationSquare>(object);
 
     SquareZones squareZone;
     HeightZones heightZone;
@@ -51,12 +51,12 @@ AimTestResult SquareToSquarePoints::GetConnectionPoint(
     }
 }
 
-int SquareToSquarePoints::GetZoneIdByPosition(GameObject *object, GameObject *bindable, vec3 pos)
+int SquareToSquarePoints::GetZoneIdByPosition(p_GameObject_t object, p_GameObject_t bindable, vec3 pos)
 {
-    if (dynamic_cast<FoundationSquare *>(bindable) == nullptr)
+    if (dynamic_pointer_cast<FoundationSquare>(bindable) == nullptr)
         return CallNext(object, bindable, pos);
 
-    auto foundation = dynamic_cast<FoundationSquare *>(object);
+    auto foundation = dynamic_pointer_cast<FoundationSquare>(object);
 
     vec3 newPos = vec3(foundation->m_ModelSize, 0, 0);
 

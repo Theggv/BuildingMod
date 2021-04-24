@@ -1,6 +1,7 @@
 #include "StabilityComponentBase.h"
 #include <game/BuildSystem/ConnectionManager.h>
 #include <game/BuildSystem/BuildingObjects/BuildingObject.h>
+#include <game/BuildSystem/Components/IStabilityComponent.h>
 
 using namespace WallBaseResolvers;
 
@@ -11,7 +12,7 @@ void StabilityComponentBase::CalculateStability(int cycle)
 		return;
 
 	// Find parent with highest stability
-	auto parents = ConnectionManager::Instance().GetParents(m_Parent);
+	auto parents = ConnectionManager::Instance().GetParents(GetParent());
 
 	double parentStability = 0.0;
 	double parentCoef = 0.7;
@@ -22,7 +23,7 @@ void StabilityComponentBase::CalculateStability(int cycle)
 		if (link.second.expired())
 			continue;
 
-		auto object = *link.second.lock();
+		auto object = link.second.lock();
 
 		auto stability = object->GetComponent<IStabilityComponent>();
 
@@ -35,12 +36,12 @@ void StabilityComponentBase::CalculateStability(int cycle)
 			parentStability = stability->GetStability();
 	}
 
-	auto additionals = ConnectionManager::Instance().GetAdditionals(m_Parent);
+	auto additionals = ConnectionManager::Instance().GetAdditionals(GetParent());
 
 	// Get unique points
 	vector<vec3> uniquePoints;
 
-	for (auto point : dynamic_cast<WallBase *>(m_Parent)->GetShape().GetPoints())
+	for (auto point : dynamic_pointer_cast<BuildingObject>(GetParent())->GetShape().GetPoints())
 	{
 		bool isUnique = true;
 		for (auto p : uniquePoints)
@@ -62,7 +63,7 @@ void StabilityComponentBase::CalculateStability(int cycle)
 		if (link.second.expired())
 			continue;
 
-		auto object = *link.second.lock();
+		auto object = link.second.lock();
 
 		auto stability = object->GetComponent<IStabilityComponent>();
 
@@ -70,7 +71,7 @@ void StabilityComponentBase::CalculateStability(int cycle)
 		if (stability == nullptr)
 			continue;
 
-		for (auto point : dynamic_cast<BuildingObject *>(object)->GetShape().GetPoints())
+		for (auto point : dynamic_pointer_cast<BuildingObject>(object)->GetShape().GetPoints())
 		{
 			bool handled = false;
 

@@ -105,10 +105,10 @@ void CBasePlayer_PreThink(IReGameHook_CBasePlayer_PreThink *chain, CBasePlayer *
 	auto objectId = EdictFlags::GetPlayerSelectedObject(pPlayer->edict());
 
 	auto &manager = ObjectManager::Instance();
-	auto gameObjectPtr = manager.GetPtr(objectId).lock();
+	auto gameObjectPtr = manager.Get(objectId);
 
 	if (gameObjectPtr != nullptr)
-		(*gameObjectPtr)->OnUpdate();
+		gameObjectPtr->OnUpdate();
 
 	gameObjectPtr.reset();
 
@@ -155,8 +155,8 @@ void CBasePlayer_PostThink(IReGameHook_CBasePlayer_PostThink *chain, CBasePlayer
 			return;
 		}
 
-		auto object = *ptr.lock();
-		auto className = typeid(*object).name();
+		auto object = ptr.lock();
+		auto className = typeid(object).name();
 
 		// EdictFlags::SetPlayerSelectedObject(pPlayer->edict(), object->Id);
 
@@ -205,7 +205,7 @@ void CBasePlayer_PostThink(IReGameHook_CBasePlayer_PostThink *chain, CBasePlayer
 
 			len += snprintf(
 				buffer + len, sizeof(buffer) - len, "\n%d(%s)",
-				(*connection.ptr.lock())->Id, type.c_str());
+				connection.ptr.lock()->Id, type.c_str());
 		}
 
 		hudtextparms_t params;
@@ -252,7 +252,6 @@ int SV_CreatePacketEntities(IRehldsHook_SV_CreatePacketEntities *chain, sv_delta
 			continue;
 		}
 
-		auto gameObject = *gameObjectPtr;
 		gameObjectPtr.reset();
 
 		// Save state

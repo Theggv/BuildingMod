@@ -1,12 +1,12 @@
 #include "TriangleToTrianglePoints.h"
 
 AimTestResult TriangleToTrianglePoints::GetConnectionPoint(
-    GameObject *object, GameObject *bindable, int zoneId)
+    p_GameObject_t object, p_GameObject_t bindable, int zoneId)
 {
-    if (dynamic_cast<FoundationTriangle *>(bindable) == nullptr)
+    if (dynamic_pointer_cast<FoundationTriangle>(bindable) == nullptr)
         return CallNext(object, bindable, zoneId);
 
-    auto foundation = dynamic_cast<FoundationTriangle *>(object);
+    auto foundation = dynamic_pointer_cast<FoundationTriangle>(object);
 
     TriangleZones zone;
     HeightZones heightZone;
@@ -46,12 +46,12 @@ AimTestResult TriangleToTrianglePoints::GetConnectionPoint(
     }
 }
 
-int TriangleToTrianglePoints::GetZoneIdByPosition(GameObject *object, GameObject *bindable, vec3 pos)
+int TriangleToTrianglePoints::GetZoneIdByPosition(p_GameObject_t object, p_GameObject_t bindable, vec3 pos)
 {
-    if (dynamic_cast<FoundationTriangle *>(bindable) == nullptr)
+    if (dynamic_pointer_cast<FoundationTriangle>(bindable) == nullptr)
         return CallNext(object, bindable, pos);
 
-    auto foundation = dynamic_cast<FoundationTriangle *>(object);
+    auto foundation = dynamic_pointer_cast<FoundationTriangle>(object);
 
     vec3 newPos = vec3(0, foundation->m_Height * 2 / 3, 0);
 

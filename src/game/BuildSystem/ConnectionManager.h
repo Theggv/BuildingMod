@@ -12,20 +12,20 @@ class ConnectionManager
 public:
 	static ConnectionManager &Instance();
 
-	bool AddLinkParentChild(GameObject *parent, GameObject *child);
-	bool AddLinkIndependent(GameObject *object, GameObject *other);
-	bool AddLinkAdditional(GameObject *object, GameObject *other);
+	bool AddLinkParentChild(p_GameObject_t parent, p_GameObject_t child);
+	bool AddLinkIndependent(p_GameObject_t object, p_GameObject_t other);
+	bool AddLinkAdditional(p_GameObject_t object, p_GameObject_t other);
 
-	map<int, p_GameObjectWeak_t> GetChildren(GameObject *parent);
-	map<int, p_GameObjectWeak_t> GetParents(GameObject *child);
-	map<int, p_GameObjectWeak_t> GetAdditionals(GameObject *object);
-	map<int, p_GameObjectWeak_t> GetIndepentent(GameObject *object);
+	map<int, p_GameObjectWeak_t> GetChildren(p_GameObject_t parent);
+	map<int, p_GameObjectWeak_t> GetParents(p_GameObject_t child);
+	map<int, p_GameObjectWeak_t> GetAdditionals(p_GameObject_t object);
+	map<int, p_GameObjectWeak_t> GetIndepentent(p_GameObject_t object);
 
-	ConnectionTypes GetRelationship(GameObject *object, GameObject *other);
+	ConnectionTypes GetRelationship(p_GameObject_t object, p_GameObject_t other);
 
-	set<Connection, ConnectionOrdering> GetAllLinks(GameObject *object);
+	set<Connection, ConnectionOrdering> GetAllLinks(p_GameObject_t object);
 
-	void RemoveLinks(GameObject *object);
+	void RemoveLinks(p_GameObject_t object);
 
 private:
 	struct Index
@@ -84,6 +84,8 @@ private:
 
 	ConnectionManager(ConnectionManager const &) = delete;
 	ConnectionManager &operator=(ConnectionManager const &) = delete;
+
+	void SendRecalculationRequest(p_GameObjectWeak_t ptr);
 };
 
 #endif // !_BUILDSYSTEM_CONNECTIONMANAGER_

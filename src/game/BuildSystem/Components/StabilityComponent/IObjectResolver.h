@@ -22,22 +22,22 @@ public:
 
     void SetSuccessor(IObjectResolver *successor);
 
-    virtual AimTestResult TryConnect(ray ray, GameObject *object, GameObject *bindable);
+    virtual AimTestResult TryConnect(ray ray, p_GameObject_t object, p_GameObject_t bindable);
 
-    virtual void AddConnection(GameObject *object, GameObject *bindable);
+    virtual void AddConnection(p_GameObject_t object, p_GameObject_t bindable);
 
     virtual bool HasConnection(int zoneId);
 
-    virtual void RemoveConnection(GameObject *object, GameObject *bindable);
-    virtual void RemoveConnections(GameObject *object);
+    virtual void RemoveConnection(p_GameObject_t object, p_GameObject_t bindable);
+    virtual void RemoveConnections(p_GameObject_t object);
 
-    virtual bool CanResolve(GameObject *object, GameObject *bindable) = 0;
+    virtual bool CanResolve(p_GameObject_t object, p_GameObject_t bindable) = 0;
 
 protected:
     virtual void GenerateZones() = 0;
-    virtual vector<Triangle> GetTransformedZone(GameObject *object, int zoneId);
+    virtual vector<Triangle> GetTransformedZone(p_GameObject_t object, int zoneId);
 
-    AimTestResult CallNext(ray ray, GameObject *object, GameObject *bindable);
+    AimTestResult CallNext(ray ray, p_GameObject_t object, p_GameObject_t bindable);
 
     IConnectionPoints *m_Handler = nullptr;
 

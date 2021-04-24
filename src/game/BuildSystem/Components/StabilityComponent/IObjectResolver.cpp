@@ -17,8 +17,8 @@ void IObjectResolver::SetSuccessor(IObjectResolver *successor)
 }
 
 void IObjectResolver::AddConnection(
-	GameObject *object,
-	GameObject *bindable)
+	p_GameObject_t object,
+	p_GameObject_t bindable)
 {
 	if (!CanResolve(object, bindable))
 	{
@@ -77,7 +77,7 @@ bool IObjectResolver::HasConnection(int zoneId)
 	return false;
 }
 
-void IObjectResolver::RemoveConnection(GameObject *object, GameObject *bindable)
+void IObjectResolver::RemoveConnection(p_GameObject_t object, p_GameObject_t bindable)
 {
 	if (!CanResolve(object, bindable))
 	{
@@ -103,7 +103,7 @@ void IObjectResolver::RemoveConnection(GameObject *object, GameObject *bindable)
 	GenerateZones();
 }
 
-void IObjectResolver::RemoveConnections(GameObject *object)
+void IObjectResolver::RemoveConnections(p_GameObject_t object)
 {
 	for (auto connection : m_Connections)
 	{
@@ -112,7 +112,7 @@ void IObjectResolver::RemoveConnections(GameObject *object)
 		if (object_p.expired())
 			continue;
 
-		auto other = *object_p.lock();
+		auto other = object_p.lock();
 
 		auto stability = other->GetComponent<IStabilityComponent>();
 
@@ -123,7 +123,7 @@ void IObjectResolver::RemoveConnections(GameObject *object)
 	}
 }
 
-AimTestResult IObjectResolver::TryConnect(ray ray, GameObject *object, GameObject *bindable)
+AimTestResult IObjectResolver::TryConnect(ray ray, p_GameObject_t object, p_GameObject_t bindable)
 {
 	if (!CanResolve(object, bindable))
 		return CallNext(ray, object, bindable);
@@ -177,7 +177,7 @@ AimTestResult IObjectResolver::TryConnect(ray ray, GameObject *object, GameObjec
 	return m_Handler->GetConnectionPoint(object, bindable, minZone);
 }
 
-vector<Triangle> IObjectResolver::GetTransformedZone(GameObject *object, int zoneId)
+vector<Triangle> IObjectResolver::GetTransformedZone(p_GameObject_t object, int zoneId)
 {
 	vector<Triangle> tries;
 
@@ -196,7 +196,7 @@ vector<Triangle> IObjectResolver::GetTransformedZone(GameObject *object, int zon
 	return tries;
 }
 
-AimTestResult IObjectResolver::CallNext(ray ray, GameObject *object, GameObject *bindable)
+AimTestResult IObjectResolver::CallNext(ray ray, p_GameObject_t object, p_GameObject_t bindable)
 {
 	if (m_Successor != nullptr)
 		return m_Successor->TryConnect(ray, object, bindable);

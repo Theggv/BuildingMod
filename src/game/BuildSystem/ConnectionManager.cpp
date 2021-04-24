@@ -16,7 +16,7 @@ ConnectionManager &ConnectionManager::Instance()
 	return manager;
 }
 
-bool ConnectionManager::AddLinkParentChild(GameObject *parent, GameObject *child)
+bool ConnectionManager::AddLinkParentChild(p_GameObject_t parent, p_GameObject_t child)
 {
 	if (GetRelationship(parent, child) != ConnectionTypes::Unknown)
 		return false;
@@ -48,7 +48,7 @@ bool ConnectionManager::AddLinkParentChild(GameObject *parent, GameObject *child
 	return res;
 }
 
-bool ConnectionManager::AddLinkIndependent(GameObject *object, GameObject *other)
+bool ConnectionManager::AddLinkIndependent(p_GameObject_t object, p_GameObject_t other)
 {
 	if (GetRelationship(object, other) != ConnectionTypes::Unknown)
 		return false;
@@ -64,7 +64,7 @@ bool ConnectionManager::AddLinkIndependent(GameObject *object, GameObject *other
 	return true;
 }
 
-bool ConnectionManager::AddLinkAdditional(GameObject *object, GameObject *other)
+bool ConnectionManager::AddLinkAdditional(p_GameObject_t object, p_GameObject_t other)
 {
 	if (GetRelationship(object, other) != ConnectionTypes::Unknown)
 		return false;
@@ -86,7 +86,7 @@ bool ConnectionManager::AddLinkAdditional(GameObject *object, GameObject *other)
 	return true;
 }
 
-map<int, p_GameObjectWeak_t> ConnectionManager::GetChildren(GameObject *parent)
+map<int, p_GameObjectWeak_t> ConnectionManager::GetChildren(p_GameObject_t parent)
 {
 	auto list = map<int, p_GameObjectWeak_t>();
 
@@ -98,14 +98,14 @@ map<int, p_GameObjectWeak_t> ConnectionManager::GetChildren(GameObject *parent)
 			if (pair.second.expired())
 				continue;
 
-			list.insert({(*pair.second.lock())->Id, pair.second});
+			list.insert({pair.second.lock()->Id, pair.second});
 		}
 	}
 
 	return list;
 }
 
-map<int, p_GameObjectWeak_t> ConnectionManager::GetParents(GameObject *child)
+map<int, p_GameObjectWeak_t> ConnectionManager::GetParents(p_GameObject_t child)
 {
 	auto list = map<int, p_GameObjectWeak_t>();
 
@@ -117,14 +117,14 @@ map<int, p_GameObjectWeak_t> ConnectionManager::GetParents(GameObject *child)
 			if (pair.second.expired())
 				continue;
 
-			list.insert({(*pair.second.lock())->Id, pair.second});
+			list.insert({pair.second.lock()->Id, pair.second});
 		}
 	}
 
 	return list;
 }
 
-map<int, p_GameObjectWeak_t> ConnectionManager::GetAdditionals(GameObject *object)
+map<int, p_GameObjectWeak_t> ConnectionManager::GetAdditionals(p_GameObject_t object)
 {
 	auto list = map<int, p_GameObjectWeak_t>();
 
@@ -146,7 +146,7 @@ map<int, p_GameObjectWeak_t> ConnectionManager::GetAdditionals(GameObject *objec
 	return list;
 }
 
-map<int, p_GameObjectWeak_t> ConnectionManager::GetIndepentent(GameObject *object)
+map<int, p_GameObjectWeak_t> ConnectionManager::GetIndepentent(p_GameObject_t object)
 {
 	auto list = map<int, p_GameObjectWeak_t>();
 
@@ -168,7 +168,7 @@ map<int, p_GameObjectWeak_t> ConnectionManager::GetIndepentent(GameObject *objec
 	return list;
 }
 
-set<Connection, ConnectionOrdering> ConnectionManager::GetAllLinks(GameObject *object)
+set<Connection, ConnectionOrdering> ConnectionManager::GetAllLinks(p_GameObject_t object)
 {
 	auto list = set<Connection, ConnectionOrdering>();
 
@@ -192,12 +192,86 @@ set<Connection, ConnectionOrdering> ConnectionManager::GetAllLinks(GameObject *o
 	return list;
 }
 
-void ConnectionManager::RemoveLinks(GameObject *object)
+void ConnectionManager::RemoveLinks(p_GameObject_t object)
 {
-	// TODO: implement
+	if (!object)
+		return;
+		
+	p_GameObjectWeak_t ptr;
+	int id = object->Id;
+
+	auto it_ind = m_Independent.begin();
+
+	while (it_ind != m_Independent.end())
+	{
+		auto index = *it_ind;
+
+		if (index.firstIndex == id || index.secondIndex == id)
+		{
+			it_ind = m_Independent.erase(it_ind);
+			continue;
+		}
+
+		++it_ind;
+	}
+
+	auto it_add = m_Additionals.begin();
+
+	while (it_add != m_Additionals.end())
+	{
+		auto index = *it_add;
+
+		if (index.firstIndex == id || index.secondIndex == id)
+		{
+			it_add = m_Additionals.erase(it_add);
+			ptr = index.firstIndex == id ? index.GetSecondPtr() : index.GetFirstPtr();
+
+			// Recalculate stability for second object
+			SendRecalculationRequest(ptr);
+
+			continue;
+		}
+
+		++it_add;
+	}
+
+	auto it_child = m_Children.begin();
+
+	while (it_child != m_Children.end())
+	{
+		auto pair = *it_child;
+
+		if (pair.first == id)
+		{
+			it_child = m_Children.erase(it_child);
+
+			// Recalculate stability of children
+			for (auto [key, value] : pair.second)
+				SendRecalculationRequest(value);
+
+			continue;
+		}
+
+		++it_child;
+	}
+
+	auto it_par = m_Parents.begin();
+
+	while (it_par != m_Parents.end())
+	{
+		auto pair = *it_par;
+
+		if (pair.first == id)
+		{
+			it_par = m_Parents.erase(it_par);
+			continue;
+		}
+
+		++it_par;
+	}
 }
 
-ConnectionTypes ConnectionManager::GetRelationship(GameObject *object, GameObject *other)
+ConnectionTypes ConnectionManager::GetRelationship(p_GameObject_t object, p_GameObject_t other)
 {
 	if (m_Independent.find(Index(object->Id, other->Id)) != m_Independent.end())
 		return ConnectionTypes::Independent;
@@ -214,4 +288,18 @@ ConnectionTypes ConnectionManager::GetRelationship(GameObject *object, GameObjec
 		return ConnectionTypes::Parent;
 
 	return ConnectionTypes::Unknown;
+}
+
+void ConnectionManager::SendRecalculationRequest(p_GameObjectWeak_t ptr)
+{
+	// should be valid, but anyway, who knows
+	if (ptr.expired())
+		return;
+
+	auto stability = ptr.lock()->GetComponent<IStabilityComponent>();
+
+	if (stability == nullptr)
+		return;
+
+	stability->CalculateStability();
 }

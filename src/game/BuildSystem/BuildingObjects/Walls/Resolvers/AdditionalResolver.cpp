@@ -8,14 +8,14 @@ AdditionalResolver::AdditionalResolver()
 	GenerateZones();
 }
 
-bool AdditionalResolver::CanResolve(GameObject *object, GameObject *bindable)
+bool AdditionalResolver::CanResolve(p_GameObject_t object, p_GameObject_t bindable)
 {
-	if (dynamic_cast<WallBase *>(object) == nullptr ||
-		dynamic_cast<WallBase *>(bindable) == nullptr)
+	if (dynamic_pointer_cast<WallBase>(object) == nullptr ||
+		dynamic_pointer_cast<WallBase>(bindable) == nullptr)
 		return false;
 
-	auto wall = dynamic_cast<WallBase *>(object);
-	auto other = dynamic_cast<WallBase *>(bindable);
+	auto wall = dynamic_pointer_cast<WallBase>(object);
+	auto other = dynamic_pointer_cast<WallBase>(bindable);
 
 	return IsTouch(wall->GetShape(), other->GetShape());
 }
@@ -25,7 +25,7 @@ void AdditionalResolver::GenerateZones()
 	m_Zones.clear();
 }
 
-AimTestResult AdditionalResolver::TryConnect(ray ray, GameObject *object, GameObject *bindable)
+AimTestResult AdditionalResolver::TryConnect(ray ray, p_GameObject_t object, p_GameObject_t bindable)
 {
 	if (m_Successor != nullptr)
 		return m_Successor->TryConnect(ray, object, bindable);
@@ -33,7 +33,7 @@ AimTestResult AdditionalResolver::TryConnect(ray ray, GameObject *object, GameOb
 	return AimTestResult(false);
 }
 
-void AdditionalResolver::AddConnection(GameObject *object, GameObject *bindable)
+void AdditionalResolver::AddConnection(p_GameObject_t object, p_GameObject_t bindable)
 {
 	if (!CanResolve(object, bindable))
 	{

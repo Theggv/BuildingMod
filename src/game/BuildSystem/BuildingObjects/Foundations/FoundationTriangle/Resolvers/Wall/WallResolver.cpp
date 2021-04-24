@@ -14,10 +14,10 @@ WallResolver::WallResolver()
     GenerateZones();
 }
 
-bool WallResolver::CanResolve(GameObject *object, GameObject *bindable)
+bool WallResolver::CanResolve(p_GameObject_t object, p_GameObject_t bindable)
 {
-    if (dynamic_cast<FoundationTriangle *>(object) != nullptr &&
-        dynamic_cast<WallBase *>(bindable) != nullptr)
+    if (dynamic_pointer_cast<FoundationTriangle>(object) != nullptr &&
+        dynamic_pointer_cast<WallBase>(bindable) != nullptr)
         return true;
 
     return false;
@@ -75,7 +75,7 @@ vector<Triangle> WallResolver::GenerateZone(int zoneId)
     return triangles;
 }
 
-vector<Triangle> WallResolver::GetTransformedZone(GameObject *object, int zoneId)
+vector<Triangle> WallResolver::GetTransformedZone(p_GameObject_t object, int zoneId)
 {
     vector<Triangle> tries;
 
