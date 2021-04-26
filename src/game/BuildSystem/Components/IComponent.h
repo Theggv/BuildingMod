@@ -18,7 +18,7 @@ public:
 	/// Set parent of component.
 	/// </summary>
 	/// <param name="parent"></param>
-	void SetParent(GameObject *parent);
+	virtual void SetParent(GameObject *parent);
 	p_GameObject_t GetParent();
 
 	void SetValid(bool isValid);

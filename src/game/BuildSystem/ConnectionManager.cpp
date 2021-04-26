@@ -37,14 +37,6 @@ bool ConnectionManager::AddLinkParentChild(p_GameObject_t parent, p_GameObject_t
 
 	auto res = res1.second && res2.second;
 
-	if (res)
-	{
-		auto stability = parent->GetComponent<IStabilityComponent>();
-
-		if (stability != nullptr)
-			stability->UpdateDependentObjects();
-	}
-
 	return res;
 }
 
@@ -76,12 +68,6 @@ bool ConnectionManager::AddLinkAdditional(p_GameObject_t object, p_GameObject_t 
 		return false;
 
 	m_Additionals.insert(index);
-
-	if (object->GetComponent<IStabilityComponent>() != nullptr)
-		object->GetComponent<IStabilityComponent>()->CalculateStability();
-
-	if (other->GetComponent<IStabilityComponent>() != nullptr)
-		other->GetComponent<IStabilityComponent>()->CalculateStability();
 
 	return true;
 }
@@ -192,13 +178,10 @@ set<Connection, ConnectionOrdering> ConnectionManager::GetAllLinks(p_GameObject_
 	return list;
 }
 
-void ConnectionManager::RemoveLinks(p_GameObject_t object)
+void ConnectionManager::RemoveLinks(int id)
 {
-	if (!object)
-		return;
-		
+	vector<p_GameObjectWeak_t> recalculationRequests;
 	p_GameObjectWeak_t ptr;
-	int id = object->Id;
 
 	auto it_ind = m_Independent.begin();
 
@@ -209,6 +192,10 @@ void ConnectionManager::RemoveLinks(p_GameObject_t object)
 		if (index.firstIndex == id || index.secondIndex == id)
 		{
 			it_ind = m_Independent.erase(it_ind);
+			ptr = index.firstIndex == id ? index.GetSecondPtr() : index.GetFirstPtr();
+
+			recalculationRequests.push_back(ptr);
+
 			continue;
 		}
 
@@ -226,8 +213,18 @@ void ConnectionManager::RemoveLinks(p_GameObject_t object)
 			it_add = m_Additionals.erase(it_add);
 			ptr = index.firstIndex == id ? index.GetSecondPtr() : index.GetFirstPtr();
 
+			auto size = m_Additionals.size();
+
 			// Recalculate stability for second object
-			SendRecalculationRequest(ptr);
+			// SendRecalculationRequest(ptr);
+
+			recalculationRequests.push_back(ptr);
+
+			// If recalculation request removed all links, current iterator
+			// would be invalid, so, we need to break the cycle
+
+			// if (size != m_Additionals.size())
+			// 	it_add = m_Additionals.begin();
 
 			continue;
 		}
@@ -245,9 +242,15 @@ void ConnectionManager::RemoveLinks(p_GameObject_t object)
 		{
 			it_child = m_Children.erase(it_child);
 
+			auto size = m_Children.size();
+
 			// Recalculate stability of children
 			for (auto [key, value] : pair.second)
-				SendRecalculationRequest(value);
+				recalculationRequests.push_back(value);
+			// SendRecalculationRequest(value);
+
+			if (size != m_Children.size())
+				it_child = m_Children.begin();
 
 			continue;
 		}
@@ -264,10 +267,21 @@ void ConnectionManager::RemoveLinks(p_GameObject_t object)
 		if (pair.first == id)
 		{
 			it_par = m_Parents.erase(it_par);
+
+			for (auto [key, value] : pair.second)
+				recalculationRequests.push_back(value);
+			// SendRecalculationRequest(value);
+
 			continue;
 		}
 
 		++it_par;
+	}
+
+	// ne rabotaet (9
+	for (auto ptr : recalculationRequests)
+	{
+		SendRecalculationRequest(ptr);
 	}
 }
 
@@ -292,14 +306,15 @@ ConnectionTypes ConnectionManager::GetRelationship(p_GameObject_t object, p_Game
 
 void ConnectionManager::SendRecalculationRequest(p_GameObjectWeak_t ptr)
 {
-	// should be valid, but anyway, who knows
-	if (ptr.expired())
+	auto object = ptr.lock();
+
+	if (object == nullptr)
 		return;
 
-	auto stability = ptr.lock()->GetComponent<IStabilityComponent>();
+	auto stability = object->GetComponent<IStabilityComponent>();
 
 	if (stability == nullptr)
 		return;
 
-	stability->CalculateStability();
+	stability->StartCalculation();
 }

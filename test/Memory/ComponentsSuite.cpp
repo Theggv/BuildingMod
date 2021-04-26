@@ -14,7 +14,7 @@
 // class StabilityComponentMock : public IStabilityComponent
 // {
 // public:
-// 	virtual void CalculateStability(int cycle = 0) override {}
+// 	virtual void PartialCalculation(int cycle = 0) override {}
 // };
 
 // class ObjectResolverMock : public IObjectResolver

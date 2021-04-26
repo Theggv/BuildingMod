@@ -31,10 +31,10 @@ void WallResolver::GenerateZones()
 
 bool WallResolver::HasConnection()
 {
-    if (m_Connections.find(0) == m_Connections.end())
-        return false;
+    if (m_Connections.find(0) != m_Connections.end())
+        return m_Connections[0].lock() != nullptr;
 
-    return true;
+    return false;
 }
 
 vector<Triangle> WallResolver::GenerateZone()
@@ -47,8 +47,8 @@ vector<Triangle> WallResolver::GenerateZone()
 
     auto width = WallBase::m_ModelSize;
 
-    auto minHeight = width / 2;
-    auto maxHeight = width;
+    auto minHeight = 0;
+    auto maxHeight = width + width / 2;
 
     return Shape({vec3(0, -width / 2, minHeight),
                   vec3(0, width / 2, minHeight),

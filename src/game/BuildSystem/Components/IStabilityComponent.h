@@ -23,26 +23,41 @@ public:
 	virtual ~IStabilityComponent();
 
 	void OnStateUpdated() override;
-	void OnStabilityCalculated();
+
+	virtual void SetParent(GameObject *parent) override;
 
 	/**
-     * object - объект, который необходимо прибиндить
-     * */
+	 * object - объект, который необходимо прибиндить
+	 * */
 	virtual AimTestResult TryConnect(ray ray, p_GameObject_t object);
 
 	virtual void AddConnection(p_GameObject_t object);
-	virtual void RemoveConnection(p_GameObject_t object);
 
 	set<Connection, ConnectionOrdering> GetConnections();
 
-	virtual void CalculateStability(int cycle = 0) = 0;
-	void UpdateDependentObjects(int cycle = 0);
+	// Начать полный расчет стабильности
+	void StartCalculation();
+	// Вызывать после окончания расчета стабильности
+	void OnStabilityCalculated();
+
+	// Формируется из отношения родитель - потомок
+	virtual void CalculatePrimaryStability() = 0;
+	// Формируется из вспомогательных связей
+	virtual void CalculateSecondaryStability(int cycle = 0) = 0;
 
 	double GetStability();
 
 protected:
 	IObjectResolver *m_ObjectResolver = nullptr;
-	double m_Stability;
+
+	double m_PrimaryStability;
+	double m_SecondaryStability;
+
+	bool m_IsRecalcRequired = false;
+
+	// 	We can't use GetParent() in destruct because it's already invalid,
+	// 	but we can clean up connections using object id of parent
+	int m_ParentId;
 };
 
 #endif // !_BUILDINGOBJECTS_COMPONENTS_ISTABILITYCOMPONENT_

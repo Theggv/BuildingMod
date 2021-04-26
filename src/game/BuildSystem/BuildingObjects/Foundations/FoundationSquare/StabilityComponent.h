@@ -2,23 +2,17 @@
 #define _BUILDINGOBJECTS_FOUNDATIONSQUARE_STABILITYCOMPONENT_
 
 #include <pch.h>
-#include <game/BuildSystem/GameObject.h>
-#include <game/BuildSystem/Components/IStabilityComponent.h>
-#include <game/BuildSystem/ObjectManager.h>
-#include <game/Geometry.h>
-
-#include <game/BuildSystem/BuildingObjects/Objects.h>
+#include "../StabilityComponentBase.h"
 
 using namespace std;
+using namespace FoundationBaseNS;
 
 namespace FoundationSquareResolvers
 {
-    class StabilityComponent : public IStabilityComponent
+    class StabilityComponent : public StabilityComponentBase
     {
     public:
         StabilityComponent();
-
-        virtual void CalculateStability(int cycle = 0) override;
     };
 }
 

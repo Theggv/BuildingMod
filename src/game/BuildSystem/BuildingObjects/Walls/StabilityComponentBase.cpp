@@ -5,12 +5,8 @@
 
 using namespace WallBaseResolvers;
 
-void StabilityComponentBase::CalculateStability(int cycle)
+void StabilityComponentBase::CalculatePrimaryStability()
 {
-	// prevent random loop recursion
-	if (cycle >= 100)
-		return;
-
 	// Find parent with highest stability
 	auto parents = ConnectionManager::Instance().GetParents(GetParent());
 
@@ -36,6 +32,22 @@ void StabilityComponentBase::CalculateStability(int cycle)
 			parentStability = stability->GetStability();
 	}
 
+	parentStability *= parentCoef;
+
+	// eps check
+	if (fabs(parentStability - m_PrimaryStability) < 1e-6)
+		return;
+
+	m_PrimaryStability = parentStability;
+	m_IsRecalcRequired = true;
+}
+
+void StabilityComponentBase::CalculateSecondaryStability(int cycle)
+{
+	// prevent random loop recursion
+	if (cycle >= 50)
+		return;
+
 	auto additionals = ConnectionManager::Instance().GetAdditionals(GetParent());
 
 	// Get unique points
@@ -45,10 +57,8 @@ void StabilityComponentBase::CalculateStability(int cycle)
 	{
 		bool isUnique = true;
 		for (auto p : uniquePoints)
-		{
 			if (vec2(p) == vec2(point))
 				isUnique = false;
-		}
 
 		if (isUnique)
 			uniquePoints.push_back(point);
@@ -90,20 +100,46 @@ void StabilityComponentBase::CalculateStability(int cycle)
 		}
 	}
 
-	auto newStability = parentStability * parentCoef;
+	double newStability = 0;
 
 	for (auto stab : additionalStability)
 		newStability += stab * additionalCoef;
 
-	// It can't be possible, but for sure
-	if (newStability > 1.0)
-		newStability = 1.0;
-
 	// eps check
-	if (fabs(newStability - m_Stability) < 1e-6)
-		return;
+	if (fabs(newStability - m_SecondaryStability) >= 1e-6 || m_IsRecalcRequired)
+	{
+		// Recalculate other additionals
+		m_SecondaryStability = newStability;
+		m_IsRecalcRequired = false;
 
-	m_Stability = newStability;
+		for (auto link : additionals)
+		{
+			// All links should be valid, but check for safety
+			if (link.second.expired())
+				continue;
 
-	UpdateDependentObjects(cycle + 1);
+			auto object = link.second.lock();
+
+			auto stability = object->GetComponent<IStabilityComponent>();
+
+			stability->CalculateSecondaryStability(cycle + 1);
+		}
+
+		auto children = ConnectionManager::Instance().GetChildren(GetParent());
+
+		for (auto link : children)
+		{
+			// All links should be valid, but check for safety
+			if (link.second.expired())
+				continue;
+
+			auto object = link.second.lock();
+
+			auto stability = object->GetComponent<IStabilityComponent>();
+
+			stability->StartCalculation();
+		}
+	}
+
+	OnStabilityCalculated();
 }

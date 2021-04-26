@@ -66,7 +66,7 @@ void WallBase::OnStateUpdated()
 		}
 	}
 
-	GetComponent<IStabilityComponent>()->OnStabilityCalculated();
+	GetComponent<IStabilityComponent>()->StartCalculation();
 }
 
 void WallBase::AimHandler()

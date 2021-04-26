@@ -72,55 +72,9 @@ bool IObjectResolver::HasConnection(int zoneId)
 		return false;
 
 	if (m_Connections.find(zoneId) != m_Connections.end())
-		return !m_Connections[zoneId].expired();
+		return m_Connections[zoneId].lock() != nullptr;
 
 	return false;
-}
-
-void IObjectResolver::RemoveConnection(p_GameObject_t object, p_GameObject_t bindable)
-{
-	if (!CanResolve(object, bindable))
-	{
-		if (m_Successor != nullptr)
-			m_Successor->RemoveConnection(object, bindable);
-
-		return;
-	}
-
-	auto zoneId = m_Handler->GetZoneIdByPosition(
-		object,
-		bindable,
-		*bindable->GetTransform()->GetPosition());
-
-	if (zoneId < 0)
-		return;
-
-	if (m_Connections.find(zoneId) != m_Connections.end())
-	{
-		m_Connections.erase(zoneId);
-	}
-
-	GenerateZones();
-}
-
-void IObjectResolver::RemoveConnections(p_GameObject_t object)
-{
-	for (auto connection : m_Connections)
-	{
-		auto object_p = connection.second;
-
-		if (object_p.expired())
-			continue;
-
-		auto other = object_p.lock();
-
-		auto stability = other->GetComponent<IStabilityComponent>();
-
-		if (stability == nullptr)
-			continue;
-
-		stability->RemoveConnection(object);
-	}
 }
 
 AimTestResult IObjectResolver::TryConnect(ray ray, p_GameObject_t object, p_GameObject_t bindable)
@@ -202,4 +156,12 @@ AimTestResult IObjectResolver::CallNext(ray ray, p_GameObject_t object, p_GameOb
 		return m_Successor->TryConnect(ray, object, bindable);
 
 	return AimTestResult(false);
+}
+
+void IObjectResolver::RecalculateZones()
+{
+	GenerateZones();
+
+	if (m_Successor != nullptr)
+		m_Successor->GenerateZones();
 }

@@ -65,7 +65,7 @@ void FoundationBase::OnStateUpdated()
 		}
 	}
 
-	GetComponent<IStabilityComponent>()->OnStabilityCalculated();
+	GetComponent<IStabilityComponent>()->StartCalculation();
 }
 
 void FoundationBase::AimHandler()
@@ -138,8 +138,6 @@ AimTestResult FoundationBase::MinHeightTest(AimTestResult aimTest, AimTestResult
 
 AimTestResult FoundationBase::IntersectionTest(AimTestResult result)
 {
-	return AimTestResult(true, result.m_Origin, result.m_Angle);
-
 	auto objects = ObjectManager::Instance().GetObjectsInArea(result.m_Origin);
 
 	auto shape = GetShape(AimTestResult(

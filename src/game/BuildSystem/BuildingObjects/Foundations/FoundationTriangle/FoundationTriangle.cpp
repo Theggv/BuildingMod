@@ -183,7 +183,7 @@ Shape FoundationTriangle::GetShape(AimTestResult res)
 	};
 
 	Shape shape(points);
-	shape.SetAngle(res.m_Angle);
+	shape.SetAngle(res.m_Angle - 90);
 	shape.SetPosition(res.m_Origin);
 
 	return shape;

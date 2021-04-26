@@ -25,7 +25,7 @@ public:
 
 	set<Connection, ConnectionOrdering> GetAllLinks(p_GameObject_t object);
 
-	void RemoveLinks(p_GameObject_t object);
+	void RemoveLinks(int id);
 
 private:
 	struct Index

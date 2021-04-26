@@ -18,6 +18,7 @@ GameObject::GameObject() : Id(m_IdGenerator)
 	m_TransformObserver = make_unique<GameObjectObserver>(this);
 
 	ObjectManager::Instance().Add(shared_ptr<GameObject>(this));
+	m_WeakPtr = ObjectManager::Instance().GetPtr(Id);
 }
 
 GameObject::~GameObject()
@@ -173,6 +174,5 @@ void GameObject::Connect(p_GameObject_t other)
 
 shared_ptr<GameObject> GameObject::GetSharedPtr()
 {
-	// return shared_from_this();
-	return ObjectManager::Instance().Get(Id);
+	return m_WeakPtr.lock();
 }

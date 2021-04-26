@@ -59,6 +59,7 @@ public:
 protected:
 	set<IComponent *> m_Components;
 	BuildState m_State;
+	weak_ptr<GameObject> m_WeakPtr;
 
 	void UpdateWorldPosition();
 

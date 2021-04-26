@@ -79,11 +79,11 @@ bool Shape::IsIntersect(Shape other)
 {
     double min1, min2, max1, max2;
 
-    for (size_t i = 0; i < _initialPoints.size(); ++i)
+    for (size_t i = 0; i < _transformedPoints.size(); ++i)
     {
-        size_t j = (i == _initialPoints.size() - 1) ? 0 : i + 1;
+        size_t j = (i == _transformedPoints.size() - 1) ? 0 : i + 1;
 
-        auto vec = _initialPoints[i] - _initialPoints[j];
+        auto vec = _transformedPoints[i] - _transformedPoints[j];
         auto normal = vec2(-vec.y, vec.x);
 
         SATTest(normal, *this, min1, max1);
@@ -106,7 +106,7 @@ void Shape::SATTest(vec2 normal, Shape &polygon, double &min, double &max)
     min = INT_MAX;
     max = INT_MIN;
 
-    for (auto point : polygon._initialPoints)
+    for (auto point : polygon._transformedPoints)
     {
         auto value = vec2::Dot(vec2(point.x, point.y), normal);
 
@@ -127,15 +127,15 @@ std::vector<Triangle> Shape::Triangulate()
 {
     std::vector<Triangle> triangles;
 
-    if (_initialPoints.size() < 3)
+    if (_transformedPoints.size() < 3)
         return triangles;
 
-    for (size_t i = 2; i < _initialPoints.size(); i++)
+    for (size_t i = 2; i < _transformedPoints.size(); i++)
     {
         triangles.push_back(Triangle(
-            _initialPoints[0],
-            _initialPoints[i - 1],
-            _initialPoints[i]));
+            _transformedPoints[0],
+            _transformedPoints[i - 1],
+            _transformedPoints[i]));
     }
 
     return triangles;

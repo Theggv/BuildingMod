@@ -16,7 +16,8 @@ namespace WallBaseResolvers
 	class StabilityComponentBase : public IStabilityComponent
 	{
 	public:
-		virtual void CalculateStability(int cycle = 0) override;
+		virtual void CalculatePrimaryStability() override;
+		virtual void CalculateSecondaryStability(int cycle = 0) override;
 	};
 }
 

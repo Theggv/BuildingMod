@@ -28,11 +28,9 @@ public:
 
     virtual bool HasConnection(int zoneId);
 
-    virtual void RemoveConnection(p_GameObject_t object, p_GameObject_t bindable);
-    virtual void RemoveConnections(p_GameObject_t object);
-
     virtual bool CanResolve(p_GameObject_t object, p_GameObject_t bindable) = 0;
 
+    void RecalculateZones();
 protected:
     virtual void GenerateZones() = 0;
     virtual vector<Triangle> GetTransformedZone(p_GameObject_t object, int zoneId);
