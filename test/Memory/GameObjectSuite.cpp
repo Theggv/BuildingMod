@@ -5,36 +5,36 @@
 #include <game/BuildSystem/BuildingObjects/Objects.h>
 #include <game/BuildSystem/GameObjectFactory.h>
 
-class GameObjectMock : public GameObject
-{
-public:
-	void Connect(p_GameObject_t other) override {}
-};
-
 BOOST_AUTO_TEST_SUITE(ComponentsSuite)
 
-BOOST_AUTO_TEST_CASE(GameObjectMemoryTest)
+BOOST_AUTO_TEST_CASE(WallFullMemoryTest)
 {
-	// auto object = new GameObjectMock();
-	// delete object;
+	auto factory = new GameObjectFactory;
+	auto ptr = factory->CreateWall(nullptr);
+
+	ObjectManager::Instance().Remove((ptr));
+
+	delete factory;
 }
 
 BOOST_AUTO_TEST_CASE(FoundationSquareMemoryTest)
 {
 	auto factory = new GameObjectFactory;
 	auto ptr = factory->CreateFoundationSquare(nullptr);
-	ObjectManager::Instance().Remove((ptr));
 
-	auto ptr2 = make_shared<int>(1);
-	ptr2.reset();
+	ObjectManager::Instance().Remove((ptr));
 
 	delete factory;
 }
 
 BOOST_AUTO_TEST_CASE(FoundationTriangleMemoryTest)
 {
-	// auto object = new FoundationTriangle(nullptr);
-	// delete object;
+	auto factory = new GameObjectFactory;
+	auto ptr = factory->CreateFoundationTriangle(nullptr);
+
+	ObjectManager::Instance().Remove((ptr));
+
+	delete factory;
 }
 
 BOOST_AUTO_TEST_SUITE_END()

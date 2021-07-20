@@ -65,7 +65,9 @@ void FoundationBase::OnStateUpdated()
 		}
 	}
 
-	GetComponent<IStabilityComponent>()->StartCalculation();
+	auto stability = GetComponent<IStabilityComponent>();
+	if (stability)
+		stability->StartCalculation();
 }
 
 void FoundationBase::AimHandler()

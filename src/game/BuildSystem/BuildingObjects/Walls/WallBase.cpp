@@ -66,7 +66,9 @@ void WallBase::OnStateUpdated()
 		}
 	}
 
-	GetComponent<IStabilityComponent>()->StartCalculation();
+	auto stability = GetComponent<IStabilityComponent>();
+	if (stability)
+		stability->StartCalculation();
 }
 
 void WallBase::AimHandler()
@@ -99,9 +101,6 @@ void WallBase::AimHandler()
 
 AimTestResult WallBase::IntersectionTest(AimTestResult result)
 {
-	// zaglushka
-	return result;
-
 	// Skip test if previous was failed
 	if (!result.m_IsPassed)
 		return result;
@@ -129,10 +128,48 @@ AimTestResult WallBase::IntersectionTest(AimTestResult result)
 		{
 			auto otherShape = wall->GetShape();
 
-			if (shape.IsIntersect(otherShape))
+			if (IsIntersect(shape, otherShape))
 				return AimTestResult(false, result.m_Origin, result.m_Angle);
 		}
 	}
 
 	return AimTestResult(true, result.m_Origin, result.m_Angle);
+}
+
+bool WallBase::IsIntersect(Shape s1, Shape s2)
+{
+	auto xy1 = s1.GetUniqueXY();
+	auto xy2 = s2.GetUniqueXY();
+
+	// For sure
+	if (xy1.size() != 2 || xy2.size() != 2)
+		return true;
+
+	if (vec2(xy1[0]) == vec2(xy2[0]) && vec2(xy1[1]) == vec2(xy2[1]) ||
+		vec2(xy1[0]) == vec2(xy2[1]) && vec2(xy1[1]) == vec2(xy2[0]))
+	{
+		// Points are in same pos
+		auto z1 = s1.GetUniqueZ();
+		auto z2 = s2.GetUniqueZ();
+
+		// For sure
+		if (z1.size() != 2 || z2.size() != 2)
+			return true;
+
+		auto minz1 = min(z1[0].z, z1[1].z);
+		auto maxz1 = max(z1[0].z, z1[1].z);
+
+		auto minz2 = min(z2[0].z, z2[1].z);
+		auto maxz2 = max(z2[0].z, z2[1].z);
+
+		// valid scenarios: min1 = max2, max1 = max1, other are invalid!
+		if (minz1 == maxz2 || minz2 == maxz1)
+			return true;
+
+		return false;
+	}
+	else
+	{
+		return s1.IsIntersect(s2);
+	}
 }

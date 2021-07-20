@@ -22,8 +22,8 @@ p_GameObject_t GameObjectFactory::CreateWall(edict_t *owner)
     return ObjectManager::Instance().Get(object->Id);
 }
 
-p_GameObject_t GameObjectFactory::AddToManager(p_GameObject_t ptr)
+p_GameObject_t GameObjectFactory::CreateDoorFrame(edict_t *owner)
 {
-    return ptr;
-    // return ObjectManager::Instance().Add(ptr);
+    auto object = new DoorFrame(owner);
+    return ObjectManager::Instance().Get(object->Id);
 }

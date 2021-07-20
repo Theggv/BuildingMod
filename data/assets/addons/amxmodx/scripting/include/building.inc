@@ -18,6 +18,7 @@ enum GameObjectType
 	OBJECT_FOUNDATION,
 	OBJECT_FOUNDATIONTRIANGLE,
 	OBJECT_WALL,
+	OBJECT_DOORFRAME,
 }
 
 native building_ping();

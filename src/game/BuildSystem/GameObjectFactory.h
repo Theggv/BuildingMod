@@ -11,9 +11,7 @@ public:
     p_GameObject_t CreateFoundationSquare(edict_t *owner);
     p_GameObject_t CreateFoundationTriangle(edict_t *owner);
     p_GameObject_t CreateWall(edict_t *owner);
-
-private:
-    p_GameObject_t AddToManager(p_GameObject_t ptr);
+    p_GameObject_t CreateDoorFrame(edict_t *owner);
 };
 
 #endif // !_BUILDSYSTEM_GAMEOBJECTFACTORY_

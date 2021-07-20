@@ -1,5 +1,4 @@
-#include "WallFull.h"
-#include "StabilityComponent.h"
+#include "Door.h"
 
 #include <game/BuildSystem/Components/OwnerComponent.h>
 #include <game/BuildSystem/Components/RendererComponent.h>
@@ -12,21 +11,22 @@
 
 // objects
 #include <game/BuildSystem/BuildingObjects/Foundations/Foundations.h>
+#include <game/BuildSystem/BuildingObjects/Walls/WallFull/StabilityComponent.h>
 
 using namespace WallFullResolvers;
 
-const double WallFull::m_Height = m_ModelSize;
+const double Door::m_Height = m_ModelSize;
 
-WallFull::WallFull(edict_t *owner) : WallBase(owner)
+Door::Door(edict_t *owner) : WallBase(owner)
 {
 }
 
-void WallFull::OnStart()
+void Door::OnStart()
 {
 	WallBase::OnStart();
 
-	auto renderer = new RendererComponent(-90);
-	renderer->SetModel(PrecacheManager::Instance().GetWallModel());
+	auto renderer = new RendererComponent(180);
+	renderer->SetModel(PrecacheManager::Instance().GetDoorFrameModel());
 
 	AddComponent(renderer);
 
@@ -45,7 +45,8 @@ void WallFull::OnStart()
 	AddComponent(triggerZone);
 }
 
-AimTestResult WallFull::AimTest(ray ray)
+// NOTE - idk does it work
+AimTestResult Door::AimTest(ray ray)
 {
 	auto objects = ObjectManager::Instance().GetObjectsInArea(ray.GetOrigin());
 	auto it = objects.begin();
@@ -98,7 +99,7 @@ AimTestResult WallFull::AimTest(ray ray)
 	return AimTestResult(false, ray.GetDest(), ray.GetVectorAngle());
 }
 
-Shape WallFull::GetShape(AimTestResult res)
+Shape Door::GetShape(AimTestResult res)
 {
 	auto half = m_ModelSize / 2;
 	auto full = m_ModelSize;

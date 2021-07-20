@@ -21,7 +21,8 @@ public cmd_Create(id) {
 
 	menu_additem(iMenu, "Foundation", "1");
 	menu_additem(iMenu, "Triangle Foundation", "2");
-	menu_additem(iMenu, "Wall^n", "3");
+	menu_additem(iMenu, "Wall", "3");
+	menu_additem(iMenu, "Door frame^n", "4");
 	menu_additem(iMenu, "Make solid", "50");
 	menu_additem(iMenu, "\rDelete object", "100");
 
@@ -48,6 +49,7 @@ public cmd_Create(id) {
 		case 1: building_createobject(id, OBJECT_FOUNDATION);
 		case 2: building_createobject(id, OBJECT_FOUNDATIONTRIANGLE);
 		case 3: building_createobject(id, OBJECT_WALL);
+		case 4: building_createobject(id, OBJECT_DOORFRAME);
 		case 50: building_trymakesolid(id);
 		case 100: building_deleteobject(id, building_getaimobject(id));
 	}

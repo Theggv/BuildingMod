@@ -2,28 +2,30 @@
 #include <boost/test/unit_test.hpp>
 
 #include <game/BuildSystem/GameObject.h>
+#include "mocks.h"
 
 class GameObjectMock : public GameObject
 {
 public:
-	inline void Connect(GameObject *other) override {}
+	inline void Connect(p_GameObject_t other) override {}
 };
 
 BOOST_AUTO_TEST_SUITE(GameObjectSuite)
 
 BOOST_AUTO_TEST_CASE(GameObjectDestructTest)
 {
-	auto object = new GameObjectMock;
-	delete object;
+	auto object = InitObject(new GameObjectMock);
+
+	ObjectManager::Instance().Clear();
 }
 
 BOOST_AUTO_TEST_CASE(GameObjectIdGeneratorTest)
 {
-	vector<GameObject *> vec;
+	vector<p_GameObject_t> vec;
 
 	for (int i = 0; i < 10; ++i)
 	{
-		vec.push_back(new GameObjectMock);
+		vec.push_back(InitObject(new GameObjectMock));
 
 		if (i > 0)
 		{
@@ -31,11 +33,8 @@ BOOST_AUTO_TEST_CASE(GameObjectIdGeneratorTest)
 		}
 	}
 
-	for (auto obj : vec)
-		delete obj;
-
 	vec.clear();
-	vector<GameObject *>().swap(vec);
+	ObjectManager::Instance().Clear();
 }
 
 unsigned int CalculuationTestHelper(GameObject *object, float x, float y)

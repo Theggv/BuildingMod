@@ -48,6 +48,8 @@ private:
 
 	ObjectManager(ObjectManager const &) = delete;
 	ObjectManager &operator=(ObjectManager const &) = delete;
+
+	bool m_IsCleanStarted = false;
 };
 
 #endif // !_BUILDSYSTEM_OBJECTMANAGER_

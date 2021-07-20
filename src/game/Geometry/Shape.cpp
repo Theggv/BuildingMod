@@ -145,3 +145,51 @@ std::vector<vec3> Shape::GetPoints(bool transformed)
 {
     return transformed ? _transformedPoints : _initialPoints;
 }
+
+std::vector<vec3> Shape::GetUniqueXY()
+{
+    std::vector<vec3> points;
+
+    for (auto p : _transformedPoints)
+    {
+        bool has = false;
+
+        for (auto point : points)
+        {
+            if (vec2(p) == vec2(point))
+            {
+                has = true;
+                break;
+            }
+        }
+
+        if (!has)
+            points.push_back(p);
+    }
+
+    return points;
+}
+
+std::vector<vec3> Shape::GetUniqueZ()
+{
+    std::vector<vec3> points;
+
+    for (auto p : _transformedPoints)
+    {
+        bool has = false;
+
+        for (auto point : points)
+        {
+            if (p.z == point.z)
+            {
+                has = true;
+                break;
+            }
+        }
+
+        if (!has)
+            points.push_back(p);
+    }
+
+    return points;
+}

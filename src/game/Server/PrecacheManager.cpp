@@ -38,6 +38,7 @@ void PrecacheManager::PrecacheResources()
 	PRECACHE_MODEL((char *)STRING(UTIL_AllocString(m_FoundationSquareModel)));
 	PRECACHE_MODEL((char *)STRING(UTIL_AllocString(m_FoundationTriangleModel)));
 	PRECACHE_MODEL((char *)STRING(UTIL_AllocString(m_WallModel)));
+	PRECACHE_MODEL((char *)STRING(UTIL_AllocString(m_DoorFrameModel)));
 
 	m_LaserBeamId = PRECACHE_MODEL((char *)STRING(UTIL_AllocString("sprites/laserbeam.spr")));
 
@@ -61,6 +62,11 @@ string PrecacheManager::GetWallModel()
 	return m_WallModel;
 }
 
+string PrecacheManager::GetDoorFrameModel()
+{
+	return m_DoorFrameModel;
+}
+
 int PrecacheManager::GetLaserBeamId()
 {
 	return m_LaserBeamId;
@@ -74,10 +80,10 @@ bool PrecacheManager::Parse_Settings(string str, string value)
 		m_FoundationTriangleModel = value;
 	else if (!_stricmp(str.c_str(), "WALL_MODEL"))
 		m_WallModel = value;
+	else if (!_stricmp(str.c_str(), "DOOR_FRAME_MODEL"))
+		m_DoorFrameModel = value;
 	else
-	{
 		return false;
-	}
 
 	return true;
 }

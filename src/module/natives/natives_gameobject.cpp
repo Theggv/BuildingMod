@@ -24,6 +24,7 @@ cell AMX_NATIVE_CALL Building_CreateObject(AMX *amx, cell *params)
 		OBJECT_FOUNDATION,
 		OBJECT_FOUNDATIONTRIANGLE,
 		OBJECT_WALL,
+		OBJECT_DOORFRAME,
 	};
 
 	// int len;
@@ -57,6 +58,9 @@ cell AMX_NATIVE_CALL Building_CreateObject(AMX *amx, cell *params)
 		break;
 	case objectType_e::OBJECT_WALL:
 		object = factory->CreateWall(player);
+		break;
+	case objectType_e::OBJECT_DOORFRAME:
+		object = factory->CreateDoorFrame(player);
 		break;
 	default:
 		break;

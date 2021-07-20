@@ -23,6 +23,9 @@ public:
 	bool IsIntersect(Shape other);
 	vec3 GetCenter();
 
+	std::vector<vec3> GetUniqueXY();
+	std::vector<vec3> GetUniqueZ();
+
 	std::vector<Triangle> Triangulate();
 	/**
 	 * Get all points of shape

@@ -28,6 +28,8 @@ protected:
 
 private:
 	AimTestResult IntersectionTest(AimTestResult result);
+
+	bool IsIntersect(Shape s1, Shape s2);
 };
 
 #endif // !_BUILDINGOBJECTS_WALLBASE_

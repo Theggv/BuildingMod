@@ -24,13 +24,14 @@ void FoundationSquareMock::OnStart()
 	AddComponent(stability);
 }
 
-GameObject *InitObject(GameObject *object)
+p_GameObject_t InitObject(GameObject *object)
 {
-	ObjectManager::Instance().Add(object);
-	return object;
+	auto ptr = ObjectManager::Instance().Get(object->Id);
+	ptr->OnStart();
+	return ptr;
 }
 
-void MakeSolid(GameObject *object)
+void MakeSolid(p_GameObject_t object)
 {
 	object->TrySetState(BuildState::STATE_CAN_BUILD);
 	object->TrySetState(BuildState::STATE_SOLID);

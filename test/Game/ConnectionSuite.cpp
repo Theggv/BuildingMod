@@ -7,7 +7,6 @@
 #include <game/BuildSystem/BuildingObjects/Walls/WallFull/StabilityComponent.h>
 #include <game/BuildSystem/ConnectionManager.h>
 
-
 BOOST_AUTO_TEST_SUITE(ConnectionSuite)
 
 BOOST_AUTO_TEST_CASE(ConnectionManagerTest)
@@ -32,11 +31,6 @@ BOOST_AUTO_TEST_CASE(ConnectionManagerTest)
 
 	BOOST_CHECK_EQUAL(links.size(), 3);
 
-	delete object1;
-	delete object2;
-	delete object3;
-	delete object4;
-
 	ObjectManager::Instance().Clear();
 }
 
@@ -54,9 +48,6 @@ BOOST_AUTO_TEST_CASE(BasicConnectionTest)
 
 	BOOST_CHECK_EQUAL(links1.size(), 1);
 	BOOST_CHECK_EQUAL(links2.size(), 1);
-
-	delete foundation1;
-	delete foundation2;
 
 	ObjectManager::Instance().Clear();
 }
@@ -91,12 +82,6 @@ BOOST_AUTO_TEST_CASE(ComplexConnectionTest)
 	BOOST_CHECK_EQUAL(links3.size(), 1);
 	BOOST_CHECK_EQUAL(links4.size(), 2);
 
-	delete foundation1;
-	delete foundation2;
-
-	delete wall1;
-	delete wall2;
-
 	ObjectManager::Instance().Clear();
 }
 
@@ -105,9 +90,9 @@ BOOST_AUTO_TEST_CASE(BasicAdditionalConnectionTest)
 	auto wall1 = InitObject(new WallFullMock(nullptr));
 	MakeSolid(wall1);
 
-	// Стена изначально расположена параллельно оси y
+	// Стена изначально расположена параллельно оси x
 	auto wall2 = InitObject(new WallFullMock(nullptr));
-	wall2->GetTransform()->GetPosition()->y(FoundationSquare::m_ModelSize);
+	wall2->GetTransform()->GetPosition()->x(FoundationSquare::m_ModelSize);
 	MakeSolid(wall2);
 
 	auto wall1Links = ConnectionManager::Instance().GetAdditionals(wall1);
@@ -115,9 +100,6 @@ BOOST_AUTO_TEST_CASE(BasicAdditionalConnectionTest)
 
 	BOOST_CHECK_EQUAL(wall1Links.size(), 1);
 	BOOST_CHECK_EQUAL(wall2Links.size(), 1);
-
-	delete wall1;
-	delete wall2;
 
 	ObjectManager::Instance().Clear();
 }
@@ -140,9 +122,6 @@ BOOST_AUTO_TEST_CASE(BasicAdditionalConnectionTest2)
 	BOOST_CHECK_EQUAL(wall1Links.size(), 1);
 	BOOST_CHECK_EQUAL(wall2Links.size(), 1);
 
-	delete wall1;
-	delete wall2;
-
 	ObjectManager::Instance().Clear();
 }
 
@@ -164,9 +143,6 @@ BOOST_AUTO_TEST_CASE(BasicAdditionalConnectionTest3)
 	BOOST_CHECK_EQUAL(wall1Links.size(), 0);
 	BOOST_CHECK_EQUAL(wall2Links.size(), 0);
 
-	delete wall1;
-	delete wall2;
-
 	ObjectManager::Instance().Clear();
 }
 
@@ -185,9 +161,6 @@ BOOST_AUTO_TEST_CASE(BasicAdditionalConnectionTest4)
 
 	BOOST_CHECK_EQUAL(wall1Links.size(), 0);
 	BOOST_CHECK_EQUAL(wall2Links.size(), 0);
-
-	delete wall1;
-	delete wall2;
 
 	ObjectManager::Instance().Clear();
 }

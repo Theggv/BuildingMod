@@ -39,6 +39,10 @@ p_GameObject_t ObjectManager::Add(p_GameObject_t object)
 
 void ObjectManager::Remove(p_GameObject_t object)
 {
+	// Prevent double delete if clean was started
+	if (m_IsCleanStarted)
+		return;
+
 	auto id = object->Id;
 
 	if (!Has(id))
@@ -62,6 +66,8 @@ bool ObjectManager::HasEdict(edict_t *edict)
 
 void ObjectManager::Clear()
 {
+	m_IsCleanStarted = true;
+
 	for (size_t i = 0; i < 64 * 64; i++)
 	{
 		m_ObjectsMapIndex[i].clear();
@@ -73,10 +79,16 @@ void ObjectManager::Clear()
 
 	while (it != m_Objects.end())
 	{
-		it->second.reset();
+		auto size = m_Objects.size();
 
 		it = m_Objects.erase(it);
+
+		// ptr ruined smh
+		if (size - 1 != m_Objects.size())
+			it = m_Objects.begin();
 	}
+
+	m_IsCleanStarted = false;
 }
 
 p_GameObject_t ObjectManager::Get(int id)

@@ -21,6 +21,6 @@ public:
 	virtual void OnStart() override;
 };
 
-GameObject *InitObject(GameObject *object);
+p_GameObject_t InitObject(GameObject* object);
 
-void MakeSolid(GameObject *object);
+void MakeSolid(p_GameObject_t object);
