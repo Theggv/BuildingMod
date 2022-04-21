@@ -61,10 +61,13 @@ public:
     bool operator()(vec3 const &lhs, vec3 const &rhs) const
     {
         if (lhs.x == rhs.x)
+        {
             if (lhs.y == rhs.y)
                 return lhs.z < rhs.z;
             else
                 return lhs.y < rhs.y;
+        }
+
         return lhs.x < rhs.x;
     }
 };
