@@ -1,0 +1,1 @@
+﻿package_add_test_with_libraries(vec2Tests vec2.cc building_amxx_static "${PROJECT_DIR}")
