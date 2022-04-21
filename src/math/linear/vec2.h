@@ -52,8 +52,8 @@ public:
 
 	friend vec2 operator/(vec2, double);
 
-	int operator==(vec2);
-	int operator!=(vec2);
+	bool operator==(vec2&);
+	bool operator!=(vec2&);
 };
 
 inline bool IsEqual(double a, double b)

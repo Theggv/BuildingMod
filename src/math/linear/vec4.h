@@ -10,24 +10,24 @@ struct mat4;
 struct vec4
 {
 public:
-    double x, y, z, w;
+	double x, y, z, w;
 
-    vec4(double _x = 0.0, double _y = 0.0, double _z = 0.0, double _w = 1.0);
-    vec4(vec2);
-    vec4(vec3);
+	vec4(double _x = 0.0, double _y = 0.0, double _z = 0.0, double _w = 1.0);
+	vec4(vec2);
+	vec4(vec3);
 
-    // methods
+	// methods
 
-    vec4 Normalize();
+	vec4 Normalize();
 
-    vec4 Transform(mat4);
+	vec4 Transform(mat4);
 
-    double Length();
-    double LengthSquared();
+	double Length();
+	double LengthSquared();
 
-    // operators
+	// operators
 
-    double operator[](int);
+	double operator[](int);
 };
 
 #endif // !_GAME_GEOMETRY_VEC4_H_

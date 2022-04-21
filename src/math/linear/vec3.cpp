@@ -22,142 +22,142 @@ vec3::vec3(Vector vec) : x(vec.x), y(vec.y), z(vec.z)
 
 vec3 vec3::One()
 {
-    return vec3(1, 1, 1);
+	return vec3(1, 1, 1);
 }
 
 vec3 vec3::UnitX()
 {
-    return vec3(1, 0, 0);
+	return vec3(1, 0, 0);
 }
 
 vec3 vec3::UnitY()
 {
-    return vec3(0, 1, 0);
+	return vec3(0, 1, 0);
 }
 
 vec3 vec3::UnitZ()
 {
-    return vec3(0, 0, 1);
+	return vec3(0, 0, 1);
 }
 
 vec3 vec3::Zero()
 {
-    return vec3(0, 0, 0);
+	return vec3(0, 0, 0);
 }
 
 double vec3::Distance(vec3 a, vec3 b)
 {
-    return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2) + pow(a.z - b.z, 2));
+	return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2) + pow(a.z - b.z, 2));
 }
 
 double vec3::DistanceSquared(vec3 a, vec3 b)
 {
-    return pow(a.x - b.x, 2) + pow(a.y - b.y, 2) + pow(a.z - b.z, 2);
+	return pow(a.x - b.x, 2) + pow(a.y - b.y, 2) + pow(a.z - b.z, 2);
 }
 
 double vec3::Dot(vec3 a, vec3 b)
 {
-    return a.x * b.x + a.y * b.y + a.z * b.z;
+	return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 
 vec3 vec3::Cross(vec3 a, vec3 b)
 {
-    return vec3(
-        a.y * b.z - b.y * a.z,
-        a.z * b.x - b.z * a.x,
-        a.x * b.y - b.x * a.y);
+	return vec3(
+		a.y * b.z - b.y * a.z,
+		a.z * b.x - b.z * a.x,
+		a.x * b.y - b.x * a.y);
 }
 
 // methods
 
 vec3 vec3::Abs()
 {
-    return vec3(abs(x), abs(y), abs(z));
+	return vec3(abs(x), abs(y), abs(z));
 }
 
 vec3 vec3::Normalize()
 {
-    auto len = Length();
+	auto len = Length();
 
-    if (!len)
-        return *this;
+	if (!len)
+		return *this;
 
-    return vec3(x / len, y / len, z / len);
+	return vec3(x / len, y / len, z / len);
 }
 
 vec3 vec3::Round()
 {
-    return vec3(roundf(x), roundf(y), roundf(z));
+	return vec3(roundf(x), roundf(y), roundf(z));
 }
 
 vec3 vec3::Transform(mat4 mat)
 {
-    auto vec = vec4(*this) * mat;
+	auto vec = vec4(*this) * mat;
 
-    return vec3(vec.x, vec.y, vec.z);
+	return vec3(vec.x, vec.y, vec.z);
 }
 
 double vec3::Length()
 {
-    return sqrt(x * x + y * y + z * z);
+	return sqrt(x * x + y * y + z * z);
 }
 
 double vec3::LengthSquared()
 {
-    return x * x + y * y + z * z;
+	return x * x + y * y + z * z;
 }
 
 // operators
 
 double vec3::operator[](int i)
 {
-    switch (i)
-    {
-    case 0:
-        return x;
-    case 1:
-        return y;
-    default:
-        return z;
-    }
+	switch (i)
+	{
+	case 0:
+		return x;
+	case 1:
+		return y;
+	default:
+		return z;
+	}
 }
 
 vec3 vec3::operator+(vec3 vec)
 {
-    return vec3(x + vec.x, y + vec.y, z + vec.z);
+	return vec3(x + vec.x, y + vec.y, z + vec.z);
 }
 
 vec3 vec3::operator-()
 {
-    return vec3(-x, -y, -z);
+	return vec3(-x, -y, -z);
 }
 
 vec3 vec3::operator-(vec3 vec)
 {
-    return vec3(x - vec.x, y - vec.y, z - vec.z);
+	return vec3(x - vec.x, y - vec.y, z - vec.z);
 }
 
 vec3 operator*(double s, vec3 vec)
 {
-    return vec3(s * vec.x, s * vec.y, s * vec.z);
+	return vec3(s * vec.x, s * vec.y, s * vec.z);
 }
 
 vec3 operator*(vec3 vec, double s)
 {
-    return vec3(s * vec.x, s * vec.y, s * vec.z);
+	return vec3(s * vec.x, s * vec.y, s * vec.z);
 }
 
 vec3 operator/(vec3 vec, double s)
 {
-    return vec3(vec.x / s, vec.y / s, vec.z / s);
+	return vec3(vec.x / s, vec.y / s, vec.z / s);
 }
 
-int vec3::operator==(vec3 vec)
+bool vec3::operator==(vec3& vec)
 {
-    return IsEqual(x, vec.x) && IsEqual(y, vec.y) && IsEqual(z, vec.z);
+	return IsEqual(x, vec.x) && IsEqual(y, vec.y) && IsEqual(z, vec.z);
 }
 
-int vec3::operator!=(vec3 vec)
+bool vec3::operator!=(vec3& vec)
 {
-    return !(*this == vec);
+	return !(*this == vec);
 }

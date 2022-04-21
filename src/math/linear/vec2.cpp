@@ -138,12 +138,12 @@ vec2 operator/(vec2 vec, double s)
 	return vec2(vec.x / s, vec.y / s);
 }
 
-int vec2::operator==(vec2 vec)
+bool vec2::operator==(vec2& vec)
 {
 	return IsEqual(x, vec.x) && IsEqual(y, vec.y);
 }
 
-int vec2::operator!=(vec2 vec)
+bool vec2::operator!=(vec2& vec)
 {
 	return !(*this == vec);
 }
