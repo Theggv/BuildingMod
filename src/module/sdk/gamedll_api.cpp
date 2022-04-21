@@ -1,5 +1,5 @@
 #include <pch.h>
-#include <game/Server/ServerHooks.h>
+// #include <game/Server/ServerHooks.h>
 
 IReGameApi *g_ReGameApi;
 IReGameHookchains *g_ReGameHookchains;
@@ -9,21 +9,24 @@ bool RegamedllApi_Init()
 {
 	const char *szGameDLLModule = GET_GAME_INFO(PLID, GINFO_DLL_FULLPATH);
 
-	if (szGameDLLModule == nullptr) {
+	if (szGameDLLModule == nullptr)
+	{
 		SEM_PRINT("[%s]: ReGameDLL szGameDLLModule NULL.", Plugin_info.logtag);
 		return false;
 	}
 
 	CSysModule *gameModule = Sys_LoadModule(szGameDLLModule);
 
-	if (!gameModule) {
+	if (!gameModule)
+	{
 		SEM_PRINT("[%s]: ReGameDLL gameModule NULL.", Plugin_info.logtag);
 		return false;
 	}
 
 	CreateInterfaceFn ifaceFactory = Sys_GetFactory(gameModule);
 
-	if (!ifaceFactory) {
+	if (!ifaceFactory)
+	{
 		SEM_PRINT("[%s]: ReGameDLL ifaceFactory NULL.", Plugin_info.logtag);
 		return false;
 	}
@@ -32,7 +35,8 @@ bool RegamedllApi_Init()
 
 	g_ReGameApi = (IReGameApi *)ifaceFactory(VRE_GAMEDLL_API_VERSION, &retCode);
 
-	if (!g_ReGameApi) {
+	if (!g_ReGameApi)
+	{
 		SEM_PRINT("[%s]: ReGameDLL error load Api.", Plugin_info.logtag);
 		return false;
 	}
@@ -66,13 +70,13 @@ bool RegamedllApi_Init()
 		return false;
 	}
 
-	g_ReGameHookchains = g_ReGameApi->GetHookchains();
-	g_ReGameHookchains->InstallGameRules()->registerHook(&InstallGameRules, HC_PRIORITY_DEFAULT);
+	// g_ReGameHookchains = g_ReGameApi->GetHookchains();
+	// g_ReGameHookchains->InstallGameRules()->registerHook(&InstallGameRules, HC_PRIORITY_DEFAULT);
 
-	// UserHooks.h
-	g_ReGameHookchains->CBasePlayer_PreThink()->registerHook(&CBasePlayer_PreThink, HC_PRIORITY_DEFAULT);
-	g_ReGameHookchains->CBasePlayer_PostThink()->registerHook(&CBasePlayer_PostThink, HC_PRIORITY_DEFAULT);
-	// g_ReGameHookchains->CBasePlayer_RoundRespawn()->registerHook(&CBasePlayer_RoundRespawn, HC_PRIORITY_DEFAULT);
+	// // UserHooks.h
+	// g_ReGameHookchains->CBasePlayer_PreThink()->registerHook(&CBasePlayer_PreThink, HC_PRIORITY_DEFAULT);
+	// g_ReGameHookchains->CBasePlayer_PostThink()->registerHook(&CBasePlayer_PostThink, HC_PRIORITY_DEFAULT);
+	// // g_ReGameHookchains->CBasePlayer_RoundRespawn()->registerHook(&CBasePlayer_RoundRespawn, HC_PRIORITY_DEFAULT);
 
 	return true;
 }
@@ -87,13 +91,13 @@ void HandleNetCommand(IRehldsHook_HandleNetCommand *chain, IGameClient *client, 
 	chain->callOriginal(client, a);
 }
 
-void SV_SendServerinfo(IRehldsHook_SV_SendServerinfo *chain, sizebuf_t* buf, IGameClient* client)
+void SV_SendServerinfo(IRehldsHook_SV_SendServerinfo *chain, sizebuf_t *buf, IGameClient *client)
 {
 	SEM_PRINT("%s %s %s", buf->buffername, buf->data, client->GetName());
 	chain->callOriginal(buf, client);
 }
 
-bool InternalCommand(IReGameHook_InternalCommand* chain, edict_t* pEdict, const char* msg)
+bool InternalCommand(IReGameHook_InternalCommand *chain, edict_t *pEdict, const char *msg)
 {
 	SEM_PRINT("%d %s", pEdict->serialnumber, msg);
 	return chain->callNext(pEdict, msg);

@@ -1,5 +1,5 @@
 #include <pch.h>
-#include <game/Server/ServerHooks.h>
+// #include <game/Server/ServerHooks.h>
 
 plugin_info_t Plugin_info = {
 	META_INTERFACE_VERSION,
@@ -10,8 +10,7 @@ plugin_info_t Plugin_info = {
 	"",
 	"BuildingMod",
 	PT_ANYTIME,
-	PT_ANYTIME
-};
+	PT_ANYTIME};
 
 meta_globals_t *gpMetaGlobals;
 mutil_funcs_t *gpMetaUtilFuncs;
@@ -29,9 +28,9 @@ C_DLLEXPORT int GetEntityAPI2(DLL_FUNCTIONS *pFunctionTable, int *)
 {
 	memset(&gpFunctionTable, 0, sizeof(DLL_FUNCTIONS));
 
-	gpFunctionTable.pfnSpawn = pfnSpawn;
-	//gpFunctionTable.pfnClientCommand = pfnClientCommand;
-	gpFunctionTable.pfnAddToFullPack = pfnAddToFullPack_Pre;
+	// gpFunctionTable.pfnSpawn = pfnSpawn;
+	// // gpFunctionTable.pfnClientCommand = pfnClientCommand;
+	// gpFunctionTable.pfnAddToFullPack = pfnAddToFullPack_Pre;
 
 	memcpy(pFunctionTable, &gpFunctionTable, sizeof(DLL_FUNCTIONS));
 
@@ -44,9 +43,9 @@ C_DLLEXPORT int GetEntityAPI2_Post(DLL_FUNCTIONS *pFunctionTable, int *)
 {
 	memset(&gpFunctionTable_Post, 0, sizeof(DLL_FUNCTIONS));
 
-	//gpFunctionTable_Post.pfnServerActivate = ServerActivate_Post;
-	//gpFunctionTable_Post.pfnServerDeactivate = ServerDeactivate_Post;
-	gpFunctionTable_Post.pfnAddToFullPack = pfnAddToFullPack_Post;
+	// // gpFunctionTable_Post.pfnServerActivate = ServerActivate_Post;
+	// // gpFunctionTable_Post.pfnServerDeactivate = ServerDeactivate_Post;
+	// gpFunctionTable_Post.pfnAddToFullPack = pfnAddToFullPack_Post;
 
 	memcpy(pFunctionTable, &gpFunctionTable_Post, sizeof(DLL_FUNCTIONS));
 
@@ -65,16 +64,17 @@ C_DLLEXPORT int Meta_Query(char *, plugin_info_t **pPlugInfo, mutil_funcs_t *pMe
 }
 
 static NEW_DLL_FUNCTIONS gNewFunctionsTable = {
-	nullptr,	//void (*pfnOnFreeEntPrivateData)(edict_t *pEnt);
-	nullptr,	//void (*pfnGameShutdown)(void);
-	nullptr,	//int (*pfnShouldCollide)( edict_t *pentTouched, edict_t *pentOther );
-	nullptr,	//void (*pfnCvarValue)( const edict_t *pEnt, const char *value );
-	nullptr		//void (*pfnCvarValue2)( const edict_t *pEnt, int requestID, const char *cvarName, const char *value );
+	nullptr, // void (*pfnOnFreeEntPrivateData)(edict_t *pEnt);
+	nullptr, // void (*pfnGameShutdown)(void);
+	nullptr, // int (*pfnShouldCollide)( edict_t *pentTouched, edict_t *pentOther );
+	nullptr, // void (*pfnCvarValue)( const edict_t *pEnt, const char *value );
+	nullptr	 // void (*pfnCvarValue2)( const edict_t *pEnt, int requestID, const char *cvarName, const char *value );
 };
 
 C_DLLEXPORT int GetNewDLLFunctions(NEW_DLL_FUNCTIONS *pNewFunctionTable, int *interfaceVersion)
 {
-	if (!pNewFunctionTable) {
+	if (!pNewFunctionTable)
+	{
 		LOG_ERROR(PLID, "GetNewDLLFunctions called with null pFunctionTable");
 		return FALSE;
 	}
@@ -97,12 +97,14 @@ C_DLLEXPORT int GetNewDLLFunctions(NEW_DLL_FUNCTIONS *pNewFunctionTable, int *in
 
 C_DLLEXPORT int Meta_Attach(PLUG_LOADTIME now, META_FUNCTIONS *pFunctionTable, meta_globals_t *pMGlobals, gamedll_funcs_t *pGamedllFuncs)
 {
-	if (!pMGlobals) {
+	if (!pMGlobals)
+	{
 		LOG_ERROR(PLID, "Meta_Attach called with null pMGlobals");
 		return FALSE;
 	}
 
-	if (!pFunctionTable) {
+	if (!pFunctionTable)
+	{
 		LOG_ERROR(PLID, "Meta_Attach called with null pFunctionTable");
 		return FALSE;
 	}
@@ -111,17 +113,20 @@ C_DLLEXPORT int Meta_Attach(PLUG_LOADTIME now, META_FUNCTIONS *pFunctionTable, m
 
 	g_bReHLDS = RehldsApi_Init();
 
-	if (!g_bReHLDS) {
+	if (!g_bReHLDS)
+	{
 		return FALSE;
 	}
 
 	g_bReGameDLL = RegamedllApi_Init();
 
-	if (!g_bReGameDLL) {
+	if (!g_bReGameDLL)
+	{
 		return FALSE;
 	}
 
-	if(!OnMetaAttach()) {
+	if (!OnMetaAttach())
+	{
 		return FALSE;
 	}
 

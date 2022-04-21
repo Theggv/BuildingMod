@@ -1,9 +1,5 @@
 #include "Shape.h"
 
-Shape::Shape()
-{
-}
-
 Shape::Shape(std::vector<vec3> points)
 {
     for (auto point : points)

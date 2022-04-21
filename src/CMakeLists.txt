@@ -6,22 +6,26 @@ file (GLOB PCH
 )
 
 file (GLOB_RECURSE COMMON_SRC
+	# "building/*.cpp"
+	# "interfaces/*.cpp"
+	"math/*.cpp"
 	"module/*.cpp"
-
-	"game/*.cpp"
 )
 
 file (GLOB_RECURSE COMMON_HEADERS
+	# "building/*.h"
+	# "interfaces/*.h"
+	"math/*.h"
 	"module/*.h"
-
-	"game/*.h"
 )
 
 set (SRC ${COMMON_SRC})
 
 set (SRC_DIRS
-	"./module"
-	"./game"
+	# "./building"
+	# "./interfaces"
+	"./math"
+	# "./module"
 )
 
 set (SRC_DEPS 

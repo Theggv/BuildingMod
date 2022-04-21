@@ -1,13 +1,13 @@
 #include <pch.h>
-#include <game/Server/PrecacheManager.h>
-#include <game/Utility/Utility.h>
-#include <module/natives/natives_ping.h>
-#include <module/natives/natives_gameobject.h>
+// #include <game/Server/PrecacheManager.h>
+// #include <game/Utility/Utility.h>
+// #include <module/natives/natives_ping.h>
+// #include <module/natives/natives_gameobject.h>
 
 void OnAmxxAttach()
 {
-	RegisterNatives_Ping();
-	RegisterNatives_GameObject();
+	// RegisterNatives_Ping();
+	// RegisterNatives_GameObject();
 }
 
 void OnAmxxDetach()
@@ -21,27 +21,27 @@ bool OnMetaAttach()
 
 void OnMetaDetach()
 {
-	ObjectManager::Instance().Clear();
-	UTIL_ClearAllocStrings();
+	// ObjectManager::Instance().Clear();
+	// UTIL_ClearAllocStrings();
 }
 
 void ServerDeactivate_Post()
 {
-	ObjectManager::Instance().Clear();
+	// ObjectManager::Instance().Clear();
 }
 
 int pfnSpawn(edict_t *pent)
 {
-	if (!ENTINDEX(pent))
-	{
-		auto &mngr = PrecacheManager::Instance();
+	// if (!ENTINDEX(pent))
+	// {
+	// 	auto &mngr = PrecacheManager::Instance();
 
-		// if (mngr.IsInit())
-		// 	RETURN_META_VALUE(MRES_IGNORED, 0);
+	// 	// if (mngr.IsInit())
+	// 	// 	RETURN_META_VALUE(MRES_IGNORED, 0);
 
-		ObjectManager::Instance().Clear();
-		mngr.PrecacheResources();
-	}
+	// 	ObjectManager::Instance().Clear();
+	// 	mngr.PrecacheResources();
+	// }
 
 	RETURN_META_VALUE(MRES_IGNORED, 0);
 }

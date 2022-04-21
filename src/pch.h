@@ -1,12 +1,12 @@
-#ifndef PCH_H
-#define PCH_H
+#if !defined(_PCH_H_)
+#define _PCH_H_
 
 // C
 #include <string.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>			// for strncpy(), etc
+#include <string.h> // for strncpy(), etc
 #include <math.h>
 
 // Platform
@@ -40,4 +40,4 @@
 // Entry point
 #include <module/main.h>
 
-#endif //PCH_H
+#endif // _PCH_H_

@@ -1,28 +1,31 @@
 #include <pch.h>
-#include <game/Server/ServerHooks.h>
+// #include <game/Server/ServerHooks.h>
 
-IRehldsApi* g_RehldsApi;
-IRehldsHookchains* g_RehldsHookchains;
+IRehldsApi *g_RehldsApi;
+IRehldsHookchains *g_RehldsHookchains;
 
-bool RehldsApi_TryInit(CSysModule* engineModule, char* failureReason)
+bool RehldsApi_TryInit(CSysModule *engineModule, char *failureReason)
 {
-	if (!engineModule) {
+	if (!engineModule)
+	{
 		SEM_PRINT("[%s]: ReHLDS Failed to locate engine module.", Plugin_info.logtag);
 		return false;
 	}
 
 	CreateInterfaceFn ifaceFactory = Sys_GetFactory(engineModule);
 
-	if (!ifaceFactory) {
+	if (!ifaceFactory)
+	{
 		SEM_PRINT("[%s]: ReHLDS Failed to locate interface factory in engine module.", Plugin_info.logtag);
 		return false;
 	}
 
 	int retCode = 0;
 
-	g_RehldsApi = (IRehldsApi*)ifaceFactory(VREHLDS_HLDS_API_VERSION, &retCode);
+	g_RehldsApi = (IRehldsApi *)ifaceFactory(VREHLDS_HLDS_API_VERSION, &retCode);
 
-	if (!g_RehldsApi) {
+	if (!g_RehldsApi)
+	{
 		SEM_PRINT("[%s]: ReHLDS Failed to locate retrieve rehlds api interface from engine module, return code is %d.", Plugin_info.logtag, retCode);
 		return false;
 	}
@@ -59,9 +62,9 @@ bool RehldsApi_TryInit(CSysModule* engineModule, char* failureReason)
 	g_RehldsHookchains = g_RehldsApi->GetHookchains();
 
 	// UserHooks.h
-	g_RehldsHookchains->SV_CreatePacketEntities()->registerHook(&SV_CreatePacketEntities);
-	//g_RehldsHookchains->ClientConnected()->registerHook(&ClientConnected);
-	//g_RehldsHookchains->SV_DropClient()->registerHook(&SV_DropClient);
+	// g_RehldsHookchains->SV_CreatePacketEntities()->registerHook(&SV_CreatePacketEntities);
+	// g_RehldsHookchains->ClientConnected()->registerHook(&ClientConnected);
+	// g_RehldsHookchains->SV_DropClient()->registerHook(&SV_DropClient);
 
 	return true;
 }
@@ -71,7 +74,7 @@ bool RehldsApi_Init()
 	char failReason[2048];
 
 #ifdef WIN32
-	CSysModule* engineModule = Sys_LoadModule("swds.dll");
+	CSysModule *engineModule = Sys_LoadModule("swds.dll");
 	if (!RehldsApi_TryInit(engineModule, failReason))
 	{
 		engineModule = Sys_LoadModule("filesystem_stdio.dll");
@@ -82,7 +85,7 @@ bool RehldsApi_Init()
 		}
 	}
 #else
-	CSysModule* engineModule = Sys_LoadModule("engine_i486.so");
+	CSysModule *engineModule = Sys_LoadModule("engine_i486.so");
 	if (!RehldsApi_TryInit(engineModule, failReason))
 	{
 		UTIL_LogPrintf("%s", failReason);
@@ -92,4 +95,3 @@ bool RehldsApi_Init()
 
 	return true;
 }
-

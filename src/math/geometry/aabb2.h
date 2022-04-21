@@ -3,8 +3,8 @@
 
 #include <pch.h>
 
-#include "Ray.h"
 #include "../linear/linear.h"
+#include "Ray.h"
 
 struct aabb2
 {

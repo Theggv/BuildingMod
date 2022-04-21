@@ -9,7 +9,6 @@
 class Shape
 {
 public:
-	Shape();
 	Shape(std::vector<vec3> points);
 
 	vec3 GetPosition();

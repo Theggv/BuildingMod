@@ -10,9 +10,9 @@ vec2::vec2(double _x, double _y) : x(_x), y(_y)
 {
 }
 
-// vec2::vec2(vec3 vec) : x(vec.x), y(vec.y)
-// {
-// }
+vec2::vec2(vec3 vec) : x(vec.x), y(vec.y)
+{
+}
 
 // static methods
 

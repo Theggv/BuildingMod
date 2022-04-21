@@ -8,10 +8,6 @@ set(CMAKE_CXX_STANDARD 17)
 # Include default stuff
 include(GNUInstallDirs)
 
-# Boost setup
-
-add_subdirectory(external/boost-cmake)
-
 # Dependencies
 set(CMAKE_INCLUDE_PATH
 	"external"
@@ -44,7 +40,8 @@ include_directories(
 add_subdirectory(src)
 
 # Tests
+
 include(CTest)
 enable_testing()
 
-add_subdirectory(test)
+add_subdirectory(tests)
