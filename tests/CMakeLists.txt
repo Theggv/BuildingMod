@@ -37,7 +37,13 @@ macro(package_add_test_with_libraries TESTNAME FILES LIBRARIES TEST_WORKING_DIRE
         WORKING_DIRECTORY ${TEST_WORKING_DIRECTORY}
         PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${TEST_WORKING_DIRECTORY}"
     )
-    set_target_properties(${TESTNAME} PROPERTIES FOLDER tests)
+    if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+      set_target_properties(${TESTNAME} PROPERTIES FOLDER tests PREFIX "" COMPILE_FLAGS "-m32" LINK_FLAGS "-m32" POSITION_INDEPENDENT_CODE ON)
+    else()
+      set_target_properties(${TESTNAME} PROPERTIES FOLDER tests)
+    endif()
+
+
 endmacro()
 
 message("${PROJECT_DIR}")
