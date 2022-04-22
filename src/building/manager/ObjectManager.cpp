@@ -1,7 +1,7 @@
 
 #include "ObjectManager.h"
-#include <building/base/GameObject.h>
-#include <Utility/EdictFlags.h>
+#include <building/GameObject.h>
+#include <interfaces/EdictFlags.h>
 
 ObjectManager::ObjectManager()
 {
@@ -53,10 +53,10 @@ void ObjectManager::Remove(std::shared_ptr<GameObject *> ptr)
     if (!Has(id))
         return;
 
-    auto index = object->GetWorldPositionFlags();
+    //auto index = object->GetWorldPositionFlags();
 
     m_Objects.erase(id);
-    m_ObjectsMapIndex[index].erase(id);
+    /*m_ObjectsMapIndex[index].erase(id);*/
 }
 
 bool ObjectManager::Has(int id)
@@ -126,10 +126,10 @@ void ObjectManager::SetMapIndex(GameObject *object)
 {
     auto id = object->Id;
 
-    auto index = object->GetWorldPositionFlags();
+    //auto index = object->GetWorldPositionFlags();
 
-    m_ObjectsMapIndex[index]
-        .insert(std::pair(id, std::weak_ptr<GameObject *>(m_Objects.at(id))));
+  /*  m_ObjectsMapIndex[index]
+        .insert(std::pair(id, std::weak_ptr<GameObject *>(m_Objects.at(id))));*/
 }
 
 aabb2 ObjectManager::GetAreaByIndex(unsigned long index)

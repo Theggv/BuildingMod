@@ -6,15 +6,15 @@ file (GLOB PCH
 )
 
 file (GLOB_RECURSE COMMON_SRC
-	# "building/*.cpp"
-	# "interfaces/*.cpp"
+	"building/*.cpp"
+	"interfaces/*.cpp"
 	"math/*.cpp"
 	"module/*.cpp"
 )
 
 file (GLOB_RECURSE COMMON_HEADERS
-	# "building/*.h"
-	# "interfaces/*.h"
+	"building/*.h"
+	"interfaces/*.h"
 	"math/*.h"
 	"module/*.h"
 )
@@ -22,10 +22,10 @@ file (GLOB_RECURSE COMMON_HEADERS
 set (SRC ${COMMON_SRC})
 
 set (SRC_DIRS
-	# "./building"
-	# "./interfaces"
+	"./building"
+	"./interfaces"
 	"./math"
-	# "./module"
+	"./module"
 )
 
 set (SRC_DEPS 

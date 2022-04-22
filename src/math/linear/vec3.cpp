@@ -152,12 +152,13 @@ vec3 operator/(vec3 vec, double s)
 	return vec3(vec.x / s, vec.y / s, vec.z / s);
 }
 
-bool vec3::operator==(vec3& vec)
+bool operator==(const vec3& lhs, const vec3& rhs)
 {
-	return IsEqual(x, vec.x) && IsEqual(y, vec.y) && IsEqual(z, vec.z);
+	return IsEqual(lhs.x, rhs.x) && IsEqual(lhs.y, rhs.y) && IsEqual(lhs.z, rhs.z);
 }
 
-bool vec3::operator!=(vec3& vec)
+bool operator!=(const vec3& lhs, const vec3& rhs)
 {
-	return !(*this == vec);
+	return !(lhs == rhs);
 }
+

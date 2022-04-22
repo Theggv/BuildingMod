@@ -39,27 +39,29 @@ edict_t *UTIL_GetAimingEntity(int index, float triggerDistance)
 	return hTrace.pHit;
 }
 
-p_GameObjectWeak_t UTIL_GetAimingObject(int index, float triggerDistance)
+GameObject* UTIL_GetAimingObject(int index, float triggerDistance)
 {
-	auto pEntity = UTIL_GetAimingEntity(index, triggerDistance);
+	return nullptr;
 
-	if (FNullEnt(pEntity))
-		return p_GameObjectWeak_t();
+	//auto pEntity = UTIL_GetAimingEntity(index, triggerDistance);
 
-	auto entIndex = ENTINDEX(pEntity);
+	//if (FNullEnt(pEntity))
+	//	return nullptr;
 
-	if (ObjectManager::Instance().HasEdict(pEntity))
-		return ObjectManager::Instance().GetPtrByEdict(pEntity);
+	//auto entIndex = ENTINDEX(pEntity);
 
-	// legacy probably, idk
-	//
-	// else if (pEntity->v.iuser4 != 0)
-	// {
-	// 	if (ObjectManager::Instance().Has(pEntity->v.iuser4))
-	// 		return ObjectManager::Instance().GetPtr(pEntity->v.iuser4);
-	// }
+	//if (ObjectManager::Instance().HasEdict(pEntity))
+	//	return ObjectManager::Instance().GetPtrByEdict(pEntity);
 
-	return p_GameObjectWeak_t();
+	//// legacy probably, idk
+	////
+	//// else if (pEntity->v.iuser4 != 0)
+	//// {
+	//// 	if (ObjectManager::Instance().Has(pEntity->v.iuser4))
+	//// 		return ObjectManager::Instance().GetPtr(pEntity->v.iuser4);
+	//// }
+
+	//return p_GameObjectWeak_t();
 }
 
 Vector UTIL_GetEndPoint(int index, float triggerDistance)

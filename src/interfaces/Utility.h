@@ -2,7 +2,7 @@
 #define _UTILITY_UTILITY_
 
 #include <pch.h>
-#include <game/BuildSystem/ObjectManager.h>
+#include <building/manager/ObjectManager.h>
 
 using namespace std;
 
@@ -22,7 +22,7 @@ enum MessageDest
 };
 
 edict_t *UTIL_GetAimingEntity(int index, float triggerDistance = 10000.0f);
-p_GameObjectWeak_t UTIL_GetAimingObject(int index, float triggerDistance = 10000.0f);
+GameObject* UTIL_GetAimingObject(int index, float triggerDistance = 10000.0f);
 Vector UTIL_GetEndPoint(int index, float triggerDistance = 10000.0f);
 
 edict_t *UTIL_CreateEdict(string className);

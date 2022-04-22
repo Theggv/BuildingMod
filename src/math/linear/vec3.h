@@ -54,8 +54,8 @@ public:
 
 	friend vec3 operator/(vec3, double);
 
-	bool operator==(vec3&);
-	bool operator!=(vec3&);
+	friend bool operator==(const vec3&, const vec3&);
+	friend bool operator!=(const vec3&, const vec3&);
 
 	// impl of < operator
 	bool operator()(vec3 const& lhs, vec3 const& rhs) const
