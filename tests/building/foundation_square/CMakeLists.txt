@@ -1,0 +1,2 @@
+﻿package_add_test_with_libraries(FSConnPointsTests ConnectionPoints.cc building_amxx_static "${PROJECT_DIR}")
+package_add_test_with_libraries(FSTriggerResolverTests TriggerResolver.cc building_amxx_static "${PROJECT_DIR}")

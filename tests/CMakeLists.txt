@@ -48,4 +48,5 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 endif()
 
 
+add_subdirectory(building)
 add_subdirectory(math)
