@@ -8,10 +8,10 @@
 
 enum class FoundationSquareConnectionPoints
 {
-    LEFT = 0,
-    UP = 1,
-    RIGHT = 2,
-    DOWN = 3,
+    UP = 0,
+    LEFT = 1,
+    DOWN = 2,
+    RIGHT = 3,
 };
 
 enum class FoundationSquareHeightZones
@@ -24,7 +24,8 @@ enum class FoundationSquareHeightZones
 class ConnectionPoints
 {
 public:
-    Position Get(FoundationSquareConnectionPoints point, vec3 origin, float angle);
+    Position GetRelative(FoundationSquareConnectionPoints point);
+    Position GetAbsolute(FoundationSquareConnectionPoints point, vec3 origin, double angle);
 
 private:
     vec3 GetRotation(FoundationSquareConnectionPoints point);

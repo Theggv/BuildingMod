@@ -5,48 +5,44 @@
 
 #include <math/math_include.h>
 #include <building/base/trigger_zones/ITriggerZones.h>
-#include <interfaces/Position.h>
 #include "../ConnectionPoints.h"
 #include "../FoundationSquare.h"
 
 namespace FoundationSquareNamespace
 {
-    class TriggerZonesFoundation : public ITriggerZones
-    {
-    public:
-        TriggerZonesFoundation();
-        ~TriggerZonesFoundation();
+	class TriggerZonesFoundation : public ITriggerZones
+	{
+	public:
+		TriggerZonesFoundation();
+		~TriggerZonesFoundation();
 
-        /**
-         * Запаковать индексы зоны и высоты в один
-         * */
-        int PackZone(int zoneId, int height);
+		bool CanResolve(BuildingObject* object, BuildingObject* other) override;
 
-        /**
-         * Разпаковать индекс
-         *
-         * return [zoneId, height]
-         * */
-        std::vector<int> UnpackZone(int packedZoneId);
+		ResolverRet GetConnectionPoint(BuildingObject* object, Ray& ray) override;
 
-        /**
-         * Трассировка луча в отношении объекта
-         *
-         * ptr - объект, на который смотрит игрок
-         * ray - луч, описывающий взгляд игрока
-         *
-         * returns Зона, на которую игрок смотрит
-         * */
-        int GetConnectionPoint(FoundationSquare *object, Ray &ray);
+	private:
+		std::unique_ptr<ConnectionPoints> m_ConnPoints;
 
-    private:
-        std::vector<std::vector<Triangle>> m_TriggerZones;
+		/// <summary>
+		/// Pack zoneId and height to one index
+		/// </summary>
+		/// <param name="zoneId"></param>
+		/// <param name="height"></param>
+		/// <returns>Packed zone index</returns>
+		int PackZone(int zoneId, int height);
 
-        std::vector<vec2> GetZoneShape(bool hasLeftNeighbour, bool hasRightNeighbour);
-        void GenerateZones();
+		/// <summary>
+		/// Unpack zone index
+		/// </summary>
+		/// <param name="packedZoneId">packed zone index</param>
+		/// <returns>array [zoneId, height]</returns>
+		std::vector<int> UnpackZone(int packedZoneId);
 
-        int PackIndex(int height, int zone, bool hasLeft, bool hasRight);
-    };
+		std::vector<vec2> GetZoneShape(bool hasLeftNeighbour, bool hasRightNeighbour);
+		void GenerateZones();
+
+		int PackIndex(int height, int zone, bool hasLeft, bool hasRight);
+	};
 };
 
 #endif // _FOUNDATION_SQUARE_TRIGGER_ZONES_FOUNDATION_H

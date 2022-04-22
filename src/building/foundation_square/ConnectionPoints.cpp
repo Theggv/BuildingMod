@@ -1,7 +1,12 @@
 #include "ConnectionPoints.h"
 #include <building/constants.h>
 
-Position ConnectionPoints::Get(FoundationSquareConnectionPoints point, vec3 origin, float angle)
+Position ConnectionPoints::GetRelative(FoundationSquareConnectionPoints point)
+{
+    return Position(this->GetVector(point), this->GetRotation(point));
+}
+
+Position ConnectionPoints::GetAbsolute(FoundationSquareConnectionPoints point, vec3 origin, double angle)
 {
     vec3 vec = this->GetVector(point);
     vec3 rot = this->GetRotation(point);
@@ -28,16 +33,18 @@ vec3 ConnectionPoints::GetVector(FoundationSquareConnectionPoints point)
     return vec3::Zero();
 }
 
+
+
 vec3 ConnectionPoints::GetRotation(FoundationSquareConnectionPoints point)
 {
     switch (point)
     {
     case FoundationSquareConnectionPoints::LEFT:
-        return vec3(0, -90, 0);
+        return vec3(0, 90, 0);
     case FoundationSquareConnectionPoints::UP:
         return vec3(0, 0, 0);
     case FoundationSquareConnectionPoints::RIGHT:
-        return vec3(0, 90, 0);
+        return vec3(0, -90, 0);
     case FoundationSquareConnectionPoints::DOWN:
         return vec3(0, 180, 0);
     }

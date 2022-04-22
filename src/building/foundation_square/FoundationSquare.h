@@ -10,6 +10,8 @@ private:
 public:
     FoundationSquare();
     ~FoundationSquare();
+
+    Position GetObjectOffset(double angle) override;
 };
 
 #endif // _FOUNDATION_SQUARE_

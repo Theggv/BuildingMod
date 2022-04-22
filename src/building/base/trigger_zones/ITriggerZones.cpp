@@ -1,56 +1,60 @@
 #include "ITriggerZones.h"
-#include <building/base/GameObject.h>
+#include <building/base/BuildingObject.h>
 
-double ITriggerZones::GetDistanceToZone(GameObject *object, Ray ray, int packedIndex, int minRayLength)
+ITriggerZones::~ITriggerZones()
 {
-    vec3 hit;
-    bool intersection;
+}
 
-    bool minLengthTest;
+double ITriggerZones::GetDistanceToZone(BuildingObject* object, Ray ray, int packedIndex, int minRayLength)
+{
+	vec3 hit;
+	bool intersection;
 
-    double minLengthSquared = 0;
-    double curLengthSquared;
+	bool minLengthTest;
 
-    auto transformedZone = GetTransformedZone(object, packedIndex);
+	double minLengthSquared = 0;
+	double curLengthSquared;
 
-    for (auto &triangle : transformedZone)
-    {
-        intersection = triangle.RayIntersection(ray, hit);
+	auto transformedZone = GetTransformedZone(object, packedIndex);
 
-        if (!intersection)
-            continue;
+	for (auto& triangle : transformedZone)
+	{
+		intersection = triangle.RayIntersection(ray, hit);
 
-        curLengthSquared = (hit - ray.GetOrigin()).LengthSquared();
-        minLengthTest = curLengthSquared >= minRayLength * minRayLength;
+		if (!intersection)
+			continue;
 
-        if (!minLengthTest)
-            continue;
+		curLengthSquared = (hit - ray.GetOrigin()).LengthSquared();
+		minLengthTest = curLengthSquared >= minRayLength * minRayLength;
 
-        if (!minLengthSquared || curLengthSquared < minLengthSquared)
-        {
-            minLengthSquared = curLengthSquared;
-        }
-    }
+		if (!minLengthTest)
+			continue;
 
-    return minLengthSquared;
+		if (!minLengthSquared || curLengthSquared < minLengthSquared)
+		{
+			minLengthSquared = curLengthSquared;
+		}
+	}
+
+	return minLengthSquared;
 }
 
 std::vector<Triangle>
-ITriggerZones::GetTransformedZone(GameObject *object, int packedIndex)
+ITriggerZones::GetTransformedZone(BuildingObject* object, int packedIndex)
 {
-    std::vector<Triangle> triangles;
+	std::vector<Triangle> triangles;
 
-    // Transform
-    vec3 pos = *object->GetTransform()->GetPosition();
-    vec3 rot = *object->GetTransform()->GetRotation();
+	// Transform
+	vec3 pos = *object->GetTransform()->GetPosition();
+	vec3 rot = *object->GetTransform()->GetRotation();
 
-    mat4 mat = mat4::RotationMatrix(rot.y) *
-               mat4::TranslateMatrix(pos);
+	mat4 mat = mat4::RotationMatrix(rot.y) *
+		mat4::TranslateMatrix(pos);
 
-    for (auto &triangle : m_TriggerZones[packedIndex])
-    {
-        triangles.push_back(triangle.Transform(mat));
-    }
+	for (auto& triangle : m_TriggerZones[packedIndex])
+	{
+		triangles.push_back(triangle.Transform(mat));
+	}
 
-    return triangles;
+	return triangles;
 }

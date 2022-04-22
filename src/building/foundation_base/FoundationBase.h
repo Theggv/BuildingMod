@@ -3,9 +3,9 @@
 
 #include <pch.h>
 
-#include <building/base/IBuildingObject.h>
+#include <building/base/BuildingObject.h>
 
-class FoundationBase : public IBuildingObject
+class FoundationBase : public BuildingObject
 {
 private:
 public:
